@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -233,7 +234,26 @@
                 <td><a href="https://meet.google.com/lookup/arm5vlrpv7?authuser=0&hs=179">7R </a></td><!--7r-->
                 <td><a href="https://meet.google.com/lookup/arm5vlrpv7?authuser=0&hs=179">7G </a></td><!--7g-->
             </tr>
-
+            <tr>
+                <td>Amelia Echeverria</td>
+                <td></td>
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">AR</a></td><!--ar-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">AG </a></td><!--ag-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">1R </a></td><!--1r-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">1G </a></td><!--1g-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">2R </a></td><!--2r-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">2G </a></td><!--2g-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">3R </a></td><!--3r-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">3G </a></td><!--3g-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">4R </a></td><!--4r-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">4G </a></td><!--4g-->
+                <td>None</td><!--5r-->
+                <td>None</td><!--5g-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">6R </a></td><!--6r-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">6G </a></td><!--6g-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">5R </a></td><!--7r-->
+                <td><a href="https://meet.google.com/lookup/bt56a5ai5q">5G </a></td><!--7g-->
+            </tr>
         </table>
     </div>
     <script>
@@ -262,6 +282,43 @@
             }
         }
     </script>
-</body>
+<!-- Code injected by live-server -->
+<script type="text/javascript">
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script></body>
 
 </html>
