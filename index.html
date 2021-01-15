@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Teacher Search</title>
+    <link rel="shortcut icon" href="a198cd0c_e2f0_4c99_ba51_342624a24db9_WP4_icon.ico" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,900&display=swap" rel="stylesheet">
+    <style>
+* {
+    box-sizing: border-box;
+  }
+  body,#sInput{text-align: center;}
+  #sInput {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/221px-Vector_search_icon.svg.png');
+    background-position: 10px 10px;;
+    background-repeat: no-repeat;
+    background-size: 25px;
+    width: 60%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+    border-radius: 25px;
+  }
+  #sInput:focus {
+    outline:none
+  }
+  #sTable {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    margin-bottom:40px;
+  }
+  #sTable th, #sTable td {
+    text-align: left;
+    padding: 12px;
+    text-align: left;
+  
+  }
+  #sTable tr {
+    border-bottom: 1px solid #ddd;
+  
+  }
+  #sTable tr.header, #sTable tr:hover {
+    background-color: #f1f1f1;
+  
+  }
+  a {
+    color: #f56642;
+  }
+  
+  h2, h1, p {
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  h1:hover {
+    animation-name: artshadow;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+    animation-duration: 0.5s;
+    animation-delay: 0.1s;
+  }
+  
+  @keyframes artshadow {
+    from {}
+    to {text-shadow: 2px 2px 5px black;}
+  }
+  h1 {
+    color: #f56642;
+    transition: 0.3s;
+  }
+    </style>
+</head>
+
+<body>
+    <h2>Rider Time Links</h2>
+    <div class="centerenter">
+        <input type="text" id="sInput" onkeyup="artFunction()" placeholder="Type the teachers name"
+            title="Work search">
+    </div>
+
+    <p>Example. 1R means Period 1 Red. AG means, Advisory Gold</p>
+    <div class="tablesearch">
+        <table id="sTable">
+            <tr class="header">
+                <th>Name</th>
+                <th>Instructions</th> <!--
+                <th>Adv Red</th>
+                <th>Adv Gold</th>
+                <th>1 Red</th>
+                <th>1 Gold</th>
+                <th>2 Red</th>
+                <th>2 Gold</th>
+                <th>3 Red</th>
+                <th>3 Gold</th>
+                <th>4 Red</th>
+                <th>4 Gold</th>
+                <th>5 Red</th>
+                <th>5 Gold</th>
+                <th>6 Red</th>
+                <th>6 Gold</th>
+                <th>7 Red</th>
+                <th>7 Gold</th> -->
+            </tr>
+            <tr>
+                <td>Bethany Mariconda</td>
+                <td></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">AR</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">AG</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">1R</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">1G</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">2R</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">2G</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">3R</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">3G</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">4R</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">4G</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">5R</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">5G</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">6R</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">6G</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">7R</a></td>
+                <td><a href="https://hidoe.webex.com/meet/bmariconda">7G</a></td>
+            </tr>
+            <tr>
+                <td>Ivy Kim</td>
+                <td>Appointment Only</td>
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">AR</a></td><!--ar-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">AG </a></td><!--ag-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">1R </a></td><!--1r-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">1G </a></td><!--1g-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">2R </a></td><!--2r-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">2G </a></td><!--2g-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">3R </a></td><!--3r-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">3G </a></td><!--3g-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">4R </a></td><!--4r-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">4G </a></td><!--4g-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">5R </a></td><!--5r-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">5G </a></td><!--5g-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">6R </a></td><!--6r-->
+                <td><a href="https://meet.google.com/lookup/b26fgv4gg7">6G </a></td><!--6g-->
+                <td>None</td><!--7r-->
+                <td>None</td><!--7g-->
+            </tr>
+            <tr>
+                <td>Mark Kauanui</td>
+                <td>Appointment Only</td>
+                <td><a href="https://meet.google.com/lookup/cklmrzsscg?authuser=0&hs=179">AR </a></td><!--ar-->
+                <td><a href="https://meet.google.com/lookup/cklmrzsscg?authuser=0&hs=179">AG </a></td><!--ag-->
+                <td>None</td><!--1r-->
+                <td>None</td><!--1g-->
+                <td><a href="https://meet.google.com/lookup/hgndgjustb?authuser=0&hs=179">2R </a></td><!--2r-->
+                <td><a href="https://meet.google.com/lookup/hgndgjustb?authuser=0&hs=179">2G </a></td><!--2g-->
+                <td><a href="https://meet.google.com/lookup/drs4ewaaqs?authuser=0&hs=179">3R </a></td><!--3r-->
+                <td><a href="https://meet.google.com/lookup/drs4ewaaqs?authuser=0&hs=179">3G </a></td><!--3g-->
+                <td><a href="https://meet.google.com/lookup/e6wj4bose3?authuser=0&hs=179">4R </a></td><!--4r-->
+                <td><a href="https://meet.google.com/lookup/e6wj4bose3?authuser=0&hs=179">4G </a></td><!--4g-->
+                <td>None</td><!--5r-->
+                <td>None</td><!--5g-->
+                <td><a href="https://meet.google.com/lookup/a65zjo3awp?authuser=0&hs=179">6R </a></td><!--6r-->
+                <td><a href="https://meet.google.com/lookup/a65zjo3awp?authuser=0&hs=179">6G </a></td><!--6g-->
+                <td><a href="https://meet.google.com/lookup/hlmwcfkr5p?authuser=0&hs=179">7R </a></td><!--7r-->
+                <td><a href="https://meet.google.com/lookup/hlmwcfkr5p?authuser=0&hs=179">7G </a></td><!--7g-->
+            </tr>
+
+            <tr>
+                <td>Steve Avellana</td>
+                <td>Appointment Only</td>
+                <td><a href="https://hidoe.webex.com/meet/savellana">AR </a></td><!--ar-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">AG </a></td><!--ag-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">1R </a></td><!--1r-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">1G </a></td><!--1g-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">2R </a></td><!--2r-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">2G </a></td><!--2g-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">3R </a></td><!--3r-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">3G </a></td><!--3g-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">4R </a></td><!--4r-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">4G </a></td><!--4g-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">5R </a></td><!--5r-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">5G </a></td><!--5g-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">6R </a></td><!--6r-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">6G </a></td><!--6g-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">7R </a></td><!--7r-->
+                <td><a href="https://hidoe.webex.com/meet/savellana">7G </a></td><!--7g-->
+            </tr>
+
+            <tr>
+                <td>Dorimalia Waiau</td>
+                <td><a href="mailto:dwaiau@roosevelths.k12.hi.us ">Email teacher for link</a> </td>   
+            </tr>
+
+            <tr>
+                <td>Salvador Cabusi</td>
+                <td>Appointment Only</td>
+                <td><a href="https://meet.google.com/ncy-styr-bgb">AR </a></td><!--ar-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">AG </a></td><!--ag-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">1R </a></td><!--1r-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">1G </a></td><!--1g-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">2R </a></td><!--2r-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">2G </a></td><!--2g-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">3R </a></td><!--3r-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">3G </a></td><!--3g-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">4R </a></td><!--4r-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">4G </a></td><!--4g-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">5R </a></td><!--5r-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">5G </a></td><!--5g-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">6R </a></td><!--6r-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">6G </a></td><!--6g-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">7R </a></td><!--7r-->
+                <td><a href="https://meet.google.com/ncy-styr-bgb">7G </a></td><!--7g-->
+            </tr>
+
+            <tr>
+                <td>Jonathan Lee</td>
+                <td>Appointment Only</td>
+                <td><a href="https://meet.google.com/lookup/duzehiv3jc?authuser=0&hs=179">AR </a></td><!--ar-->
+                <td><a href="https://meet.google.com/lookup/duzehiv3jc?authuser=0&hs=179">AG </a></td><!--ag-->
+                <td><a href="https://meet.google.com/lookup/flwo5ycfbc?authuser=0&hs=179">1R </a></td><!--1r-->
+                <td><a href="https://meet.google.com/lookup/flwo5ycfbc?authuser=0&hs=179">1G </a></td><!--1g-->
+                <td><a href="https://meet.google.com/lookup/fjhavusecs?authuser=0&hs=179">2R </a></td><!--2r-->
+                <td><a href="https://meet.google.com/lookup/fjhavusecs?authuser=0&hs=179b">2G </a></td><!--2g-->
+                <td><a href="https://meet.google.com/lookup/h3q3vyct7q?authuser=0&hs=179">3R </a></td><!--3r-->
+                <td><a href="https://meet.google.com/lookup/h3q3vyct7q?authuser=0&hs=179">3G </a></td><!--3g-->
+                <td>None</td><!--4r-->
+                <td>None</td><!--4g-->
+                <td><a href="https://meet.google.com/lookup/b7oubdicxv?authuser=0&hs=179">5R </a></td><!--5r-->
+                <td><a href="https://meet.google.com/lookup/b7oubdicxv?authuser=0&hs=179">5G </a></td><!--5g-->
+                <td><a href="https://meet.google.com/lookup/dstk4n4nmg?authuser=0&hs=179">6R </a></td><!--6r-->
+                <td><a href="https://meet.google.com/lookup/dstk4n4nmg?authuser=0&hs=179">6G </a></td><!--6g-->
+                <td><a href="https://meet.google.com/lookup/arm5vlrpv7?authuser=0&hs=179">7R </a></td><!--7r-->
+                <td><a href="https://meet.google.com/lookup/arm5vlrpv7?authuser=0&hs=179">7G </a></td><!--7g-->
+            </tr>
+
+        </table>
+    </div>
+    <script>
+        function artFunction() {
+            // Declare starting variables
+            var input = document.getElementById("sInput");
+            var filter = input.value.toUpperCase();
+            var table = document.getElementById("sTable");
+            var trs = table.tBodies[0].getElementsByTagName("tr");
+            // Loop through rows
+            for (var i = 0; i < trs.length; i++) {
+                // Define the cells
+                var tds = trs[i].getElementsByTagName("td");
+                // hide the row
+                trs[i].style.display = "none";
+                // loop through row cells
+                for (var i2 = 0; i2 < tds.length; i2++) {
+                    // if there's a match
+                    if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        // show the row
+                        trs[i].style.display = "";
+                        // skip to the next row
+                        continue;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
