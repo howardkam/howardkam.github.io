@@ -79,7 +79,7 @@
 <body>
     <h2>Rider Time Links</h2>
     <div class="centerenter">
-        <input type="text" id="sInput" onkeyup="artFunction()" placeholder="Type the teachers name"
+        <input type="text" id="sInput" onkeyup="teachershow()" placeholder="Type the teachers name"
             title="Work search">
     </div>
 
@@ -492,7 +492,7 @@
 
  <!--DO NOT TOUCH BELOW THIS LINE-->   
     <script>
-        function artFunction() {
+        function teachershow() {
             // Declare starting variables
             var input = document.getElementById("sInput");
             var filter = input.value.toUpperCase();
