@@ -36,3 +36,16 @@
 .dropdown a:hover {background-color: #ddd;}
 
 .show {display: block;}
+
+
+hr {
+  margin: 1px 0px 1px 0px;
+}
+
+.text-primary {
+  position: absolute;
+  bottom: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+}
