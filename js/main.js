@@ -52,25 +52,25 @@ const outputHtml = matches => {
                 <br>
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.ar}'">Advisory Red</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='${match.ag}'">Advisory Gold</button>
-                <hr>
+
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p1r}'">Period 1 Red</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='${match.p1g}'">Period 1 Gold</button>
-                <hr>
+    
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p2r}'">Period 2 Red</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='${match.p2g}'">Period 2 Gold</button>
-                <hr>
+       
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p3r}'">Period 3 Red</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='${match.p3g}'">Period 3 Gold</button>
-                <hr>
+     
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p4r}'">Period 4 Red</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='${match.p4g}'">Period 4 Gold</button>
-                <hr>
+     
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p5r}'">Period 5 Red</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='${match.p5g}'">Period 5 Gold</button>
-                <hr>
+      
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p6r}'">Period 6 Red</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='${match.p6g}'">Period 6 Gold</button>
-                <hr>
+   
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p7r}'">Period 7 Red</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='${match.p7g}'">Period 7 Gold</button>
 </center>
