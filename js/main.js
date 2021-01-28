@@ -36,14 +36,14 @@ const searchStates = async searchText => {
   //This handles the matches then does the HTML
 const outputHtml = matches => {
     if (matches.length > 0) {
+      // console.log(matches[0].a.length)
         const html = matches.map(match => `
             <div class"card card-body mb-1 text-center">
             <center>
                 <h3>${match.first} ${match.last} </h3>
                 <p class="text-warning">${match.notes}</p>
-              
                    
-                    <button type="button" class="btn btn-danger" onclick="location.href='${match.a}'">Advisory</button>
+                <button type="button" class="btn btn-danger" onclick="location.href='${match.a}'">Advisory</button>
                     <button type="button" class="btn btn-danger" onclick="location.href='${match.p1}'">Period 1</button>
                     <p></p>
                     <button type="button" class="btn btn-danger" onclick="location.href='${match.p2}'">Period 2</button>
