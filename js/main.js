@@ -1,5 +1,15 @@
 const search = document.getElementById('search');
 const matchList = document.getElementById('match-list');
+const adv = document.getElementById('match-advisory');
+const p1 = document.getElementById('match-1');
+const p2 = document.getElementById('match-2');
+const p3 = document.getElementById('match-3');
+const p4 = document.getElementById('match-4');
+const p5 = document.getElementById('match-5');
+const p6 = document.getElementById('match-6');
+const p7 = document.getElementById('match-7');
+
+
 
 //Search states.json and filter it
 
@@ -21,25 +31,7 @@ const searchStates = async searchText => {
     outputHtml(matches);
 
 };
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-  }
-  
-  // Close the dropdown if the user clicks outside of it
-  window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-  }
+
 
   //This handles the matches then does the HTML
 const outputHtml = matches => {
@@ -48,42 +40,29 @@ const outputHtml = matches => {
             <div class"card card-body mb-1 text-center">
             <center>
                 <h3>${match.first} ${match.last} </h3>
-                    <span class="badge badge-success">
-                    ${match.notes}
-                    </span>
-                <hr>
-                <button type="button" class="btn btn-danger" onclick="location.href='${match.ar}'">Advisory Red</button>
-                <button type="button" class="btn btn-warning" onclick="location.href='${match.ag}'">Advisory Gold</button>
-                <hr>
-                <button type="button" class="btn btn-danger" onclick="location.href='${match.p1r}'">Period 1 Red</button>
-                <button type="button" class="btn btn-warning" onclick="location.href='${match.p1g}'">Period 1 Gold</button>
-                <hr>   
-                <button type="button" class="btn btn-danger" onclick="location.href='${match.p2r}'">Period 2 Red</button>
-                <button type="button" class="btn btn-warning" onclick="location.href='${match.p2g}'">Period 2 Gold</button>
-                <hr>    
-                <button type="button" class="btn btn-danger" onclick="location.href='${match.p3r}'">Period 3 Red</button>
-                <button type="button" class="btn btn-warning" onclick="location.href='${match.p3g}'">Period 3 Gold</button>
-                <hr>
-                <button type="button" class="btn btn-danger" onclick="location.href='${match.p4r}'">Period 4 Red</button>
-                <button type="button" class="btn btn-warning" onclick="location.href='${match.p4g}'">Period 4 Gold</button>
-                <hr>
-                <button type="button" class="btn btn-danger" onclick="location.href='${match.p5r}'">Period 5 Red</button>
-                <button type="button" class="btn btn-warning" onclick="location.href='${match.p5g}'">Period 5 Gold</button>
-                <hr>
-                <button type="button" class="btn btn-danger" onclick="location.href='${match.p6r}'">Period 6 Red</button>
-                <button type="button" class="btn btn-warning" onclick="location.href='${match.p6g}'">Period 6 Gold</button>
-                <hr>
-                <button type="button" class="btn btn-danger" onclick="location.href='${match.p7r}'">Period 7 Red</button>
-                <button type="button" class="btn btn-warning" onclick="location.href='${match.p7g}'">Period 7 Gold</button>
-            </center>
+                <p class="text-warning">${match.notes}</p>
+              
+                   
+                    <button type="button" class="btn btn-danger" onclick="location.href='${match.a}'">Advisory</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='${match.p1}'">Period 1</button>
+                    <p></p>
+                    <button type="button" class="btn btn-danger" onclick="location.href='${match.p2}'">Period 2</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='${match.p3}'">Period 3</button>
+                    <p></p>
+                    <button type="button" class="btn btn-danger" onclick="location.href='${match.p4}'">Period 4</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='${match.p5}'">Period 5</button>
+                    <p></p>
+                    <button type="button" class="btn btn-danger" onclick="location.href='${match.p6}'">Period 6</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='${match.p7}'">Period 7</button>
 
-            </div>
+                    </center>
 
-
-        `).join('');
+                    </div>
+                    `).join('');
         
-        matchList.innerHTML = html;
+                    matchList.innerHTML = html;
     }
-}
+  }
+
 
 search.addEventListener('input', () => searchStates(search.value));
