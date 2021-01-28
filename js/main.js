@@ -36,7 +36,7 @@ const searchStates = async searchText => {
   //This handles the matches then does the HTML
 const outputHtml = matches => {
     if (matches.length > 0) {
-      // console.log(matches[0].a.length)
+      // console.log(matches[0].a.length) This definately returns the proper value from the match search.
         const html = matches.map(match => `
             <div class"card card-body mb-1 text-center">
             <center>
