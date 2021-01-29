@@ -10,6 +10,8 @@ const p6 = document.getElementById('match-6');
 const p7 = document.getElementById('match-7');
 
 
+// Rider Time Links FOlder
+// https://drive.google.com/drive/folders/1NypzXqmucyWNJhWjBHTYYEdYVUnyvSSA?usp=sharing
 
 //Search states.json and filter it
 
