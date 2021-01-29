@@ -1,5 +1,83 @@
 
-[
+[	
+	{
+		"first": "Joe",
+		"last": "Tease ",
+		"notes": "Classroom code: w4dykb7",
+		"a": "http://classroom.google.com/",
+		"p1": "http://classroom.google.com/",
+		"p2": "http://classroom.google.com/",
+		"p3": "http://classroom.google.com/",
+		"p4": "http://classroom.google.com/",
+		"p5": "http://classroom.google.com/",
+		"p6": "http://classroom.google.com/",
+		"p7": "http://classroom.google.com/"
+	},
+	{
+		"first": "Ryan",
+		"last": "Shimokawa ",
+		"notes": "Appointment Required. Use your Google Classrom Link",
+		"a": "http://classroom.google.com/",
+		"p1": "http://classroom.google.com/",
+		"p2": "http://classroom.google.com/",
+		"p3": "http://classroom.google.com/",
+		"p4": "http://classroom.google.com/",
+		"p5": "http://classroom.google.com/",
+		"p6": "http://classroom.google.com/",
+		"p7": "http://classroom.google.com/"
+	},
+	{
+		"first": "Ryan",
+		"last": "Darnell ",
+		"notes": "Appointment Required. Use your Google Classrom Link",
+		"a": "http://classroom.google.com/",
+		"p1": "http://classroom.google.com/",
+		"p2": "http://classroom.google.com/",
+		"p3": "http://classroom.google.com/",
+		"p4": "http://classroom.google.com/",
+		"p5": "http://classroom.google.com/",
+		"p6": "http://classroom.google.com/",
+		"p7": "http://classroom.google.com/"
+	},
+	{
+		"first": "Ayumu",
+		"last": "Yokota ",
+		"notes": "Appointment Required. Use your Google Classrom Link",
+		"a": "http://classroom.google.com/",
+		"p1": "http://classroom.google.com/",
+		"p2": "http://classroom.google.com/",
+		"p3": "http://classroom.google.com/",
+		"p4": "http://classroom.google.com/",
+		"p5": "http://classroom.google.com/",
+		"p6": "http://classroom.google.com/",
+		"p7": "http://classroom.google.com/"
+	},
+	{
+		"first": "Priscilla",
+		"last": "No ",
+		"notes": "google meet code: ridertime_pno",
+		"a": "http://meet.google.com/",
+		"p1": "http://meet.google.com/",
+		"p2": "http://meet.google.com/",
+		"p3": "http://meet.google.com/",
+		"p4": "http://meet.google.com/",
+		"p5": "http://meet.google.com/",
+		"p6": "http://meet.google.com/",
+		"p7": "http://meet.google.com/"
+	},
+	{
+		"first": "Coreen",
+		"last": "Muraoka ",
+		"notes": "No Appointment Needed",
+		"a": "https://meet.google.com/dtb-ytrx-ucs",
+		"p1": "https://meet.google.com/dtb-ytrx-ucs",
+		"p2": "https://meet.google.com/dtb-ytrx-ucs",
+		"p3": "https://meet.google.com/dtb-ytrx-ucs",
+		"p4": "https://meet.google.com/dtb-ytrx-ucs",
+		"p5": "https://meet.google.com/dtb-ytrx-ucs",
+		"p6": "https://meet.google.com/dtb-ytrx-ucs",
+		"p7": "https://meet.google.com/dtb-ytrx-ucs"
+	},
 	{
 		"first": "Dara",
 		"last": "Zakimi ",
