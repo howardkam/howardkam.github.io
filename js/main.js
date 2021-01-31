@@ -46,13 +46,11 @@ const outputHtml = matches => {
       // }
         const html = matches.map(match => 
           `
+          <center>  
             <div class"card card-body mb-1 text-center">
-            <center>
-            
+             
                 <h3>${match.first} ${match.last} </h3>
                 <div class="well well-sm">${match.notes}</div>
-
-
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.a}'">Advisory</button>
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p1}'">Period 1</button>
                 <p></p>
@@ -64,10 +62,10 @@ const outputHtml = matches => {
                 <p></p>
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p6}'">Period 6</button>
                 <button type="button" class="btn btn-danger" onclick="location.href='${match.p7}'">Period 7</button>
-
-                    </center>
+            
 
                     </div>
+                    </center>
                     `).join('');
                 
                     matchList.innerHTML = html;
