@@ -1,6 +1,19 @@
 
 [	
 	{
+		"first": "Karly",
+		"last": "Koishigawa",
+		"notes": "No Appointment Needed",
+		"a": "https://classroom.google.com/c/MTc1MDMzNzU5MTcy?cjc=gxtxzyd",
+		"p1": "https://classroom.google.com/c/MTc1MDMzNzU5MTcy?cjc=gxtxzyd",
+		"p2": "https://classroom.google.com/c/MTc1MDMzNzU5MTcy?cjc=gxtxzyd",
+		"p3": "https://classroom.google.com/c/MTc1MDMzNzU5MTcy?cjc=gxtxzyd",
+		"p4": "https://classroom.google.com/c/MTc1MDMzNzU5MTcy?cjc=gxtxzyd",
+		"p5": "https://classroom.google.com/c/MTc1MDMzNzU5MTcy?cjc=gxtxzyd",
+		"p6": "https://classroom.google.com/c/MTc1MDMzNzU5MTcy?cjc=gxtxzyd",
+		"p7": "https://classroom.google.com/c/MTc1MDMzNzU5MTcy?cjc=gxtxzyd"
+	},
+	{
 		"first": "Prisca",
 		"last": "Lee",
 		"notes": "Schedule By Email",
@@ -9,7 +22,7 @@
 		"p2": "mailto:`plee@roosevelths.k12.hi.us`",
 		"p3": "mailto:`plee@roosevelths.k12.hi.us`",
 		"p4": "mailto:`plee@roosevelths.k12.hi.us`",
-		"p5": "mailto:'plee@roosevelths.k12.hi.us'",
+		"p5": "mailto:`plee@roosevelths.k12.hi.us`",
 		"p6": "mailto:`plee@roosevelths.k12.hi.us`",
 		"p7": "mailto:`plee@roosevelths.k12.hi.us`"
 	},
