@@ -405,6 +405,45 @@
 		"p5": "none.html",
 		"p6": "none.html",
 		"p7": "none.html"
+	},
+	{
+		"first": "Irene",
+		"last": "Kendig-Sullivan",
+		"notes": "Sign up via time slots",
+		"a": "https://calendar.google.com/calendar/u/0/selfsched?sstoken=UU5SdU95SXdPNFdFfGRlZmF1bHR8YmY2NDA1MmU4YjkyNDZmYjY0YzRlMTI3OTBmZmUzNjg",
+		"p1": "https://calendar.google.com/calendar/u/0/selfsched?sstoken=UU5SdU95SXdPNFdFfGRlZmF1bHR8YmY2NDA1MmU4YjkyNDZmYjY0YzRlMTI3OTBmZmUzNjg",
+		"p2": "none.html",
+		"p3": "https://calendar.google.com/calendar/u/0/selfsched?sstoken=UU5SdU95SXdPNFdFfGRlZmF1bHR8YmY2NDA1MmU4YjkyNDZmYjY0YzRlMTI3OTBmZmUzNjg",
+		"p4": "https://calendar.google.com/calendar/u/0/selfsched?sstoken=UU5SdU95SXdPNFdFfGRlZmF1bHR8YmY2NDA1MmU4YjkyNDZmYjY0YzRlMTI3OTBmZmUzNjg",
+		"p5": "https://calendar.google.com/calendar/u/0/selfsched?sstoken=UU5SdU95SXdPNFdFfGRlZmF1bHR8YmY2NDA1MmU4YjkyNDZmYjY0YzRlMTI3OTBmZmUzNjg",
+		"p6": "https://calendar.google.com/calendar/u/0/selfsched?sstoken=UU5SdU95SXdPNFdFfGRlZmF1bHR8YmY2NDA1MmU4YjkyNDZmYjY0YzRlMTI3OTBmZmUzNjg",
+		"p7": "https://calendar.google.com/calendar/u/0/selfsched?sstoken=UU5SdU95SXdPNFdFfGRlZmF1bHR8YmY2NDA1MmU4YjkyNDZmYjY0YzRlMTI3OTBmZmUzNjg"
+	},
+	{
+		"first": "Jennifer",
+		"last": "Williams",
+		"notes": "Log in during rider time",
+		"a": "https://meet.google.com/pym-sprs-kje?authuser=0",
+		"p1": "https://meet.google.com/pym-sprs-kje?authuser=0",
+		"p2": "https://meet.google.com/pym-sprs-kje?authuser=0",
+		"p3": "https://meet.google.com/pym-sprs-kje?authuser=0",
+		"p4": "https://meet.google.com/pym-sprs-kje?authuser=0",
+		"p5": "https://meet.google.com/pym-sprs-kje?authuser=0",
+		"p6": "https://meet.google.com/pym-sprs-kje?authuser=0",
+		"p7": "https://meet.google.com/pym-sprs-kje?authuser=0"
+	},
+	{
+		"first": "Dawn",
+		"last": "Kuna",
+		"notes": "Email for reservation",
+		"a": "https://classroom.google.com/u/1/c/MTc1MDMzNzU5MTcy?cjc=uu6on5q",
+		"p1": "none.html",
+		"p2": "https://classroom.google.com/u/1/c/MTc1MDMzNzU5MTcy?cjc=u6khxgf",
+		"p3": "https://classroom.google.com/u/1/c/MTc1MDMzNzU5MTcy?cjc=5ao565b",
+		"p4": "https://classroom.google.com/u/1/c/MTc1MDMzNzU5MTcy?cjc=ixnzqpx",
+		"p5": "https://classroom.google.com/u/1/c/MTc1MDMzNzU5MTcy?cjc=a64vmyb",
+		"p6": "https://classroom.google.com/u/1/c/MTc1MDMzNzU5MTcy?cjc=bywa7dq",
+		"p7": "none.html"
 	}
 	
 	
