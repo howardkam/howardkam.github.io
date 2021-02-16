@@ -1,10 +1,23 @@
 
 [	
 	{
+		"first": "Tysha",
+		"last": "Konishi",
+		"notes": "Appointment not needed, but an email ahead of time would be appreciated",
+		"a": "https://hidoe.webex.com/hidoe/j.php?MTID=m29f34f2958881514b774680b4497bdce",
+		"p1": " https://hidoe.webex.com/hidoe/j.php?MTID=m29f34f2958881514b774680b4497bdce",
+		"p2": " https://hidoe.webex.com/hidoe/j.php?MTID=m29f34f2958881514b774680b4497bdce",
+		"p3": " https://hidoe.webex.com/hidoe/j.php?MTID=m29f34f2958881514b774680b4497bdce",
+		"p4": " https://hidoe.webex.com/hidoe/j.php?MTID=m29f34f2958881514b774680b4497bdce",
+		"p5": " https://hidoe.webex.com/hidoe/j.php?MTID=m29f34f2958881514b774680b4497bdce",
+		"p6": " https://hidoe.webex.com/hidoe/j.php?MTID=m29f34f2958881514b774680b4497bdce",
+		"p7": " https://hidoe.webex.com/hidoe/j.php?MTID=m29f34f2958881514b774680b4497bdce"
+	},
+	{
 		"first": "Kasey",
 		"last": "Bueno",
 		"notes": "E-mail for link",
-		"a": "mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"a": " mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
 		"p1": "mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
 		"p2": "mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
 		"p3": "mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
@@ -618,14 +631,14 @@
 		"first": "Dorimalia",
 		"last": "Waiau",
 		"notes": "By appointment only, email the day before.",
-		"a": "mailto:dwaiau@roosevelths.k12.hi.us",
-		"p1": "mailto:dwaiau@roosevelths.k12.hi.us",
-		"p2": "mailto:dwaiau@roosevelths.k12.hi.us",
-		"p3": "mailto:dwaiau@roosevelths.k12.hi.us",
-		"p4": "mailto:dwaiau@roosevelths.k12.hi.us",
-		"p5": "mailto:dwaiau@roosevelths.k12.hi.us",
-		"p6": "mailto:dwaiau@roosevelths.k12.hi.us",
-		"p7": "mailto:dwaiau@roosevelths.k12.hi.us"
+		"a": "mailto:dwaiau@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p1": "mailto:dwaiau@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p2": "mailto:dwaiau@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p3": "mailto:dwaiau@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p4": "mailto:dwaiau@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p5": "mailto:dwaiau@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p6": "mailto:dwaiau@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p7": "mailto:dwaiau@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request"
 	},
 	{
 		"first": "Janet",
