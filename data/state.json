@@ -1,6 +1,32 @@
 
 [	
 	{
+		"first": "Kasey",
+		"last": "Bueno",
+		"notes": "E-mail for link",
+		"a": "mailto:kbueno@roosevelths.k12.hi.us",
+		"p1": "mailto:kbueno@roosevelths.k12.hi.us",
+		"p2": "mailto:kbueno@roosevelths.k12.hi.us",
+		"p3": "mailto:kbueno@roosevelths.k12.hi.us",
+		"p4": "mailto:kbueno@roosevelths.k12.hi.us",
+		"p5": "mailto:kbueno@roosevelths.k12.hi.us",
+		"p6": "mailto:kbueno@roosevelths.k12.hi.us",
+		"p7": "mailto:kbueno@roosevelths.k12.hi.us"
+	},
+	{
+		"first": "Michelle",
+		"last": "Funai",
+		"notes": "No Appointment Needed",
+		"a": "https://www.google.com/url?q=https://hidoe.webex.com/hidoe/j.php?MTID%3Dmd3598f574bf8c322544d118d286f6387&sa=D&source=calendar&ust=1613873686126000&usg=AOvVaw1PnEXupSaPxcFWEI1GOkJX",
+		"p1": "https://www.google.com/url?q=https://hidoe.webex.com/hidoe/j.php?MTID%3Dmd3598f574bf8c322544d118d286f6387&sa=D&source=calendar&ust=1613873686126000&usg=AOvVaw1PnEXupSaPxcFWEI1GOkJX",
+		"p2": "https://www.google.com/url?q=https://hidoe.webex.com/hidoe/j.php?MTID%3Dmd3598f574bf8c322544d118d286f6387&sa=D&source=calendar&ust=1613873686126000&usg=AOvVaw1PnEXupSaPxcFWEI1GOkJX",
+		"p3": "https://www.google.com/url?q=https://hidoe.webex.com/hidoe/j.php?MTID%3Dmd3598f574bf8c322544d118d286f6387&sa=D&source=calendar&ust=1613873686126000&usg=AOvVaw1PnEXupSaPxcFWEI1GOkJX",
+		"p4": "https://www.google.com/url?q=https://hidoe.webex.com/hidoe/j.php?MTID%3Dmd3598f574bf8c322544d118d286f6387&sa=D&source=calendar&ust=1613873686126000&usg=AOvVaw1PnEXupSaPxcFWEI1GOkJX",
+		"p5": "https://www.google.com/url?q=https://hidoe.webex.com/hidoe/j.php?MTID%3Dmd3598f574bf8c322544d118d286f6387&sa=D&source=calendar&ust=1613873686126000&usg=AOvVaw1PnEXupSaPxcFWEI1GOkJX",
+		"p6": "https://www.google.com/url?q=https://hidoe.webex.com/hidoe/j.php?MTID%3Dmd3598f574bf8c322544d118d286f6387&sa=D&source=calendar&ust=1613873686126000&usg=AOvVaw1PnEXupSaPxcFWEI1GOkJX",
+		"p7": "https://www.google.com/url?q=https://hidoe.webex.com/hidoe/j.php?MTID%3Dmd3598f574bf8c322544d118d286f6387&sa=D&source=calendar&ust=1613873686126000&usg=AOvVaw1PnEXupSaPxcFWEI1GOkJX"
+	},
+	{
 		"first": "Karly",
 		"last": "Koishigawa",
 		"notes": "No Appointment Needed",
