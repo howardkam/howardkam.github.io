@@ -1,6 +1,19 @@
 
 [	
 	{
+		"first": "Tanya",
+		"last": "Wheeler",
+		"notes": "Email for appointment link",
+		"a": "mailto:twheeler@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p1": " mailto:twheeler@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p2": " mailto:twheeler@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p3": " mailto:twheeler@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p4": " mailto:twheeler@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p5": " mailto:twheeler@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p6": " mailto:twheeler@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"p7": " mailto:twheeler@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request"
+	},
+	{
 		"first": "Tysha",
 		"last": "Konishi",
 		"notes": "Appointment not needed, but an email ahead of time would be appreciated",
@@ -17,7 +30,7 @@
 		"first": "Kasey",
 		"last": "Bueno",
 		"notes": "E-mail for link",
-		"a": " mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
+		"a": "mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
 		"p1": "mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
 		"p2": "mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
 		"p3": "mailto:kbueno@roosevelths.k12.hi.us?subject=Rider%20Time%20Appointment%20Request",
