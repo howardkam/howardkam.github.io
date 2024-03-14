@@ -47,6 +47,11 @@ whichparent.addEventListener('click', () => {
     whichparent.play();
 });
 
+const failedattempts_button = document.getElementById('nobodylikesyouonsocialmedia');
+const failedattempts = new Audio('./sounds/failedattempts.mp3'); 
+failedattempts.addEventListener('click', () => {
+    failedattempts.play();
+});
 
 
 
