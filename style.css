@@ -13,7 +13,14 @@ h1 {
 
 .button-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Stack rows vertically */
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  height: 100vh; /* Optional: Set container height for full viewport */
+}
+.button-row {
+  display: flex;
+  justify-content: space-evenly; /* Distribute buttons evenly */
 }
 button {
   padding: 10px 20px;

@@ -35,21 +35,21 @@ nobodylikesyou_button.addEventListener('click', () => {
     nobodylikesyouonsocialmedia.play();
 });
 
-const tryharderinlife_button = document.getElementById('nobodylikesyouonsocialmedia');
+const tryharderinlife_button = document.getElementById('tryharderinlife');
 const tryharderinlife = new Audio('./sounds/tryharderinlife.mp3'); 
-tryharderinlife.addEventListener('click', () => {
+tryharderinlife_button.addEventListener('click', () => {
     tryharderinlife.play();
 });
 
-const whichparent_button = document.getElementById('nobodylikesyouonsocialmedia');
+const whichparent_button = document.getElementById('whichparent');
 const whichparent = new Audio('./sounds/whichparentshouldIblame.mp3'); 
-whichparent.addEventListener('click', () => {
+whichparent_button.addEventListener('click', () => {
     whichparent.play();
 });
 
-const failedattempts_button = document.getElementById('nobodylikesyouonsocialmedia');
+const failedattempts_button = document.getElementById('failedattempts');
 const failedattempts = new Audio('./sounds/failedattempts.mp3'); 
-failedattempts.addEventListener('click', () => {
+failedattempts_button.addEventListener('click', () => {
     failedattempts.play();
 });
 
