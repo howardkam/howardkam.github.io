@@ -35,7 +35,17 @@ nobodylikesyou_button.addEventListener('click', () => {
     nobodylikesyouonsocialmedia.play();
 });
 
+const tryharderinlife_button = document.getElementById('nobodylikesyouonsocialmedia');
+const tryharderinlife = new Audio('./sounds/tryharderinlife.mp3'); 
+tryharderinlife.addEventListener('click', () => {
+    tryharderinlife.play();
+});
 
+const whichparent_button = document.getElementById('nobodylikesyouonsocialmedia');
+const whichparent = new Audio('./sounds/whichparentshouldIblame.mp3'); 
+whichparent.addEventListener('click', () => {
+    whichparent.play();
+});
 
 
 
