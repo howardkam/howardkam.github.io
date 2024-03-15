@@ -5,6 +5,10 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
+  background-image: url('kambackground.JPG');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: #4d5153;
 }
 
 h1 {
