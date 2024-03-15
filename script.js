@@ -53,6 +53,12 @@ failedattempts_button.addEventListener('click', () => {
     failedattempts.play();
 });
 
+const extracredit_button = document.getElementById('extracredit');
+const extracredit = new Audio('./sounds/extracredit.mp3'); 
+extracredit_button.addEventListener('click', () => {
+  extracredit.play();
+});
+
 
 
 
