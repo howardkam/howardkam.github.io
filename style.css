@@ -20,7 +20,7 @@ h1 {
   flex-direction: column; /* Stack rows vertically */
   justify-content: center; /* Center vertically */
   align-items: center; /* Center horizontally */
-  height: 100vh; /* Optional: Set container height for full viewport */
+  height: 100vh;
 }
 .button-row {
   display: flex;
@@ -34,3 +34,12 @@ button {
   cursor: pointer;
 }
 
+.footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 10px; 
+  font-family: sans-serif;
+  color: #d8d8d8; 
+  font-size: 12px; 
+}

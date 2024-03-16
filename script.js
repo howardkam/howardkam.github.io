@@ -59,6 +59,17 @@ extracredit_button.addEventListener('click', () => {
   extracredit.play();
 });
 
+const workhabits_button = document.getElementById('workhabits');
+const workhabits = new Audio('./sounds/workhabits.mp3'); 
+workhabits_button.addEventListener('click', () => {
+  workhabits.play();
+});
+
+const notfriends_button = document.getElementById('notfriends');
+const notfriends = new Audio('./sounds/notfriends.mp3'); 
+notfriends_button.addEventListener('click', () => {
+  notfriends.play();
+});
 
 
 
