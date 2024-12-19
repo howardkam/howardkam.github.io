@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://c05w5qebxgbr0"]
+
+[ext_resource type="Script" path="res://Characters/player.gd" id="1_1rcap"]
+[ext_resource type="Texture2D" uid="uid://bnbilvvna2o21" path="res://Characters/Simple Shapes/Hexagon 2.png" id="2_83dp3"]
+[ext_resource type="Texture2D" uid="uid://dvbjnulsuh267" path="res://white blur.png" id="3_jd00u"]
+[ext_resource type="AudioStream" uid="uid://bkg7gyfh130xm" path="res://audio/explosion.wav" id="4_b4hvr"]
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_1rcap")
+
+[node name="Hexagon2" type="Sprite2D" parent="."]
+texture = ExtResource("2_83dp3")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -256, -224, -128, -224, 128, 0, 256, 224, 128, 224, -128)
+
+[node name="Area2D" type="Area2D" parent="." groups=["Player"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" groups=["Player"]]
+texture_filter = 1
+polygon = PackedVector2Array(0, -256, -224, -128, -224, 128, 0, 256, 224, 128, 224, -128)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 6000
+lifetime = 3.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.52
+randomness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 191.92
+initial_velocity_max = 393.94
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 2.0
+shadow_enabled = true
+texture = ExtResource("3_jd00u")
+texture_scale = 40.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_b4hvr")
+volume_db = 15.0
+max_distance = 10000.0
+attenuation = 0.153893
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

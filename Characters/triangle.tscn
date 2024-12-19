@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtfbpup8u8chd"]
+
+[ext_resource type="Texture2D" uid="uid://bytytvysv0wa" path="res://Characters/Simple Shapes/Triangle.png" id="1_dk007"]
+[ext_resource type="Texture2D" uid="uid://dvbjnulsuh267" path="res://white blur.png" id="2_6yn86"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_la2gk"]
+bounce = 0.7
+
+[node name="triangle" type="RigidBody2D"]
+modulate = Color(0.430746, 0.775038, 0.121359, 1)
+mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_la2gk")
+constant_force = Vector2(50, 0)
+
+[node name="Triangle" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_dk007")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.1, 0.1)
+polygon = PackedVector2Array(0, -224, -256, 224, 256, 224)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+texture_filter = 1
+energy = 2.0
+shadow_enabled = true
+texture = ExtResource("2_6yn86")
+texture_scale = 2.0

@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3do7rdp6wlrd"]
+
+[ext_resource type="Texture2D" uid="uid://bnbilvvna2o21" path="res://Characters/Simple Shapes/Hexagon 2.png" id="1_litl2"]
+[ext_resource type="Script" path="res://title_2.gd" id="1_md01y"]
+[ext_resource type="FontFile" uid="uid://ii5t2qdvudf2" path="res://Fonts/Lexend/Lexend-VariableFont_wght.ttf" id="3_q41u1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o0bmr"]
+size = Vector2(986, 20)
+
+[node name="title2" type="StaticBody2D"]
+script = ExtResource("1_md01y")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 304)
+shape = SubResource("RectangleShape2D_o0bmr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+offset_left = -672.0
+offset_top = -384.0
+offset_right = 664.0
+offset_bottom = 400.0
+color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="Hexagon2" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_litl2")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+texture_filter = 1
+offset_left = -12.0
+offset_top = -151.0
+offset_right = 28.0
+offset_bottom = 199.0
+theme_override_fonts/normal_font = ExtResource("3_q41u1")
+theme_override_font_sizes/normal_font_size = 34
+text = "HEXAGON"
+fit_content = true

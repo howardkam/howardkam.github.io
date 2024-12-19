@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo73ohb81kwgt"]
+
+[ext_resource type="Texture2D" uid="uid://de1sy0mgno4q0" path="res://Characters/Simple Shapes/Heart.png" id="1_tujoo"]
+
+[node name="portal" type="Node2D"]
+scale = Vector2(0.1, 0.1)
+
+[node name="Heart" type="Sprite2D" parent="."]
+modulate = Color(1, 0.313726, 0.231373, 1)
+texture = ExtResource("1_tujoo")
+
+[node name="Area2D" type="Area2D" parent="." groups=["portal"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" groups=["portal"]]
+polygon = PackedVector2Array(0, -160, -40, -192, -128, -216, -208, -192, -248, -128, -256, -64, -224, 0, 0, 224, 224, 0, 256, -64, 248, -128, 208, -192, 128, -216, 40, -192)

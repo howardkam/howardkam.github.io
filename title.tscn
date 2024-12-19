@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://clvy8r6c3s7t5"]
+
+[ext_resource type="PackedScene" uid="uid://df3gbfrlxeufh" path="res://studio_kam.tscn" id="1_5empk"]
+[ext_resource type="Script" path="res://title.gd" id="1_gg0bc"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kapfd"]
+bounce = 0.5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e8jav"]
+size = Vector2(986, 20)
+
+[node name="Title" type="StaticBody2D"]
+script = ExtResource("1_gg0bc")
+
+[node name="StudioKam" parent="." instance=ExtResource("1_5empk")]
+position = Vector2(0, -472)
+rotation = -0.0473017
+physics_material_override = SubResource("PhysicsMaterial_kapfd")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 136)
+shape = SubResource("RectangleShape2D_e8jav")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+offset_left = -672.0
+offset_top = -384.0
+offset_right = 664.0
+offset_bottom = 400.0
+color = Color(0.129412, 0.129412, 0.129412, 1)
