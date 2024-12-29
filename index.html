@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centered Flexbox</title>
+    <title>Games by Howard Kam</title>
     <style>
         /* Apply full-height flex container */
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column; /* Stack items vertically */
+            justify-content: center; /* Center items vertically */
+            align-items: center; /* Center items horizontally */
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
         }
 
         .container {
+            width: 80%; /* Adjust width as needed */
             text-align: center;
             background: #ffffff;
             border-radius: 8px;
             padding: 20px;
+            margin: 10px 0; /* Add spacing between containers */
             box-shadow: 0 4px 8px rgba(88, 42, 42, 0.351);
         }
 
-        h1 {
+        h1, h2 {
             margin: 0 0 10px 0;
             font-size: 2rem;
             color: #333;
@@ -34,16 +37,31 @@
             margin: 0;
             color: #666;
         }
+
+        ul {
+            padding: 0;
+            list-style-type: none;
+        }
+
+        ul li {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <iframe frameborder="0" src="https://itch.io/embed/3192576?border_width=0&amp;dark=true" width="550" height="165"><a href="https://howardkam.itch.io/hexagon">Hexagon by Howard Kam</a></iframe>
+        <iframe frameborder="0" src="https://itch.io/embed/3192576?border_width=0&amp;dark=true" width="550" height="165">
+            <a href="https://howardkam.itch.io/hexagon">Hexagon by Howard Kam</a>
+        </iframe>
         <h2>Current Version: 0.241229</h2>
         <ul>
             <li>Randomized Red Eater spawn points on all levels.</li>
             <li>Fixed player being able to leave via the right side.</li>
         </ul>
     </div>
+    <div class="container2">
+        <b>NO DLC. NO DRM. Works Offline. The way I remember games.</b>
+    </div>
 </body>
 </html>
+
