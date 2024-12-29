@@ -46,11 +46,37 @@
         ul li {
             margin: 5px 0;
         }
+        .material-button {
+      background-color: tomato;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .material-button:hover {
+      background-color: #e04848;
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .material-button:active {
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+      transform: translateY(2px);
+    }
     </style>
 </head>
 <body>
     <div class="container">
-        <iframe frameborder="0" src="https://itch.io/embed/3192576?linkback=true" width="552" height="167"><a href="https://howardkam.itch.io/hexagon">Hexagon by Howard Kam</a></iframe>
+        <a href="https://howardkam.itch.io/hexagon" class="material-button" target="_blank" rel="noopener noreferrer">
+    Get Hexagon for FREE
+  </a>
         <h3>Version: 0.241230</h3>
         <ul>
             <li>Slowed down the Red Eater</li>
