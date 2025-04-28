@@ -3,210 +3,210 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vending Machine Inventory</title>
+  <title>Kam Vending</title>
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header { background: #2c3e50; color: white; padding: 1rem; text-align: center; }
-    main { padding: 1rem; }
-    section { margin-bottom: 2rem; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-    th { background-color: #f7f7f7; }
-    form { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; }
-    form input, form button { padding: 0.5rem; flex: 1 1 150px; }
-    #buttons { margin-top: 1rem; }
-    #buttons button { margin-right: 10px; }
-    #profit { font-weight: bold; margin-top: 1rem; }
-    .hidden { display: none; }
-    input[type="number"] { width: 70px; padding: 5px; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    input[type="number"] {
+      width: 80px;
+    }
+    #buttons {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    button {
+      padding: 8px 16px;
+    }
     @media (max-width: 600px) {
-      table { font-size: 0.8rem; }
-      form { flex-direction: column; }
+      table, th, td {
+        font-size: 12px;
+      }
+      input[type="number"] {
+        width: 60px;
+      }
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <h1>Vending Machine Inventory</h1>
-</header>
+<h1>Kam Vending</h1>
 
-<main>
-  <section>
-    <h2>Inventory</h2>
-    <table id="inventory-table">
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Cost</th>
-          <th>Price</th>
-          <th>Start Inv.</th>
-          <th>Current Inv.</th>
-          <th>Restock</th>
-          <th>Units Sold</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </section>
+<table id="inventory-table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Cost</th>
+      <th>Price</th>
+      <th>Start Inv.</th>
+      <th>Current Inv.</th>
+      <th>Restock</th>
+      <th>Damaged</th>
+      <th>Units Sold</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
 
-  <section>
-    <h2>Add Item</h2>
-    <form id="add-form">
-      <input type="text" id="name" placeholder="Item Name" required>
-      <input type="number" id="cost" placeholder="Cost" step="0.01" required>
-      <input type="number" id="price" placeholder="Retail Price" step="0.01" required>
-      <input type="number" id="startInv" placeholder="Start Inventory" required>
-      <button type="submit">Add Item</button>
-    </form>
-  </section>
-
-  <section id="buttons">
-    <button onclick="updateInventory()">Update Inventory</button>
-    <button onclick="generateReport()">Generate Report</button>
-    <button onclick="exportInventory()">Export Inventory</button>
-    <input type="file" id="import-file" onchange="importInventory()">
-  </section>
-
-  <div id="profit">
-    Total Profit: $<span id="profit-amount">0.00</span>
-  </div>
-
-  <div id="report" class="hidden">
-    <h3>Sales Report</h3>
-    <pre id="report-content"></pre>
-  </div>
-</main>
+<section id="buttons">
+  <button onclick="updateInventory()">Update Inventory</button>
+  <button onclick="generateReport()">Generate Report</button>
+  <button onclick="exportInventory()">Export Inventory</button>
+  <input type="file" id="import-file" onchange="importInventory()">
+  <button onclick="clearAllData()">Clear All Data</button>
+</section>
 
 <script>
-  class Item {
-    constructor(name, cost, price, startInventory) {
-      this.name = name;
-      this.cost = parseFloat(cost);
-      this.price = parseFloat(price);
-      this.startInventory = parseInt(startInventory);
-      this.currentInventory = parseInt(startInventory);
-      this.unitsSold = 0;
+class Item {
+  constructor(name, cost, price, startInventory) {
+    this.name = name;
+    this.cost = parseFloat(cost);
+    this.price = parseFloat(price);
+    this.startInventory = parseInt(startInventory);
+    this.currentInventory = parseInt(startInventory);
+    this.unitsSold = 0;
+    this.damagedUnits = 0;
+  }
+}
+
+class VendingMachine {
+  constructor() {
+    this.inventory = {};
+    this.loadInventory();
+    if (Object.keys(this.inventory).length === 0) {
+      if (confirm('No inventory found. Would you like to import inventory data?')) {
+        document.getElementById('import-file').click();
+      }
+    }
+    this.renderInventory();
+  }
+
+  saveInventory() {
+    localStorage.setItem('vendingMachineInventory', JSON.stringify(this.inventory));
+  }
+
+  loadInventory() {
+    const stored = localStorage.getItem('vendingMachineInventory');
+    if (stored) {
+      const data = JSON.parse(stored);
+      for (let name in data) {
+        const itemData = data[name];
+        const item = new Item(name, itemData.cost, itemData.price, itemData.startInventory);
+        item.currentInventory = itemData.currentInventory;
+        item.unitsSold = itemData.unitsSold;
+        item.damagedUnits = itemData.damagedUnits || 0;
+        this.inventory[name] = item;
+      }
     }
   }
 
-  class VendingMachine {
-    constructor() {
-      this.inventory = {};
+  renderInventory() {
+    const tbody = document.querySelector('#inventory-table tbody');
+    tbody.innerHTML = '';
+    for (let name in this.inventory) {
+      const item = this.inventory[name];
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.name}</td>
+        <td>$${item.cost.toFixed(2)}</td>
+        <td>$${item.price.toFixed(2)}</td>
+        <td>${item.startInventory}</td>
+        <td><input type="number" id="current-${name}" value="${item.currentInventory}" min="0"></td>
+        <td><input type="number" id="restock-${name}" value="0" min="0"></td>
+        <td><input type="number" id="damaged-${name}" value="${item.damagedUnits}" min="0"></td>
+        <td>${item.unitsSold}</td>
+      `;
+      tbody.appendChild(row);
     }
+  }
 
-    addItem(name, cost, price, startInventory) {
-      this.inventory[name] = new Item(name, cost, price, startInventory);
-      this.saveInventory();
-      this.renderInventory();
+  updateInventory() {
+    for (let name in this.inventory) {
+      const item = this.inventory[name];
+      const newCurrentInput = parseInt(document.getElementById(`current-${name}`).value) || 0;
+      const restockAmount = parseInt(document.getElementById(`restock-${name}`).value) || 0;
+      const damagedAmount = parseInt(document.getElementById(`damaged-${name}`).value) || 0;
+
+      item.damagedUnits = damagedAmount;
+
+      // Decrease current inventory immediately by damaged
+      const adjustedCurrentInventory = newCurrentInput - damagedAmount;
+      item.currentInventory = Math.max(adjustedCurrentInventory, 0);
+
+      // Calculate sold based on startInventory minus (current + damaged)
+      const countedSold = item.startInventory - (item.currentInventory + item.damagedUnits);
+      item.unitsSold = countedSold > 0 ? countedSold : 0;
+
+      // Apply restocking
+      item.currentInventory += restockAmount;
+
+      // After update, reset startInventory
+      item.startInventory = item.currentInventory;
     }
+    this.saveInventory();
+    this.renderInventory();
+  }
 
-    renderInventory() {
-      const tbody = document.querySelector("#inventory-table tbody");
-      tbody.innerHTML = "";
-
-      for (let name in this.inventory) {
-        const item = this.inventory[name];
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-          <td>${item.name}</td>
-          <td>$${item.cost.toFixed(2)}</td>
-          <td>$${item.price.toFixed(2)}</td>
-          <td>${item.startInventory}</td>
-          <td><input type="number" id="current-${item.name}" value="${item.currentInventory}" min="0"></td>
-          <td><input type="number" id="restock-${item.name}" value="0" min="0"></td>
-          <td>${item.unitsSold}</td>
-        `;
-        tbody.appendChild(row);
-      }
-      this.updateProfit();
+  generateReport() {
+    let report = 'Sales Report:\n\n';
+    for (let name in this.inventory) {
+      const item = this.inventory[name];
+      report += `${item.name}: Sold ${item.unitsSold} units, Damaged ${item.damagedUnits} units\n`;
     }
+    report += `\nTotal Profit: $${this.totalProfit().toFixed(2)}`;
+    alert(report);
+  }
 
-    updateInventory() {
-      for (let name in this.inventory) {
-        const item = this.inventory[name];
-        const newCurrent = parseInt(document.getElementById(`current-${name}`).value) || 0;
-        const restockAmount = parseInt(document.getElementById(`restock-${name}`).value) || 0;
-
-        const countedSold = item.startInventory - newCurrent;
-        item.unitsSold = countedSold > 0 ? countedSold : 0;
-        item.currentInventory = newCurrent + restockAmount;
-        item.startInventory = item.currentInventory; // After restock, reset startInventory
-      }
-      this.saveInventory();
-      this.renderInventory();
+  totalProfit() {
+    let profit = 0;
+    for (let name in this.inventory) {
+      const item = this.inventory[name];
+      profit += item.unitsSold * (item.price - item.cost);
     }
+    return profit;
+  }
 
-    totalProfit() {
-      let profit = 0;
-      for (let item of Object.values(this.inventory)) {
-        profit += item.unitsSold * (item.price - item.cost);
-      }
-      return profit.toFixed(2);
-    }
+  exportInventory() {
+    const dataStr = JSON.stringify(this.inventory, null, 2);
+    const blob = new Blob([dataStr], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'inventory.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-    updateProfit() {
-      document.getElementById("profit-amount").innerText = this.totalProfit();
-    }
-
-    generateReport() {
-      let reportText = "";
-      for (let item of Object.values(this.inventory)) {
-        reportText += `${item.name}: ${item.unitsSold} units sold\n`;
-      }
-      document.getElementById("report").classList.remove("hidden");
-      document.getElementById("report-content").textContent = reportText;
-    }
-
-    saveInventory() {
-      localStorage.setItem('vendingMachineInventory', JSON.stringify(this.inventory));
-    }
-
-    loadInventory() {
-      const saved = localStorage.getItem('vendingMachineInventory');
-      if (saved) {
-        const data = JSON.parse(saved);
-        for (let name in data) {
-          const { cost, price, startInventory, currentInventory, unitsSold } = data[name];
-          const item = new Item(name, cost, price, startInventory);
-          item.currentInventory = currentInventory;
-          item.unitsSold = unitsSold;
-          this.inventory[name] = item;
-        }
-        this.renderInventory();
-      } else {
-        setTimeout(() => {
-          if (confirm("No inventory found. Would you like to import data?")) {
-            document.getElementById("import-file").click();
-          }
-        }, 500);
-      }
-    }
-
-    exportInventory() {
-      const data = JSON.stringify(this.inventory);
-      const blob = new Blob([data], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'inventory.json';
-      link.click();
-    }
-
-    importInventory() {
-      const file = document.getElementById("import-file").files[0];
-      if (!file) return;
-
+  importInventory() {
+    const fileInput = document.getElementById('import-file');
+    const file = fileInput.files[0];
+    if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const data = JSON.parse(e.target.result);
+        this.inventory = {};
         for (let name in data) {
-          const { cost, price, startInventory, currentInventory, unitsSold } = data[name];
-          const item = new Item(name, cost, price, startInventory);
-          item.currentInventory = currentInventory;
-          item.unitsSold = unitsSold;
+          const itemData = data[name];
+          const item = new Item(name, itemData.cost, itemData.price, itemData.startInventory);
+          item.currentInventory = itemData.currentInventory;
+          item.unitsSold = itemData.unitsSold;
+          item.damagedUnits = itemData.damagedUnits || 0;
           this.inventory[name] = item;
         }
         this.saveInventory();
@@ -216,37 +216,39 @@
     }
   }
 
-  const vm = new VendingMachine();
-  vm.loadInventory();
-
-  document.getElementById("add-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const cost = document.getElementById("cost").value;
-    const price = document.getElementById("price").value;
-    const startInv = document.getElementById("startInv").value;
-
-    if (name) {
-      vm.addItem(name, cost, price, parseInt(startInv));
-      e.target.reset();
+  clearAllData() {
+    const confirmation = prompt('Type "CLEAR" to delete all saved inventory data:');
+    if (confirmation === "CLEAR") {
+      localStorage.removeItem('vendingMachineInventory');
+      alert('All data has been cleared. Reloading the app...');
+      location.reload();
+    } else {
+      alert('Clear canceled. No data was deleted.');
     }
-  });
-
-  function updateInventory() {
-    vm.updateInventory();
   }
+}
 
-  function generateReport() {
-    vm.generateReport();
-  }
+const vendingMachine = new VendingMachine();
 
-  function exportInventory() {
-    vm.exportInventory();
-  }
+function updateInventory() {
+  vendingMachine.updateInventory();
+}
 
-  function importInventory() {
-    vm.importInventory();
-  }
+function generateReport() {
+  vendingMachine.generateReport();
+}
+
+function exportInventory() {
+  vendingMachine.exportInventory();
+}
+
+function importInventory() {
+  vendingMachine.importInventory();
+}
+
+function clearAllData() {
+  vendingMachine.clearAllData();
+}
 </script>
 
 </body>
