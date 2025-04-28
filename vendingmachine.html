@@ -1,857 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vending Machine Manager Pro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
-        .chart-container {
-            height: 300px;
-            width: 100%;
-        }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vending Machine Inventory</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header { background: #2c3e50; color: white; padding: 1rem; text-align: center; }
+    main { padding: 1rem; }
+    section { margin-bottom: 2rem; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    th { background-color: #f7f7f7; }
+    form { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; }
+    form input, form button { padding: 0.5rem; flex: 1 1 150px; }
+    #buttons { margin-top: 1rem; }
+    #buttons button { margin-right: 10px; }
+    #profit { font-weight: bold; margin-top: 1rem; }
+    .hidden { display: none; }
+    input[type="number"] { width: 70px; padding: 5px; }
+    @media (max-width: 600px) {
+      table { font-size: 0.8rem; }
+      form { flex-direction: column; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <div class="flex h-screen overflow-hidden">
-        <!-- Main Content -->
-        <div class="flex flex-col flex-1 overflow-hidden">
-            <!-- Top Navigation -->
-            <div class="flex items-center justify-between h-16 flex-shrink-0 px-4 border-b border-gray-200 bg-white">
-                <div class="flex-1 px-4">
-                    <h1 class="text-xl font-bold text-gray-800 flex items-center">
-                        <i class="fas fa-cubes text-indigo-500 mr-2"></i> Vending Machine Manager Pro
-                    </h1>
-                </div>
-                <div class="flex space-x-3">
-                    <button id="resetBtn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition flex items-center text-sm">
-                        <i class="fas fa-trash-alt mr-2"></i> Reset All
-                    </button>
-                    <button id="exportBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition flex items-center text-sm">
-                        <i class="fas fa-file-export mr-2"></i> Export
-                    </button>
-                    <button id="importBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition flex items-center text-sm">
-                        <i class="fas fa-file-import mr-2"></i> Import
-                    </button>
-                </div>
-            </div>
 
-            <!-- Main Content Area -->
-            <div class="flex-1 overflow-auto p-6 bg-gray-50">
-                <!-- Quick Stats -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <div class="bg-white rounded-xl shadow-sm p-6">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-lg bg-indigo-50 text-indigo-600">
-                                <i class="fas fa-box-open text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-sm font-medium text-gray-500">Total Items</h3>
-                                <p class="text-2xl font-semibold text-gray-900" id="totalItems">0</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm p-6">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-lg bg-green-50 text-green-600">
-                                <i class="fas fa-chart-line text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-sm font-medium text-gray-500">This Week's Profit</h3>
-                                <p class="text-2xl font-semibold text-gray-900" id="weeklyProfit">$0.00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm p-6">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-lg bg-yellow-50 text-yellow-600">
-                                <i class="fas fa-calendar-week text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-sm font-medium text-gray-500">Current Week</h3>
-                                <p class="text-2xl font-semibold text-gray-900" id="currentWeek">Week 1</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm p-6">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-lg bg-red-50 text-red-600">
-                                <i class="fas fa-coins text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-sm font-medium text-gray-500">Total Profit</h3>
-                                <p class="text-2xl font-semibold text-gray-900" id="totalProfit">$0.00</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<body>
 
-                <!-- Main Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Inventory Section -->
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Inventory Card -->
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                            <div class="p-6">
-                                <div class="flex justify-between items-center mb-6">
-                                    <h2 class="text-lg font-semibold text-gray-800">
-                                        <i class="fas fa-boxes text-indigo-500 mr-2"></i> Inventory
-                                    </h2>
-                                    <div class="flex space-x-3">
-                                        <button id="addItemBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition flex items-center">
-                                            <i class="fas fa-plus mr-2"></i> Add Item
-                                        </button>
-                                        <button id="restockBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition flex items-center">
-                                            <i class="fas fa-truck-loading mr-2"></i> Restock
-                                        </button>
-                                    </div>
-                                </div>
+<header>
+  <h1>Vending Machine Inventory</h1>
+</header>
 
-                                <div class="overflow-x-auto">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-gray-50">
-                                            <tr>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cost</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profit</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="inventoryTable" class="bg-white divide-y divide-gray-200">
-                                            <tr>
-                                                <td colspan="6" class="px-6 py-4 text-center text-gray-500">No items in inventory. Add your first item!</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<main>
+  <section>
+    <h2>Inventory</h2>
+    <table id="inventory-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Cost</th>
+          <th>Price</th>
+          <th>Start Inv.</th>
+          <th>Current Inv.</th>
+          <th>Restock</th>
+          <th>Units Sold</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-                    <!-- Analytics Section -->
-                    <div class="space-y-6">
-                        <!-- Profit Chart -->
-                        <div class="bg-white rounded-xl shadow-sm p-6">
-                            <h2 class="text-lg font-semibold text-gray-800 mb-4">
-                                <i class="fas fa-chart-bar text-indigo-500 mr-2"></i> Weekly Profit
-                            </h2>
-                            <div class="chart-container">
-                                <canvas id="profitChart"></canvas>
-                            </div>
-                        </div>
-
-                        <!-- Restock History -->
-                        <div class="bg-white rounded-xl shadow-sm p-6">
-                            <h2 class="text-lg font-semibold text-gray-800 mb-4">
-                                <i class="fas fa-history text-indigo-500 mr-2"></i> Restock History
-                            </h2>
-                            <div class="overflow-y-auto max-h-64">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Week</th>
-                                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profit</th>
-                                            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="restockHistory" class="bg-white divide-y divide-gray-200">
-                                        <tr>
-                                            <td colspan="3" class="px-3 py-2 text-center text-gray-500">No restock history yet</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add/Edit Item Modal -->
-    <div id="itemModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-xl p-6 w-full max-w-md fade-in">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold" id="modalTitle">Add New Item</h3>
-                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="itemForm" class="space-y-4">
-                <input type="hidden" id="itemId">
-                <div>
-                    <label for="itemName" class="block text-sm font-medium text-gray-700">Item Name</label>
-                    <input type="text" id="itemName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                </div>
-                <div>
-                    <label for="itemStock" class="block text-sm font-medium text-gray-700">Stock Quantity</label>
-                    <input type="number" id="itemStock" min="0" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                </div>
-                <div>
-                    <label for="itemCost" class="block text-sm font-medium text-gray-700">Cost Price ($)</label>
-                    <input type="number" id="itemCost" min="0" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                </div>
-                <div>
-                    <label for="itemPrice" class="block text-sm font-medium text-gray-700">Retail Price ($)</label>
-                    <input type="number" id="itemPrice" min="0" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                </div>
-                <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" id="cancelBtn" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg transition">Cancel</button>
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Restock Modal -->
-    <div id="restockModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-xl p-6 w-full max-w-md fade-in">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold">Restock Inventory</h3>
-                <button id="closeRestockModal" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="restockForm" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Current Week: <span id="restockWeekDisplay">Week 1</span></label>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Items to Restock</label>
-                    <div class="mt-2 space-y-2 max-h-60 overflow-y-auto" id="restockItemsList">
-                        <!-- Items will be added here dynamically -->
-                    </div>
-                </div>
-                <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" id="cancelRestockBtn" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg transition">Cancel</button>
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition">Complete Restock</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Import Modal -->
-    <div id="importModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-xl p-6 w-full max-w-md fade-in">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold">Import Data</h3>
-                <button id="closeImportModal" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="importForm" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Select JSON File</label>
-                    <input type="file" id="importFile" accept=".json" class="block w-full text-sm text-gray-500
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-lg file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-indigo-50 file:text-indigo-700
-                        hover:file:bg-indigo-100">
-                </div>
-                <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" id="cancelImportBtn" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg transition">Cancel</button>
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition">Import</button>
-                </div>
+  <section>
+    <h2>Add Item</h2>
+    <form id="add-form">
+      <input type="text" id="name" placeholder="Item Name" required>
+      <input type="number" id="cost" placeholder="Cost" step="0.01" required>
+      <input type="number" id="price" placeholder="Retail Price" step="0.01" required>
+      <input type="number" id="startInv" placeholder="Start Inventory" required>
+      <button type="submit">Add Item</button>
     </form>
-        </div>
-    </div>
+  </section>
 
-    <!-- Confirmation Modal -->
-    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-xl p-6 w-full max-w-md fade-in">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold">Confirm Reset</h3>
-                <button id="closeConfirmModal" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="mb-6">
-                <p class="text-gray-700">Are you sure you want to reset all data? This will delete all inventory items and reset all profit tracking. This action cannot be undone.</p>
-            </div>
-            <div class="flex justify-end space-x-3">
-                <button type="button" id="cancelResetBtn" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg transition">Cancel</button>
-                <button type="button" id="confirmResetBtn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition">Reset All Data</button>
-            </div>
-        </div>
-    </div>
+  <section id="buttons">
+    <button onclick="updateInventory()">Update Inventory</button>
+    <button onclick="generateReport()">Generate Report</button>
+    <button onclick="exportInventory()">Export Inventory</button>
+    <input type="file" id="import-file" onchange="importInventory()">
+  </section>
 
-    <!-- Success Notification -->
-    <div id="successNotification" class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center hidden z-50">
-        <i class="fas fa-check-circle mr-2"></i>
-        <span id="successMessage">Operation completed successfully!</span>
-    </div>
+  <div id="profit">
+    Total Profit: $<span id="profit-amount">0.00</span>
+  </div>
 
-    <!-- Error Notification -->
-    <div id="errorNotification" class="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center hidden z-50">
-        <i class="fas fa-exclamation-circle mr-2"></i>
-        <span id="errorMessage">An error occurred!</span>
-    </div>
+  <div id="report" class="hidden">
+    <h3>Sales Report</h3>
+    <pre id="report-content"></pre>
+  </div>
+</main>
 
-    <script>
-        // Data structure
-        let inventory = [];
-        let restockHistory = [];
-        let currentWeek = 1;
-        let profitChart = null;
-        let editMode = false;
-        let currentEditId = null;
+<script>
+  class Item {
+    constructor(name, cost, price, startInventory) {
+      this.name = name;
+      this.cost = parseFloat(cost);
+      this.price = parseFloat(price);
+      this.startInventory = parseInt(startInventory);
+      this.currentInventory = parseInt(startInventory);
+      this.unitsSold = 0;
+    }
+  }
 
-        // DOM Elements
-        const inventoryTable = document.getElementById('inventoryTable');
-        const itemModal = document.getElementById('itemModal');
-        const restockModal = document.getElementById('restockModal');
-        const importModal = document.getElementById('importModal');
-        const confirmModal = document.getElementById('confirmModal');
-        const addItemBtn = document.getElementById('addItemBtn');
-        const restockBtn = document.getElementById('restockBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const exportBtn = document.getElementById('exportBtn');
-        const importBtn = document.getElementById('importBtn');
-        const closeModal = document.getElementById('closeModal');
-        const closeRestockModal = document.getElementById('closeRestockModal');
-        const closeImportModal = document.getElementById('closeImportModal');
-        const closeConfirmModal = document.getElementById('closeConfirmModal');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const cancelRestockBtn = document.getElementById('cancelRestockBtn');
-        const cancelImportBtn = document.getElementById('cancelImportBtn');
-        const cancelResetBtn = document.getElementById('cancelResetBtn');
-        const confirmResetBtn = document.getElementById('confirmResetBtn');
-        const itemForm = document.getElementById('itemForm');
-        const restockForm = document.getElementById('restockForm');
-        const importForm = document.getElementById('importForm');
-        const totalItems = document.getElementById('totalItems');
-        const weeklyProfit = document.getElementById('weeklyProfit');
-        const totalProfit = document.getElementById('totalProfit');
-        const currentWeekDisplay = document.getElementById('currentWeek');
-        const restockWeekDisplay = document.getElementById('restockWeekDisplay');
-        const restockItemsList = document.getElementById('restockItemsList');
-        const restockHistoryTable = document.getElementById('restockHistory');
-        const successNotification = document.getElementById('successNotification');
-        const successMessage = document.getElementById('successMessage');
-        const errorNotification = document.getElementById('errorNotification');
-        const errorMessage = document.getElementById('errorMessage');
+  class VendingMachine {
+    constructor() {
+      this.inventory = {};
+    }
 
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load data from localStorage if available
-            loadFromLocalStorage();
-            
-            renderInventory();
-            updateDashboard();
-            renderRestockHistory();
-            initializeProfitChart();
-            
-            // Add event listeners
-            addEventListeners();
-        });
+    addItem(name, cost, price, startInventory) {
+      this.inventory[name] = new Item(name, cost, price, startInventory);
+      this.saveInventory();
+      this.renderInventory();
+    }
 
-        // Add all event listeners
-        function addEventListeners() {
-            // Modal controls
-            addItemBtn.addEventListener('click', () => {
-                editMode = false;
-                currentEditId = null;
-                document.getElementById('modalTitle').textContent = 'Add New Item';
-                document.getElementById('itemForm').reset();
-                document.getElementById('itemId').value = '';
-                itemModal.classList.remove('hidden');
-            });
+    renderInventory() {
+      const tbody = document.querySelector("#inventory-table tbody");
+      tbody.innerHTML = "";
 
-            restockBtn.addEventListener('click', () => {
-                if (inventory.length === 0) {
-                    showNotification('No items to restock. Add items first!', 'error');
-                    return;
-                }
-                prepareRestockModal();
-                restockModal.classList.remove('hidden');
-            });
+      for (let name in this.inventory) {
+        const item = this.inventory[name];
+        const row = document.createElement("tr");
 
-            resetBtn.addEventListener('click', () => {
-                confirmModal.classList.remove('hidden');
-            });
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>$${item.cost.toFixed(2)}</td>
+          <td>$${item.price.toFixed(2)}</td>
+          <td>${item.startInventory}</td>
+          <td><input type="number" id="current-${item.name}" value="${item.currentInventory}" min="0"></td>
+          <td><input type="number" id="restock-${item.name}" value="0" min="0"></td>
+          <td>${item.unitsSold}</td>
+        `;
+        tbody.appendChild(row);
+      }
+      this.updateProfit();
+    }
 
-            exportBtn.addEventListener('click', exportData);
-            importBtn.addEventListener('click', () => {
-                importModal.classList.remove('hidden');
-            });
+    updateInventory() {
+      for (let name in this.inventory) {
+        const item = this.inventory[name];
+        const newCurrent = parseInt(document.getElementById(`current-${name}`).value) || 0;
+        const restockAmount = parseInt(document.getElementById(`restock-${name}`).value) || 0;
 
-            closeModal.addEventListener('click', () => {
-                itemModal.classList.add('hidden');
-            });
+        const countedSold = item.startInventory - newCurrent;
+        item.unitsSold = countedSold > 0 ? countedSold : 0;
+        item.currentInventory = newCurrent + restockAmount;
+        item.startInventory = item.currentInventory; // After restock, reset startInventory
+      }
+      this.saveInventory();
+      this.renderInventory();
+    }
 
-            closeRestockModal.addEventListener('click', () => {
-                restockModal.classList.add('hidden');
-            });
+    totalProfit() {
+      let profit = 0;
+      for (let item of Object.values(this.inventory)) {
+        profit += item.unitsSold * (item.price - item.cost);
+      }
+      return profit.toFixed(2);
+    }
 
-            closeImportModal.addEventListener('click', () => {
-                importModal.classList.add('hidden');
-            });
+    updateProfit() {
+      document.getElementById("profit-amount").innerText = this.totalProfit();
+    }
 
-            closeConfirmModal.addEventListener('click', () => {
-                confirmModal.classList.add('hidden');
-            });
+    generateReport() {
+      let reportText = "";
+      for (let item of Object.values(this.inventory)) {
+        reportText += `${item.name}: ${item.unitsSold} units sold\n`;
+      }
+      document.getElementById("report").classList.remove("hidden");
+      document.getElementById("report-content").textContent = reportText;
+    }
 
-            cancelBtn.addEventListener('click', () => {
-                itemModal.classList.add('hidden');
-            });
+    saveInventory() {
+      localStorage.setItem('vendingMachineInventory', JSON.stringify(this.inventory));
+    }
 
-            cancelRestockBtn.addEventListener('click', () => {
-                restockModal.classList.add('hidden');
-            });
-
-            cancelImportBtn.addEventListener('click', () => {
-                importModal.classList.add('hidden');
-            });
-
-            cancelResetBtn.addEventListener('click', () => {
-                confirmModal.classList.add('hidden');
-            });
-
-            confirmResetBtn.addEventListener('click', resetAllData);
-
-            // Form submissions
-            itemForm.addEventListener('submit', saveItem);
-            restockForm.addEventListener('submit', completeRestock);
-            importForm.addEventListener('submit', importData);
+    loadInventory() {
+      const saved = localStorage.getItem('vendingMachineInventory');
+      if (saved) {
+        const data = JSON.parse(saved);
+        for (let name in data) {
+          const { cost, price, startInventory, currentInventory, unitsSold } = data[name];
+          const item = new Item(name, cost, price, startInventory);
+          item.currentInventory = currentInventory;
+          item.unitsSold = unitsSold;
+          this.inventory[name] = item;
         }
+        this.renderInventory();
+      } else {
+        setTimeout(() => {
+          if (confirm("No inventory found. Would you like to import data?")) {
+            document.getElementById("import-file").click();
+          }
+        }, 500);
+      }
+    }
 
-        // Render inventory table
-        function renderInventory() {
-            inventoryTable.innerHTML = '';
-            
-            if (inventory.length === 0) {
-                inventoryTable.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">No items in inventory. Add your first item!</td>
-                    </tr>
-                `;
-                return;
-            }
+    exportInventory() {
+      const data = JSON.stringify(this.inventory);
+      const blob = new Blob([data], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'inventory.json';
+      link.click();
+    }
 
-            inventory.forEach(item => {
-                const profit = (item.price - item.cost) * item.stock;
-                const profitClass = profit >= 0 ? 'text-green-600' : 'text-red-600';
-                const profitDisplay = formatCurrency(profit);
+    importInventory() {
+      const file = document.getElementById("import-file").files[0];
+      if (!file) return;
 
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="font-medium text-gray-900">${item.name}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-gray-900">${item.stock}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-gray-900">${formatCurrency(item.cost)}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-gray-900">${formatCurrency(item.price)}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="${profitClass}">${profitDisplay}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button class="text-indigo-600 hover:text-indigo-900 mr-3 edit-btn" data-id="${item.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="text-red-600 hover:text-red-900 delete-btn" data-id="${item.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                inventoryTable.appendChild(row);
-            });
-
-            // Add event listeners to edit and delete buttons
-            document.querySelectorAll('.edit-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                    editItem(id);
-                });
-            });
-
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                    deleteItem(id);
-                });
-            });
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const data = JSON.parse(e.target.result);
+        for (let name in data) {
+          const { cost, price, startInventory, currentInventory, unitsSold } = data[name];
+          const item = new Item(name, cost, price, startInventory);
+          item.currentInventory = currentInventory;
+          item.unitsSold = unitsSold;
+          this.inventory[name] = item;
         }
+        this.saveInventory();
+        this.renderInventory();
+      };
+      reader.readAsText(file);
+    }
+  }
 
-        // Edit item
-        function editItem(id) {
-            const item = inventory.find(item => item.id === id);
-            if (!item) return;
+  const vm = new VendingMachine();
+  vm.loadInventory();
 
-            editMode = true;
-            currentEditId = id;
-            document.getElementById('modalTitle').textContent = 'Edit Item';
-            document.getElementById('itemId').value = item.id;
-            document.getElementById('itemName').value = item.name;
-            document.getElementById('itemStock').value = item.stock;
-            document.getElementById('itemCost').value = item.cost;
-            document.getElementById('itemPrice').value = item.price;
-            itemModal.classList.remove('hidden');
-        }
+  document.getElementById("add-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const cost = document.getElementById("cost").value;
+    const price = document.getElementById("price").value;
+    const startInv = document.getElementById("startInv").value;
 
-        // Delete item
-        function deleteItem(id) {
-            if (confirm('Are you sure you want to delete this item?')) {
-                inventory = inventory.filter(item => item.id !== id);
-                saveToLocalStorage();
-                renderInventory();
-                updateDashboard();
-                showNotification('Item deleted successfully!', 'success');
-            }
-        }
+    if (name) {
+      vm.addItem(name, cost, price, parseInt(startInv));
+      e.target.reset();
+    }
+  });
 
-        // Save item (add or edit)
-        function saveItem(e) {
-            e.preventDefault();
+  function updateInventory() {
+    vm.updateInventory();
+  }
 
-            const id = editMode ? currentEditId : Date.now();
-            const name = document.getElementById('itemName').value;
-            const stock = parseInt(document.getElementById('itemStock').value);
-            const cost = parseFloat(document.getElementById('itemCost').value);
-            const price = parseFloat(document.getElementById('itemPrice').value);
+  function generateReport() {
+    vm.generateReport();
+  }
 
-            if (!name || isNaN(stock) || isNaN(cost) || isNaN(price)) {
-                showNotification('Please fill in all fields with valid values', 'error');
-                return;
-            }
+  function exportInventory() {
+    vm.exportInventory();
+  }
 
-            if (editMode) {
-                // Update existing item
-                const index = inventory.findIndex(item => item.id === id);
-                if (index !== -1) {
-                    inventory[index] = { id, name, stock, cost, price };
-                }
-            } else {
-                // Add new item
-                inventory.push({ id, name, stock, cost, price });
-            }
+  function importInventory() {
+    vm.importInventory();
+  }
+</script>
 
-            saveToLocalStorage();
-            renderInventory();
-            updateDashboard();
-            itemModal.classList.add('hidden');
-            
-            const message = editMode ? 'Item updated successfully!' : 'Item added successfully!';
-            showNotification(message, 'success');
-        }
-
-        // Prepare restock modal
-        function prepareRestockModal() {
-            restockWeekDisplay.textContent = `Week ${currentWeek}`;
-            restockItemsList.innerHTML = '';
-            
-            inventory.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'flex items-center justify-between p-2 bg-gray-50 rounded-lg';
-                itemDiv.innerHTML = `
-                    <div class="flex-1">
-                        <span class="font-medium">${item.name}</span>
-                        <span class="text-sm text-gray-500 ml-2">(Current: ${item.stock})</span>
-                    </div>
-                    <input type="number" min="0" value="${item.stock}" 
-                        class="w-20 border border-gray-300 rounded-md shadow-sm py-1 px-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 restock-qty" 
-                        data-id="${item.id}">
-                `;
-                restockItemsList.appendChild(itemDiv);
-            });
-        }
-
-        // Complete restock
-        function completeRestock(e) {
-            e.preventDefault();
-            
-            // Calculate profit for this week
-            let weeklyProfitValue = 0;
-            const updatedItems = [];
-            
-            document.querySelectorAll('.restock-qty').forEach(input => {
-                const id = parseInt(input.getAttribute('data-id'));
-                const newStock = parseInt(input.value);
-                
-                const item = inventory.find(item => item.id === id);
-                if (item) {
-                    const soldItems = item.stock - newStock;
-                    if (soldItems > 0) {
-                        weeklyProfitValue += (item.price - item.cost) * soldItems;
-                    }
-                    item.stock = newStock;
-                    updatedItems.push(item.name);
-                }
-            });
-            
-            // Add to restock history
-            restockHistory.push({
-                week: currentWeek,
-                profit: weeklyProfitValue,
-                items: updatedItems
-            });
-            
-            // Increment week counter
-            currentWeek++;
-            
-            saveToLocalStorage();
-            renderInventory();
-            updateDashboard();
-            renderRestockHistory();
-            updateProfitChart();
-            restockModal.classList.add('hidden');
-            
-            showNotification(`Restock completed for Week ${currentWeek - 1}! Profit: ${formatCurrency(weeklyProfitValue)}`, 'success');
-        }
-
-        // Render restock history
-        function renderRestockHistory() {
-            restockHistoryTable.innerHTML = '';
-            
-            if (restockHistory.length === 0) {
-                restockHistoryTable.innerHTML = `
-                    <tr>
-                        <td colspan="3" class="px-3 py-2 text-center text-gray-500">No restock history yet</td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            // Sort by week descending (newest first)
-            const sortedHistory = [...restockHistory].sort((a, b) => b.week - a.week);
-            
-            sortedHistory.forEach(record => {
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="px-3 py-2 whitespace-nowrap">
-                        <div class="text-gray-900">Week ${record.week}</div>
-                    </td>
-                    <td class="px-3 py-2 whitespace-nowrap">
-                        <div class="${record.profit >= 0 ? 'text-green-600' : 'text-red-600'}">${formatCurrency(record.profit)}</div>
-                    </td>
-                    <td class="px-3 py-2">
-                        <div class="text-gray-900 text-sm">${record.items.join(', ')}</div>
-                    </td>
-                `;
-                restockHistoryTable.appendChild(row);
-            });
-        }
-
-        // Initialize profit chart
-        function initializeProfitChart() {
-            const ctx = document.getElementById('profitChart').getContext('2d');
-            
-            profitChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Weekly Profit',
-                        data: [],
-                        backgroundColor: '#4f46e5',
-                        borderColor: '#4f46e5',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value;
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return 'Profit: $' + context.raw.toFixed(2);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            
-            updateProfitChart();
-        }
-
-        // Update profit chart
-        function updateProfitChart() {
-            if (!profitChart) return;
-            
-            // Sort by week ascending
-            const sortedHistory = [...restockHistory].sort((a, b) => a.week - b.week);
-            
-            const weeks = sortedHistory.map(record => `Week ${record.week}`);
-            const profits = sortedHistory.map(record => record.profit);
-            
-            profitChart.data.labels = weeks;
-            profitChart.data.datasets[0].data = profits;
-            profitChart.update();
-        }
-
-        // Update dashboard stats
-        function updateDashboard() {
-            totalItems.textContent = inventory.length;
-            currentWeekDisplay.textContent = `Week ${currentWeek}`;
-            
-            // Calculate total profit
-            const totalProfitValue = restockHistory.reduce((sum, record) => sum + record.profit, 0);
-            totalProfit.textContent = formatCurrency(totalProfitValue);
-            
-            // Calculate this week's profit (if we have data for current week - 1)
-            const currentWeekRecord = restockHistory.find(record => record.week === currentWeek - 1);
-            weeklyProfit.textContent = currentWeekRecord ? formatCurrency(currentWeekRecord.profit) : '$0.00';
-        }
-
-        // Reset all data
-        function resetAllData() {
-            inventory = [];
-            restockHistory = [];
-            currentWeek = 1;
-            
-            saveToLocalStorage();
-            renderInventory();
-            updateDashboard();
-            renderRestockHistory();
-            updateProfitChart();
-            confirmModal.classList.add('hidden');
-            
-            showNotification('All data has been reset successfully!', 'success');
-        }
-
-        // Format currency
-        function formatCurrency(value) {
-            return '$' + value.toFixed(2);
-        }
-
-        // Show notification
-        function showNotification(message, type) {
-            if (type === 'success') {
-                successMessage.textContent = message;
-                successNotification.classList.remove('hidden');
-                setTimeout(() => {
-                    successNotification.classList.add('hidden');
-                }, 3000);
-            } else {
-                errorMessage.textContent = message;
-                errorNotification.classList.remove('hidden');
-                setTimeout(() => {
-                    errorNotification.classList.add('hidden');
-                }, 3000);
-            }
-        }
-
-        // Save data to localStorage
-        function saveToLocalStorage() {
-            const data = {
-                inventory,
-                restockHistory,
-                currentWeek
-            };
-            localStorage.setItem('vendingMachineData', JSON.stringify(data));
-        }
-
-        // Load data from localStorage
-        function loadFromLocalStorage() {
-            const savedData = localStorage.getItem('vendingMachineData');
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    inventory = data.inventory || [];
-                    restockHistory = data.restockHistory || [];
-                    currentWeek = data.currentWeek || 1;
-                } catch (e) {
-                    console.error('Failed to parse saved data', e);
-                }
-            }
-        }
-
-        // Export data as JSON file
-        function exportData() {
-            if (inventory.length === 0 && restockHistory.length === 0) {
-                showNotification('No data to export', 'error');
-                return;
-            }
-            
-            const data = {
-                inventory,
-                restockHistory,
-                currentWeek,
-                exportedAt: new Date().toISOString()
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `vending-machine-data-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showNotification('Data exported successfully!', 'success');
-        }
-
-        // Import data from JSON file
-        function importData(e) {
-            e.preventDefault();
-            
-            const fileInput = document.getElementById('importFile');
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                showNotification('Please select a file to import', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    if (confirm('This will replace all current data. Are you sure?')) {
-                        inventory = data.inventory || [];
-                        restockHistory = data.restockHistory || [];
-                        currentWeek = data.currentWeek || 1;
-                        
-                        saveToLocalStorage();
-                        renderInventory();
-                        updateDashboard();
-                        renderRestockHistory();
-                        updateProfitChart();
-                        
-                        importModal.classList.add('hidden');
-                        fileInput.value = '';
-                        showNotification('Data imported successfully!', 'success');
-                    }
-                } catch (e) {
-                    showNotification('Failed to parse the file. Please check the format.', 'error');
-                    console.error('Import error', e);
-                }
-            };
-            reader.readAsText(file);
-        }
-    </script>
 </body>
 </html>
