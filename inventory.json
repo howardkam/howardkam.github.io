@@ -3,8 +3,8 @@
     "name": "Arizona",
     "cost": 1.02,
     "price": 2,
-    "startInventory": 52,
-    "currentInventory": 52,
+    "startInventory": 48,
+    "currentInventory": 48,
     "unitsSold": 0,
     "damagedUnits": 0
   },
@@ -12,8 +12,8 @@
     "name": "Pure Leaf",
     "cost": 1.05,
     "price": 2,
-    "startInventory": 27,
-    "currentInventory": 27,
+    "startInventory": 21,
+    "currentInventory": 21,
     "unitsSold": 0,
     "damagedUnits": 0
   },
@@ -21,17 +21,17 @@
     "name": "Premier Protein",
     "cost": 1.91,
     "price": 3,
-    "startInventory": 16,
-    "currentInventory": 16,
+    "startInventory": 15,
+    "currentInventory": 15,
     "unitsSold": 0,
-    "damagedUnits": 1
+    "damagedUnits": 0
   },
   "Celsius": {
     "name": "Celsius",
     "cost": 1.45,
     "price": 3,
-    "startInventory": 12,
-    "currentInventory": 12,
+    "startInventory": 10,
+    "currentInventory": 10,
     "unitsSold": 0,
     "damagedUnits": 0
   },
@@ -39,8 +39,8 @@
     "name": "Alani",
     "cost": 1.45,
     "price": 3,
-    "startInventory": 39,
-    "currentInventory": 39,
+    "startInventory": 33,
+    "currentInventory": 33,
     "unitsSold": 0,
     "damagedUnits": 0
   },
@@ -48,8 +48,8 @@
     "name": "Hot Pockets",
     "cost": 0.83,
     "price": 2,
-    "startInventory": 55,
-    "currentInventory": 55,
+    "startInventory": 48,
+    "currentInventory": 48,
     "unitsSold": 0,
     "damagedUnits": 0
   },
@@ -57,8 +57,8 @@
     "name": "Uncrustables",
     "cost": 0.85,
     "price": 1.5,
-    "startInventory": 44,
-    "currentInventory": 44,
+    "startInventory": 35,
+    "currentInventory": 35,
     "unitsSold": 0,
     "damagedUnits": 0
   }
