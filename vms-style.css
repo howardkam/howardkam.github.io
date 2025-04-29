@@ -1,0 +1,132 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+h1,
+h2 {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin-bottom: 30px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+th {
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+tr {
+  background: white;
+  transition: background 0.3s;
+}
+
+tr:hover {
+  background: #e3f2fd;
+}
+
+input[type="number"],
+input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  width: 100px;
+  transition: border-color 0.3s;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+#buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+  background: #1565c0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+  background: #0d47a1;
+}
+
+#add-inventory-form {
+  margin-top: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#add-inventory-form input {
+  margin: 8px 10px 8px 0;
+  padding: 8px 10px;
+  width: 150px;
+}
+
+#add-inventory-form button {
+  margin-top: 10px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+@media (max-width: 600px) {
+
+  table,
+  th,
+  td {
+    font-size: 12px;
+  }
+
+  input[type="number"],
+  input[type="text"] {
+    width: 80px;
+  }
+
+  #add-inventory-form input {
+    width: 100px;
+  }
+}

@@ -5,35 +5,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kam Vending</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
+    :root {
+      --bg-color: #f5f7fa;
+      --text-color: #333;
+      --card-bg: #ffffff;
+      --header-bg: #1976d2;
+      --header-text: #ffffff;
+      --hover-bg: #e3f2fd;
+      --button-bg: #1976d2;
+      --button-hover: #1565c0;
+      --button-active: #0d47a1;
     }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #eeeeee;
+      --card-bg: #1e1e1e;
+      --header-bg: #3949ab;
+      --header-text: #ffffff;
+      --hover-bg: #333333;
+      --button-bg: #3949ab;
+      --button-hover: #303f9f;
+      --button-active: #1a237e;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+
     table {
       width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+      margin-bottom: 30px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
+
     th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
+      padding: 12px;
       text-align: center;
     }
+
     th {
-      background-color: #f2f2f2;
+      background-color: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
     }
+
+    tr {
+      background: var(--card-bg);
+      transition: background 0.3s;
+    }
+
+    tr:hover {
+      background: var(--hover-bg);
+    }
+
     input[type="number"] {
       width: 80px;
+      padding: 4px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
+
+    button {
+      background: var(--button-bg);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      background: var(--button-hover);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    button:active {
+      background: var(--button-active);
+    }
+
     #buttons {
       margin-top: 10px;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
-    button {
-      padding: 8px 16px;
-    }
+
     @media (max-width: 600px) {
       table, th, td {
         font-size: 12px;
@@ -70,6 +142,8 @@
   <button onclick="exportInventory()">Export Inventory</button>
   <input type="file" id="import-file" onchange="importInventory()">
   <button onclick="clearAllData()">Clear All Data</button>
+  <button onclick="saveInventory()">Save</button>
+  <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
 </section>
 
 <script>
@@ -89,11 +163,6 @@ class VendingMachine {
   constructor() {
     this.inventory = {};
     this.loadInventory();
-    if (Object.keys(this.inventory).length === 0) {
-      if (confirm('No inventory found. Would you like to import inventory data?')) {
-        document.getElementById('import-file').click();
-      }
-    }
     this.renderInventory();
   }
 
@@ -144,22 +213,13 @@ class VendingMachine {
       const damagedAmount = parseInt(document.getElementById(`damaged-${name}`).value) || 0;
 
       item.damagedUnits = damagedAmount;
-
-      // Decrease current inventory immediately by damaged
       const adjustedCurrentInventory = newCurrentInput - damagedAmount;
       item.currentInventory = Math.max(adjustedCurrentInventory, 0);
-
-      // Calculate sold based on startInventory minus (current + damaged)
       const countedSold = item.startInventory - (item.currentInventory + item.damagedUnits);
       item.unitsSold = countedSold > 0 ? countedSold : 0;
-
-      // Apply restocking
       item.currentInventory += restockAmount;
-
-      // After update, reset startInventory
       item.startInventory = item.currentInventory;
     }
-    this.saveInventory();
     this.renderInventory();
   }
 
@@ -184,7 +244,7 @@ class VendingMachine {
 
   exportInventory() {
     const dataStr = JSON.stringify(this.inventory, null, 2);
-    const blob = new Blob([dataStr], {type: 'application/json'});
+    const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -193,27 +253,17 @@ class VendingMachine {
     URL.revokeObjectURL(url);
   }
 
-  importInventory() {
-    const fileInput = document.getElementById('import-file');
-    const file = fileInput.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const data = JSON.parse(e.target.result);
-        this.inventory = {};
-        for (let name in data) {
-          const itemData = data[name];
-          const item = new Item(name, itemData.cost, itemData.price, itemData.startInventory);
-          item.currentInventory = itemData.currentInventory;
-          item.unitsSold = itemData.unitsSold;
-          item.damagedUnits = itemData.damagedUnits || 0;
-          this.inventory[name] = item;
-        }
-        this.saveInventory();
-        this.renderInventory();
-      };
-      reader.readAsText(file);
+  importInventory(data) {
+    this.inventory = {};
+    for (let name in data) {
+      const itemData = data[name];
+      const item = new Item(name, itemData.cost, itemData.price, itemData.startInventory);
+      item.currentInventory = itemData.currentInventory;
+      item.unitsSold = itemData.unitsSold;
+      item.damagedUnits = itemData.damagedUnits || 0;
+      this.inventory[name] = item;
     }
+    this.renderInventory();
   }
 
   clearAllData() {
@@ -243,13 +293,47 @@ function exportInventory() {
 }
 
 function importInventory() {
-  vendingMachine.importInventory();
+  const fileInput = document.getElementById('import-file');
+  const file = fileInput.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      vendingMachine.importInventory(data);
+      alert("Inventory imported successfully!");
+    } catch (err) {
+      alert("Failed to import inventory: " + err.message);
+    }
+  };
+  reader.readAsText(file);
 }
 
 function clearAllData() {
   vendingMachine.clearAllData();
 }
-</script>
 
+function saveInventory() {
+  vendingMachine.saveInventory();
+  alert('Inventory saved to local storage.');
+}
+
+function toggleDarkMode() {
+  const body = document.body;
+  if (body.getAttribute('data-theme') === 'dark') {
+    body.removeAttribute('data-theme');
+    localStorage.setItem('theme', 'light');
+  } else {
+    body.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+window.onload = function () {
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+  }
+};
+</script>
 </body>
 </html>
