@@ -1,339 +1,330 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kam Vending</title>
   <style>
     :root {
-      --bg-color: #f5f7fa;
-      --text-color: #333;
-      --card-bg: #ffffff;
-      --header-bg: #1976d2;
-      --header-text: #ffffff;
-      --hover-bg: #e3f2fd;
-      --button-bg: #1976d2;
-      --button-hover: #1565c0;
-      --button-active: #0d47a1;
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --primary-color: #6200ea;
+      --secondary-color: #03dac6;
+      --surface-color: #f2f2f2;
     }
 
     [data-theme="dark"] {
       --bg-color: #121212;
-      --text-color: #eeeeee;
-      --card-bg: #1e1e1e;
-      --header-bg: #3949ab;
-      --header-text: #ffffff;
-      --hover-bg: #333333;
-      --button-bg: #3949ab;
-      --button-hover: #303f9f;
-      --button-active: #1a237e;
+      --text-color: #ffffff;
+      --primary-color: #bb86fc;
+      --secondary-color: #03dac6;
+      --surface-color: #1e1e1e;
     }
 
     body {
-      font-family: 'Roboto', sans-serif;
-      background: var(--bg-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
       color: var(--text-color);
       margin: 0;
       padding: 20px;
     }
 
+    h1 {
+      color: var(--primary-color);
+    }
+
     table {
       width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 8px;
-      margin-bottom: 30px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-collapse: collapse;
+      margin-bottom: 20px;
     }
 
     th, td {
-      padding: 12px;
+      border: 1px solid #ccc;
+      padding: 10px;
       text-align: center;
     }
 
     th {
-      background-color: var(--header-bg);
-      color: var(--header-text);
-      font-weight: 600;
-      font-size: 14px;
-      text-transform: uppercase;
+      background-color: var(--surface-color);
     }
 
-    tr {
-      background: var(--card-bg);
-      transition: background 0.3s;
-    }
-
-    tr:hover {
-      background: var(--hover-bg);
-    }
-
-    input[type="number"] {
-      width: 80px;
-      padding: 4px;
-      border-radius: 6px;
+    input[type="number"], input[type="text"] {
+      width: 100px;
+      padding: 6px;
+      border-radius: 5px;
       border: 1px solid #ccc;
+      background-color: var(--surface-color);
+      color: var(--text-color);
     }
 
     button {
-      background: var(--button-bg);
+      background-color: var(--primary-color);
       color: white;
       border: none;
+      border-radius: 5px;
       padding: 10px 20px;
-      border-radius: 24px;
-      font-size: 14px;
-      font-weight: 500;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      transition: background 0.3s, box-shadow 0.3s;
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background: var(--button-hover);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    button:active {
-      background: var(--button-active);
+      background-color: #3700b3;
     }
 
     #buttons {
-      margin-top: 10px;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      margin-top: 20px;
     }
 
-    @media (max-width: 600px) {
-      table, th, td {
-        font-size: 12px;
-      }
-      input[type="number"] {
-        width: 60px;
-      }
+    #add-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .dark-toggle {
+      float: right;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
 
-<h1>Kam Vending</h1>
+  <h1>Kam Vending</h1>
+  <label class="dark-toggle">
+    <input type="checkbox" id="theme-toggle"> Dark Mode
+  </label>
 
-<table id="inventory-table">
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>Cost</th>
-      <th>Price</th>
-      <th>Start Inv.</th>
-      <th>Current Inv.</th>
-      <th>Restock</th>
-      <th>Damaged</th>
-      <th>Units Sold</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+  <form id="add-form">
+    <input type="text" id="new-name" placeholder="Item Name" required>
+    <input type="number" id="new-cost" placeholder="Cost" step="0.01" required>
+    <input type="number" id="new-price" placeholder="Price" step="0.01" required>
+    <input type="number" id="new-start" placeholder="Start Inventory" required>
+    <button type="submit">Add Item</button>
+  </form>
 
-<section id="buttons">
-  <button onclick="updateInventory()">Update Inventory</button>
-  <button onclick="generateReport()">Generate Report</button>
-  <button onclick="exportInventory()">Export Inventory</button>
-  <input type="file" id="import-file" onchange="importInventory()">
-  <button onclick="clearAllData()">Clear All Data</button>
-  <button onclick="saveInventory()">Save</button>
-  <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
-</section>
+  <table id="inventory-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Cost</th>
+        <th>Price</th>
+        <th>Start Inv.</th>
+        <th>Current Inv.</th>
+        <th>Restock</th>
+        <th>Damaged</th>
+        <th>Units Sold</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-<script>
-class Item {
-  constructor(name, cost, price, startInventory) {
-    this.name = name;
-    this.cost = parseFloat(cost);
-    this.price = parseFloat(price);
-    this.startInventory = parseInt(startInventory);
-    this.currentInventory = parseInt(startInventory);
-    this.unitsSold = 0;
-    this.damagedUnits = 0;
-  }
-}
+  <div id="buttons">
+    <button onclick="updateInventory()">Update Inventory</button>
+    <button onclick="generateReport()">Generate Report</button>
+    <button onclick="exportInventory()">Export Inventory</button>
+    <button onclick="saveInventory()">Save Inventory</button>
+    <input type="file" id="import-file" onchange="importInventory()">
+    <button onclick="clearAllData()">Clear All Data</button>
+  </div>
 
-class VendingMachine {
-  constructor() {
-    this.inventory = {};
-    this.loadInventory();
-    this.renderInventory();
-  }
-
-  saveInventory() {
-    localStorage.setItem('vendingMachineInventory', JSON.stringify(this.inventory));
-  }
-
-  loadInventory() {
-    const stored = localStorage.getItem('vendingMachineInventory');
-    if (stored) {
-      const data = JSON.parse(stored);
-      for (let name in data) {
-        const itemData = data[name];
-        const item = new Item(name, itemData.cost, itemData.price, itemData.startInventory);
-        item.currentInventory = itemData.currentInventory;
-        item.unitsSold = itemData.unitsSold;
-        item.damagedUnits = itemData.damagedUnits || 0;
-        this.inventory[name] = item;
+  <script>
+    class Item {
+      constructor(name, cost, price, startInventory) {
+        this.name = name;
+        this.cost = parseFloat(cost);
+        this.price = parseFloat(price);
+        this.startInventory = parseInt(startInventory);
+        this.currentInventory = parseInt(startInventory);
+        this.unitsSold = 0;
+        this.damagedUnits = 0;
       }
     }
-  }
 
-  renderInventory() {
-    const tbody = document.querySelector('#inventory-table tbody');
-    tbody.innerHTML = '';
-    for (let name in this.inventory) {
-      const item = this.inventory[name];
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${item.name}</td>
-        <td>$${item.cost.toFixed(2)}</td>
-        <td>$${item.price.toFixed(2)}</td>
-        <td>${item.startInventory}</td>
-        <td><input type="number" id="current-${name}" value="${item.currentInventory}" min="0"></td>
-        <td><input type="number" id="restock-${name}" value="0" min="0"></td>
-        <td><input type="number" id="damaged-${name}" value="${item.damagedUnits}" min="0"></td>
-        <td>${item.unitsSold}</td>
-      `;
-      tbody.appendChild(row);
+    class VendingMachine {
+      constructor() {
+        this.inventory = {};
+        this.loadInventory();
+        this.renderInventory();
+      }
+
+      saveInventory() {
+        localStorage.setItem('vendingMachineInventory', JSON.stringify(this.inventory));
+      }
+
+      loadInventory() {
+        const stored = localStorage.getItem('vendingMachineInventory');
+        if (stored) {
+          try {
+            const data = JSON.parse(stored);
+            for (let name in data) {
+              const itemData = data[name];
+              const item = new Item(name, itemData.cost, itemData.price, itemData.startInventory);
+              item.currentInventory = itemData.currentInventory;
+              item.unitsSold = itemData.unitsSold;
+              item.damagedUnits = itemData.damagedUnits || 0;
+              this.inventory[name] = item;
+            }
+          } catch (e) {
+            console.error("Failed to parse stored inventory:", e);
+          }
+        }
+      }
+
+      renderInventory() {
+        const tbody = document.querySelector('#inventory-table tbody');
+        tbody.innerHTML = '';
+        for (let name in this.inventory) {
+          const item = this.inventory[name];
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${item.name}</td>
+            <td>$${item.cost.toFixed(2)}</td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>${item.startInventory}</td>
+            <td><input type="number" id="current-${name}" value="${item.currentInventory}" min="0"></td>
+            <td><input type="number" id="restock-${name}" value="0" min="0"></td>
+            <td><input type="number" id="damaged-${name}" value="${item.damagedUnits}" min="0"></td>
+            <td>${item.unitsSold}</td>
+          `;
+          tbody.appendChild(row);
+        }
+      }
+
+      updateInventory() {
+        for (let name in this.inventory) {
+          const item = this.inventory[name];
+          const newCurrentInput = parseInt(document.getElementById(`current-${name}`).value) || 0;
+          const restockAmount = parseInt(document.getElementById(`restock-${name}`).value) || 0;
+          const damagedAmount = parseInt(document.getElementById(`damaged-${name}`).value) || 0;
+
+          item.damagedUnits = damagedAmount;
+          const adjustedCurrentInventory = newCurrentInput - damagedAmount;
+          item.currentInventory = Math.max(adjustedCurrentInventory, 0);
+          const countedSold = item.startInventory - (item.currentInventory + item.damagedUnits);
+          item.unitsSold = countedSold > 0 ? countedSold : 0;
+          item.currentInventory += restockAmount;
+          item.startInventory = item.currentInventory;
+        }
+        this.renderInventory();
+      }
+
+      generateReport() {
+        let report = 'Sales Report:\n\n';
+        for (let name in this.inventory) {
+          const item = this.inventory[name];
+          report += `${item.name}: Sold ${item.unitsSold} units, Damaged ${item.damagedUnits} units\n`;
+        }
+        report += `\nTotal Profit: $${this.totalProfit().toFixed(2)}`;
+        alert(report);
+      }
+
+      totalProfit() {
+        let profit = 0;
+        for (let name in this.inventory) {
+          const item = this.inventory[name];
+          profit += item.unitsSold * (item.price - item.cost);
+        }
+        return profit;
+      }
+
+      exportInventory() {
+        const dataStr = JSON.stringify(this.inventory, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'inventory.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      importInventory(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target.result);
+            this.inventory = {};
+            for (let name in data) {
+              const itemData = data[name];
+              const item = new Item(name, itemData.cost, itemData.price, itemData.startInventory);
+              item.currentInventory = itemData.currentInventory;
+              item.unitsSold = itemData.unitsSold;
+              item.damagedUnits = itemData.damagedUnits || 0;
+              this.inventory[name] = item;
+            }
+            this.renderInventory();
+          } catch (err) {
+            alert('Invalid file format.');
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      addItem(name, cost, price, startInventory) {
+        if (this.inventory[name]) {
+          alert('Item already exists!');
+          return;
+        }
+        this.inventory[name] = new Item(name, cost, price, startInventory);
+        this.renderInventory();
+      }
+
+      clearAllData() {
+        if (prompt('Type CLEAR to confirm data deletion:') === 'CLEAR') {
+          localStorage.removeItem('vendingMachineInventory');
+          location.reload();
+        }
+      }
     }
-  }
 
-  updateInventory() {
-    for (let name in this.inventory) {
-      const item = this.inventory[name];
-      const newCurrentInput = parseInt(document.getElementById(`current-${name}`).value) || 0;
-      const restockAmount = parseInt(document.getElementById(`restock-${name}`).value) || 0;
-      const damagedAmount = parseInt(document.getElementById(`damaged-${name}`).value) || 0;
+    const vendingMachine = new VendingMachine();
 
-      item.damagedUnits = damagedAmount;
-      const adjustedCurrentInventory = newCurrentInput - damagedAmount;
-      item.currentInventory = Math.max(adjustedCurrentInventory, 0);
-      const countedSold = item.startInventory - (item.currentInventory + item.damagedUnits);
-      item.unitsSold = countedSold > 0 ? countedSold : 0;
-      item.currentInventory += restockAmount;
-      item.startInventory = item.currentInventory;
+    document.getElementById('add-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('new-name').value;
+      const cost = document.getElementById('new-cost').value;
+      const price = document.getElementById('new-price').value;
+      const start = document.getElementById('new-start').value;
+      vendingMachine.addItem(name, cost, price, start);
+      e.target.reset();
+    });
+
+    function updateInventory() {
+      vendingMachine.updateInventory();
     }
-    this.renderInventory();
-  }
 
-  generateReport() {
-    let report = 'Sales Report:\n\n';
-    for (let name in this.inventory) {
-      const item = this.inventory[name];
-      report += `${item.name}: Sold ${item.unitsSold} units, Damaged ${item.damagedUnits} units\n`;
+    function generateReport() {
+      vendingMachine.generateReport();
     }
-    report += `\nTotal Profit: $${this.totalProfit().toFixed(2)}`;
-    alert(report);
-  }
 
-  totalProfit() {
-    let profit = 0;
-    for (let name in this.inventory) {
-      const item = this.inventory[name];
-      profit += item.unitsSold * (item.price - item.cost);
+    function exportInventory() {
+      vendingMachine.exportInventory();
     }
-    return profit;
-  }
 
-  exportInventory() {
-    const dataStr = JSON.stringify(this.inventory, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'inventory.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  importInventory(data) {
-    this.inventory = {};
-    for (let name in data) {
-      const itemData = data[name];
-      const item = new Item(name, itemData.cost, itemData.price, itemData.startInventory);
-      item.currentInventory = itemData.currentInventory;
-      item.unitsSold = itemData.unitsSold;
-      item.damagedUnits = itemData.damagedUnits || 0;
-      this.inventory[name] = item;
+    function importInventory() {
+      vendingMachine.importInventory(event);
     }
-    this.renderInventory();
-  }
 
-  clearAllData() {
-    const confirmation = prompt('Type "CLEAR" to delete all saved inventory data:');
-    if (confirmation === "CLEAR") {
-      localStorage.removeItem('vendingMachineInventory');
-      alert('All data has been cleared. Reloading the app...');
-      location.reload();
-    } else {
-      alert('Clear canceled. No data was deleted.');
+    function clearAllData() {
+      vendingMachine.clearAllData();
     }
-  }
-}
 
-const vendingMachine = new VendingMachine();
-
-function updateInventory() {
-  vendingMachine.updateInventory();
-}
-
-function generateReport() {
-  vendingMachine.generateReport();
-}
-
-function exportInventory() {
-  vendingMachine.exportInventory();
-}
-
-function importInventory() {
-  const fileInput = document.getElementById('import-file');
-  const file = fileInput.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const data = JSON.parse(e.target.result);
-      vendingMachine.importInventory(data);
-      alert("Inventory imported successfully!");
-    } catch (err) {
-      alert("Failed to import inventory: " + err.message);
+    function saveInventory() {
+      vendingMachine.saveInventory();
+      alert('Inventory saved!');
     }
-  };
-  reader.readAsText(file);
-}
 
-function clearAllData() {
-  vendingMachine.clearAllData();
-}
-
-function saveInventory() {
-  vendingMachine.saveInventory();
-  alert('Inventory saved to local storage.');
-}
-
-function toggleDarkMode() {
-  const body = document.body;
-  if (body.getAttribute('data-theme') === 'dark') {
-    body.removeAttribute('data-theme');
-    localStorage.setItem('theme', 'light');
-  } else {
-    body.setAttribute('data-theme', 'dark');
-    localStorage.setItem('theme', 'dark');
-  }
-}
-
-window.onload = function () {
-  if (localStorage.getItem('theme') === 'dark') {
-    document.body.setAttribute('data-theme', 'dark');
-  }
-};
-</script>
+    document.getElementById('theme-toggle').addEventListener('change', function () {
+      document.documentElement.setAttribute('data-theme', this.checked ? 'dark' : 'light');
+    });
+  </script>
 </body>
 </html>
