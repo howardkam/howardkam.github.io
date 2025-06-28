@@ -3,27 +3,27 @@
     "name": "Arizona",
     "cost": 1.02,
     "price": 2,
-    "startInventory": 29,
-    "currentInventory": 29,
-    "unitsSold": 0,
+    "startInventory": 21,
+    "currentInventory": 21,
+    "unitsSold": 8,
     "damagedUnits": 0
   },
   "Pure Leaf": {
     "name": "Pure Leaf",
     "cost": 1.05,
     "price": 2,
-    "startInventory": 47,
-    "currentInventory": 47,
-    "unitsSold": 0,
+    "startInventory": 42,
+    "currentInventory": 42,
+    "unitsSold": 5,
     "damagedUnits": 0
   },
   "Premier Protein": {
     "name": "Premier Protein",
     "cost": 1.91,
     "price": 3,
-    "startInventory": 11,
-    "currentInventory": 11,
-    "unitsSold": 0,
+    "startInventory": 7,
+    "currentInventory": 7,
+    "unitsSold": 4,
     "damagedUnits": 0
   },
   "Celsius": {
@@ -48,17 +48,17 @@
     "name": "Hot Pockets",
     "cost": 0.83,
     "price": 2,
-    "startInventory": 113,
-    "currentInventory": 113,
-    "unitsSold": 0,
+    "startInventory": 109,
+    "currentInventory": 109,
+    "unitsSold": 4,
     "damagedUnits": 0
   },
   "Uncrustables": {
     "name": "Uncrustables",
     "cost": 0.85,
     "price": 1.5,
-    "startInventory": 40,
-    "currentInventory": 40,
+    "startInventory": 51,
+    "currentInventory": 51,
     "unitsSold": 0,
     "damagedUnits": 0
   },
@@ -66,9 +66,9 @@
     "name": "Reign",
     "cost": 1.63,
     "price": 3,
-    "startInventory": 24,
-    "currentInventory": 24,
-    "unitsSold": 0,
+    "startInventory": 22,
+    "currentInventory": 22,
+    "unitsSold": 2,
     "damagedUnits": 0
   }
 }
