@@ -36,47 +36,102 @@
             animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
+</head><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Cost Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom focus styles for better accessibility and design */
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #4f46e5; /* A nice indigo focus ring */
+            border-color: #4f46e5;
+        }
+        .btn-primary {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        /* Simple animation for the result display */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
 
-    <div class="min-h-screen flex items-center justify-center p-4">
-        <div class="w-full max-w-md mx-auto">
+    <div class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div class="w-full max-w-5xl mx-auto">
             
-            <div class="bg-white dark:bg-slate-800 shadow-2xl rounded-2xl p-8">
-                <div class="text-center mb-8">
-                    <h1 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">Meeting Cost Calculator</h1>
-                    <p class="text-slate-500 dark:text-slate-400 mt-2">Calculate what you should charge for your time.</p>
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">Meeting with Mr. Kam</h1>
+                <p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">Calculate Meeting Cost</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                
+                <!-- Left Column: Input Form -->
+                <div class="bg-white dark:bg-slate-800 shadow-2xl rounded-2xl p-8">
+                    <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-200 text-center mb-6">Enter Details</h2>
+                    <form id="calculator-form" class="space-y-6">
+                        <div>
+                            <label for="annual-salary" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Mr. Kam Annual Salary ($)</label>
+                            <input type="number" id="annual-salary" name="annual-salary" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 80000" required>
+                        </div>
+    
+                        <div>
+                            <label for="days-per-year" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Mr. Kam Days Worked Per Year</label>
+                            <input type="number" id="days-per-year" name="days-per-year" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 240" required>
+                        </div>
+
+                        <div>
+                            <label for="hours-per-day" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Mr. Kam Hours Worked Per Day</label>
+                            <input type="number" id="hours-per-day" name="hours-per-day" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 8" required>
+                        </div>
+    
+                        <div>
+                            <label for="meeting-duration" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Meeting Duration with Mr. Kam (Minutes)</label>
+                            <input type="number" id="meeting-duration" name="meeting-duration" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 60" required>
+                        </div>
+    
+                        <div>
+                             <button type="submit" class="btn-primary w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-4">
+                                Calculate Cost
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
-                <!-- Input Form -->
-                <form id="calculator-form" class="space-y-6">
-                    <div>
-                        <label for="annual-salary" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Your Annual Salary ($)</label>
-                        <input type="number" id="annual-salary" name="annual-salary" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 80000" required>
+                <!-- Right Column: Results -->
+                <div class="bg-white dark:bg-slate-800 shadow-2xl rounded-2xl p-8 sticky top-8">
+                    <div id="results-placeholder" class="text-center text-slate-500 dark:text-slate-400 py-16">
+                        <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                          <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-slate-800 dark:text-slate-200">Awaiting calculation</h3>
+                        <p class="mt-1 text-sm">Your results will appear here.</p>
                     </div>
 
-                    <div>
-                        <label for="hours-per-week" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Hours Worked Per Week</label>
-                        <input type="number" id="hours-per-week" name="hours-per-week" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 40" required>
-                    </div>
-
-                    <div>
-                        <label for="meeting-duration" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Meeting Duration (Minutes)</label>
-                        <input type="number" id="meeting-duration" name="meeting-duration" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 60" required>
-                    </div>
-
-                    <div>
-                         <button type="submit" class="btn-primary w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Calculate Cost
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Results Section -->
-                <div id="results-container" class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 text-center hidden">
-                    <div id="results-content">
+                    <div id="results-content" class="text-center hidden">
                         <p class="text-slate-500 dark:text-slate-400 text-sm">Based on your inputs:</p>
-                        <div class="mt-4">
+                        <div class="my-4">
                             <h3 class="text-lg font-medium text-slate-600 dark:text-slate-300">Your Hourly Rate is:</h3>
                             <p id="hourly-rate" class="text-3xl font-bold text-indigo-600 dark:text-indigo-400"></p>
                         </div>
@@ -85,11 +140,13 @@
                             <p id="meeting-cost" class="text-5xl font-extrabold text-green-500 dark:text-green-400 mt-2"></p>
                         </div>
                     </div>
-                     <div id="error-message" class="text-red-500 font-medium hidden"></div>
+                     
+                    <div id="error-message" class="text-center text-red-500 font-medium hidden p-4 bg-red-50 dark:bg-red-900/20 rounded-lg"></div>
                 </div>
 
             </div>
-            <footer class="text-center text-sm text-slate-400 dark:text-slate-500 mt-6">
+
+            <footer class="text-center text-sm text-slate-400 dark:text-slate-500 mt-12">
                 <p>&copy; 2025 Modern Tools Inc.</p>
             </footer>
         </div>
@@ -99,10 +156,11 @@
         // DOM element references
         const calculatorForm = document.getElementById('calculator-form');
         const annualSalaryInput = document.getElementById('annual-salary');
-        const hoursPerWeekInput = document.getElementById('hours-per-week');
+        const daysPerYearInput = document.getElementById('days-per-year');
+        const hoursPerDayInput = document.getElementById('hours-per-day');
         const meetingDurationInput = document.getElementById('meeting-duration');
         
-        const resultsContainer = document.getElementById('results-container');
+        const resultsPlaceholder = document.getElementById('results-placeholder');
         const resultsContent = document.getElementById('results-content');
         const hourlyRateDisplay = document.getElementById('hourly-rate');
         const meetingCostDisplay = document.getElementById('meeting-cost');
@@ -112,29 +170,33 @@
         calculatorForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the form from actually submitting
             
-            // Clear previous results and errors
-            resultsContainer.classList.add('hidden');
+            // Reset the UI to its initial state before calculation
+            resultsContent.classList.add('hidden');
             resultsContent.classList.remove('fade-in');
             errorMessageDisplay.classList.add('hidden');
+            resultsPlaceholder.classList.remove('hidden');
 
             // Get values from inputs
             const annualSalary = parseFloat(annualSalaryInput.value);
-            const hoursPerWeek = parseFloat(hoursPerWeekInput.value);
+            const daysPerYear = parseFloat(daysPerYearInput.value);
+            const hoursPerDay = parseFloat(hoursPerDayInput.value);
             const meetingDuration = parseFloat(meetingDurationInput.value);
 
             // Validate inputs
-            if (isNaN(annualSalary) || isNaN(hoursPerWeek) || isNaN(meetingDuration) || annualSalary <= 0 || hoursPerWeek <= 0 || meetingDuration <= 0) {
+            if (isNaN(annualSalary) || isNaN(daysPerYear) || isNaN(hoursPerDay) || isNaN(meetingDuration) || annualSalary <= 0 || daysPerYear <= 0 || hoursPerDay <= 0 || meetingDuration <= 0) {
                 showError("Please enter valid, positive numbers in all fields.");
                 return;
             }
 
             // --- Calculations ---
-            const weeksPerYear = 52; // Standard number of weeks in a year
             
-            // 1. Calculate the hourly rate
-            const hourlyRate = annualSalary / (hoursPerWeek * weeksPerYear);
+            // 1. Calculate the total hours worked in a year.
+            const totalHoursWorkedPerYear = daysPerYear * hoursPerDay;
+
+            // 2. Calculate the hourly rate from total hours.
+            const hourlyRate = annualSalary / totalHoursWorkedPerYear;
             
-            // 2. Calculate the meeting cost
+            // 3. Calculate the meeting cost
             const meetingCost = hourlyRate * (meetingDuration / 60);
 
             // --- Display Results ---
@@ -154,7 +216,9 @@
             hourlyRateDisplay.textContent = formattedHourlyRate;
             meetingCostDisplay.textContent = formattedMeetingCost;
 
-            resultsContainer.classList.remove('hidden');
+            // Hide the placeholder and show the results with an animation
+            resultsPlaceholder.classList.add('hidden');
+            resultsContent.classList.remove('hidden');
             resultsContent.classList.add('fade-in');
         }
 
@@ -164,11 +228,173 @@
          */
         function showError(message) {
             errorMessageDisplay.textContent = message;
-            resultsContainer.classList.remove('hidden');
+            
+            // Hide the placeholder and results, and show the error message
+            resultsPlaceholder.classList.add('hidden');
+            resultsContent.classList.add('hidden');
             errorMessageDisplay.classList.remove('hidden');
-            resultsContent.classList.remove('fade-in'); // ensure content isn't shown
         }
 
     </script>
 </body>
 </html>
+
+
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
+
+    <div class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div class="w-full max-w-5xl mx-auto">
+            
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">Meet With Mr. Kam Calculator</h1>
+                <p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">Calculate what you will pay for his time.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                
+                <!-- Left Column: Input Form -->
+                <div class="bg-white dark:bg-slate-800 shadow-2xl rounded-2xl p-8">
+                    <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-200 text-center mb-6">Enter Your Details</h2>
+                    <form id="calculator-form" class="space-y-6">
+                        <div>
+                            <label for="annual-salary" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Your Annual Salary ($)</label>
+                            <input type="number" id="annual-salary" name="annual-salary" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 80000" required>
+                        </div>
+    
+                        <div>
+                            <label for="days-per-year" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Days Worked Per Year</label>
+                            <input type="number" id="days-per-year" name="days-per-year" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 240" required>
+                        </div>
+    
+                        <div>
+                            <label for="meeting-duration" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Meeting Duration (Minutes)</label>
+                            <input type="number" id="meeting-duration" name="meeting-duration" class="form-input block w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 60" required>
+                        </div>
+    
+                        <div>
+                             <button type="submit" class="btn-primary w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-4">
+                                Calculate Cost
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Column: Results -->
+                <div class="bg-white dark:bg-slate-800 shadow-2xl rounded-2xl p-8 sticky top-8">
+                    <div id="results-placeholder" class="text-center text-slate-500 dark:text-slate-400 py-16">
+                        <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                          <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-slate-800 dark:text-slate-200">Awaiting calculation</h3>
+                        <p class="mt-1 text-sm">Your results will appear here.</p>
+                    </div>
+
+                    <div id="results-content" class="text-center hidden">
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Based on your inputs:</p>
+                        <div class="my-4">
+                            <h3 class="text-lg font-medium text-slate-600 dark:text-slate-300">Your Hourly Rate is:</h3>
+                            <p id="hourly-rate" class="text-3xl font-bold text-indigo-600 dark:text-indigo-400"></p>
+                        </div>
+                        <div class="mt-6 bg-slate-100 dark:bg-slate-700/50 p-6 rounded-xl">
+                            <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-100">Client Should Pay:</h3>
+                            <p id="meeting-cost" class="text-5xl font-extrabold text-green-500 dark:text-green-400 mt-2"></p>
+                        </div>
+                    </div>
+                     
+                    <div id="error-message" class="text-center text-red-500 font-medium hidden p-4 bg-red-50 dark:bg-red-900/20 rounded-lg"></div>
+                </div>
+
+            </div>
+
+            <footer class="text-center text-sm text-slate-400 dark:text-slate-500 mt-12">
+                <p>&copy; 2025 Modern Tools Inc.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // DOM element references
+        const calculatorForm = document.getElementById('calculator-form');
+        const annualSalaryInput = document.getElementById('annual-salary');
+        const daysPerYearInput = document.getElementById('days-per-year');
+        const meetingDurationInput = document.getElementById('meeting-duration');
+        
+        const resultsPlaceholder = document.getElementById('results-placeholder');
+        const resultsContent = document.getElementById('results-content');
+        const hourlyRateDisplay = document.getElementById('hourly-rate');
+        const meetingCostDisplay = document.getElementById('meeting-cost');
+        const errorMessageDisplay = document.getElementById('error-message');
+
+        // Listen for form submission
+        calculatorForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from actually submitting
+            
+            // Reset the UI to its initial state before calculation
+            resultsContent.classList.add('hidden');
+            resultsContent.classList.remove('fade-in');
+            errorMessageDisplay.classList.add('hidden');
+            resultsPlaceholder.classList.remove('hidden');
+
+            // Get values from inputs
+            const annualSalary = parseFloat(annualSalaryInput.value);
+            const daysPerYear = parseFloat(daysPerYearInput.value);
+            const meetingDuration = parseFloat(meetingDurationInput.value);
+
+            // Validate inputs
+            if (isNaN(annualSalary) || isNaN(daysPerYear) || isNaN(meetingDuration) || annualSalary <= 0 || daysPerYear <= 0 || meetingDuration <= 0) {
+                showError("Please enter valid, positive numbers in all fields.");
+                return;
+            }
+
+            // --- Calculations ---
+            const hoursPerDay = 8; // Assuming a standard 8-hour workday.
+            
+            // 1. Calculate the total hours worked in a year.
+            const totalHoursWorkedPerYear = daysPerYear * hoursPerDay;
+
+            // 2. Calculate the hourly rate from total hours.
+            const hourlyRate = annualSalary / totalHoursWorkedPerYear;
+            
+            // 3. Calculate the meeting cost
+            const meetingCost = hourlyRate * (meetingDuration / 60);
+
+            // --- Display Results ---
+            displayResults(hourlyRate, meetingCost);
+        });
+
+        /**
+         * Displays the calculated results in the UI.
+         * @param {number} hourlyRate - The calculated hourly rate.
+         * @param {number} meetingCost - The calculated cost of the meeting.
+         */
+        function displayResults(hourlyRate, meetingCost) {
+            // Format numbers to a currency format ($XX.XX)
+            const formattedHourlyRate = hourlyRate.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+            const formattedMeetingCost = meetingCost.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+            hourlyRateDisplay.textContent = formattedHourlyRate;
+            meetingCostDisplay.textContent = formattedMeetingCost;
+
+            // Hide the placeholder and show the results with an animation
+            resultsPlaceholder.classList.add('hidden');
+            resultsContent.classList.remove('hidden');
+            resultsContent.classList.add('fade-in');
+        }
+
+        /**
+         * Shows an error message in the UI.
+         * @param {string} message - The error message to display.
+         */
+        function showError(message) {
+            errorMessageDisplay.textContent = message;
+            
+            // Hide the placeholder and results, and show the error message
+            resultsPlaceholder.classList.add('hidden');
+            resultsContent.classList.add('hidden');
+            errorMessageDisplay.classList.remove('hidden');
+        }
+
+    </script>
+</body>
+</html>
+
