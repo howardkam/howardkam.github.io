@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus RSVP Reader</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #display-container {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+        }
+
+        .pivot { color: #ff4d4d; }
+
+        #controls {
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 50vh;
+            background: #222;
+            color: #ccc;
+            border: 1px solid #444;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .settings {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #fff;
+            border: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        button:hover { background: #ddd; }
+
+        input[type="number"] {
+            width: 60px;
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="display-container">
+        <div id="reader-output">Ready...</div>
+    </div>
+
+    <div id="controls">
+        <textarea id="text-input" placeholder="Paste your text here..."></textarea>
+        <div class="settings">
+            <label>WPM: </label>
+            <input type="number" id="wpm" value="300" step="50">
+            <button id="start-btn">START</button>
+            <button id="stop-btn">STOP</button>
+        </div>
+    </div>
+
+    <script>
+        const output = document.getElementById('reader-output');
+        const textInput = document.getElementById('text-input');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const wpmInput = document.getElementById('wpm');
+
+        let interval = null;
+
+        function formatWord(word) {
+            if (word.length === 0) return "";
+            
+            // Calculate the pivot point (middle-ish letter)
+            const pivotIndex = Math.floor(word.length / 2);
+            
+            const start = word.slice(0, pivotIndex);
+            const middle = word[pivotIndex];
+            const end = word.slice(pivotIndex + 1);
+
+            return `${start}<span class="pivot">${middle}</span>${end}`;
+        }
+
+        function startReading() {
+            clearInterval(interval);
+            const words = textInput.value.split(/\s+/).filter(w => w.length > 0);
+            let i = 0;
+            
+            if (words.length === 0) return;
+
+            const ms = 60000 / parseInt(wpmInput.value);
+
+            interval = setInterval(() => {
+                if (i >= words.length) {
+                    clearInterval(interval);
+                    return;
+                }
+                output.innerHTML = formatWord(words[i]);
+                i++;
+            }, ms);
+        }
+
+        startBtn.addEventListener('click', startReading);
+        stopBtn.addEventListener('click', () => clearInterval(interval));
+    </script>
+</body>
+</html>
