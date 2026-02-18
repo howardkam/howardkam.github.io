@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RHS Arcade</title>
+    <style>
+        /* CSS ----------------------------------------------------------- */
+        :root {
+            --accent-color: #00ff88; /* Cyberpunk Green/Neon */
+            --bg-dark: #0a0a0a;
+            --transition-speed: 0.9s;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* The Slide */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) ease-in-out, visibility var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 8%;
+            box-sizing: border-box;
+            cursor: pointer;
+            /* Subtle zoom effect */
+            transform: scale(1.1);
+            transition: opacity var(--transition-speed) ease-in-out, transform 4s ease-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+            transform: scale(1); /* Zooms out slightly to settle into place */
+        }
+
+        /* Dark Vignette Overlay */
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%),
+                        linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 40%);
+            z-index: 2;
+        }
+
+        /* Content Container */
+        .content {
+            position: relative;
+            z-index: 3;
+            max-width: 700px;
+            pointer-events: none;
+            transform: translateX(-30px);
+            opacity: 0;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            transition-delay: 0.3s;
+        }
+
+        .slide.active .content {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .content h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            margin: 0;
+            font-style: italic;
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 0.9;
+            filter: drop-shadow(0 0 15px rgba(0,0,0,0.8));
+        }
+
+        .content .genre {
+            display: block;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .content p {
+            font-size: 1.25rem;
+            margin: 20px 0 40px 0;
+            color: #ccc;
+            max-width: 500px;
+        }
+
+        /* Play Button Styling */
+        .play-link {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--accent-color);
+            color: black;
+            padding: 18px 45px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            border-radius: 0px; /* Sharp edges for gaming look */
+            pointer-events: auto;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); /* Angled button shape */
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .play-link:hover {
+            background-color: #ffffff;
+            transform: scale(1.1) skewX(-5deg);
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+        /* Nav Arrows */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 2rem;
+            padding: 30px 15px;
+            z-index: 10;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover { background: var(--accent-color); color: black; }
+        .left-btn { left: 0; border-radius: 0 5px 5px 0; }
+        .right-btn { right: 0; border-radius: 5px 0 0 5px; }
+
+        @media (max-width: 768px) {
+            .content h1 { font-size: 3.5rem; }
+            .play-link { padding: 15px 30px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="carousel-container">
+    <button class="nav-btn left-btn" id="prevBtn">&lsaquo;</button>
+    <button class="nav-btn right-btn" id="nextBtn">&rsaquo;</button>
+<!---->
+    <div class="slide active" style="background-image: url('images/hexagon1.png')">
+        <div class="vignette"></div>
+        <div class="content">
+            <span class="genre">Survival • Action</span>
+            <h1>Hexagon</h1>
+            <p>HEXAGON is a minimalist, 2D "on-rails" shooter-platformer that strips away the fluff to focus on pure, unadulterated skill. The screen never stops moving, and neither can you. As the world scrolls relentlessly toward the exit, you must navigate a lethal gauntlet of procedurally generated platforms and aggressive geometric hunters.</p>
+            <a href="https://howardkam.itch.io/hexagon" target="_blank" class="play-link">Play Now</a>
+        </div>
+    </div>
+<!---->
+    <div class="slide" style="background-image: url('images/thirtvii.png')">
+        <div class="vignette"></div>
+        <div class="content">
+            <span class="genre">Hack-n-Slash</span>
+            <h1>Thirty VII</h1>
+            <p>This game has you play as #37, Victoria. Your one goal is to destroy the Queen. In your way are royal guards, rebels, and mercenaries. Whether or not they share a common goal, they will try and eliminate you. Perfect clone of the Queen, terminate her or be eliminated.</p>
+            <a href="https://forgetful-drinks-foods.itch.io/victoria" target="_blank" class="play-link">Play Now</a>
+        </div>
+    </div>
+<!---->
+    <div class="slide active" style="background-image: url('images/croptails.png')">
+        <div class="vignette"></div>
+        <div class="content">
+            <span class="genre">Casual</span>
+            <h1>CropTails</h1>
+            <p>CropTails is a cozy, laid-back farming game where you simply grow and harvest crops, unlock recipes, and buy and sell produce to steadily expand a charming island farm. Inspired by simple “grow a garden” style gameplay, it focuses on calm progression and designed for stress-free play with more content planned for the future. </p>
+            <a href="https://brain123.itch.io/farm-simulator" target="_blank" class="play-link">Play Now</a>
+        </div>
+    </div>
+<!---->
+
+
+
+
+
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentIndex = 0;
+    let isMoving = false;
+
+    function updateCarousel(newIndex) {
+        if (isMoving) return;
+        isMoving = true;
+
+        slides[currentIndex].classList.remove('active');
+        
+        if (newIndex >= slides.length) currentIndex = 0;
+        else if (newIndex < 0) currentIndex = slides.length - 1;
+        else currentIndex = newIndex;
+
+        slides[currentIndex].classList.add('active');
+
+        setTimeout(() => { isMoving = false; }, 900);
+    }
+
+    // "Anywhere click" handler
+    slides.forEach(slide => {
+        slide.addEventListener('click', (e) => {
+            // If the user clicked the link/button, let it happen normally
+            if (e.target.closest('.play-link')) return;
+            
+            // Otherwise, go to next slide
+            updateCarousel(currentIndex + 1);
+        });
+    });
+
+    // Arrow controls
+    nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateCarousel(currentIndex + 1);
+    });
+
+    prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateCarousel(currentIndex - 1);
+    });
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') updateCarousel(currentIndex + 1);
+        if (e.key === 'ArrowLeft') updateCarousel(currentIndex - 1);
+    });
+</script>
+
+</body>
+</html>
