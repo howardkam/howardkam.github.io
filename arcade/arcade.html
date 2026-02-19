@@ -129,7 +129,7 @@
             border-radius: 0px; /* Sharp edges for gaming look */
             pointer-events: auto;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); /* Angled button shape */
-            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            transition: background-color 0.1s, transform 0.1s, box-shadow 0.1s;
         }
 
         .play-link:hover {
@@ -150,7 +150,7 @@
             padding: 30px 15px;
             z-index: 10;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.1s;
         }
 
         .nav-btn:hover { background: var(--accent-color); color: black; }
@@ -239,7 +239,16 @@
         </div>
     </div>
 <!---->
-
+    <div class="slide" style="background-image: url('images/watertale.png')">
+        <div class="vignette"></div>
+        <div class="content">
+            <span class="genre">Hack-n-Slash</span>
+            <h1>Watertale</h1>
+            <p>Welcome to WaterTale, a side scrolling hack and slash. Absolutely DECIMATE your watery foes. Gain more colorful accessories as you continue. Purple, blue, red, and green; we have them all sister!</p>
+            <a href="https://wrwjdxc.itch.io/watertale" target="_blank" class="play-link">Play Now</a>
+        </div>
+    </div>
+<!---->
 
 </div>
 
@@ -250,20 +259,30 @@
     let currentIndex = 0;
     let isMoving = false;
 
-    function updateCarousel(newIndex) {
-        if (isMoving) return;
-        isMoving = true;
+function updateCarousel(newIndex) {
+    if (isMoving) return;
+    isMoving = true;
 
-        slides[currentIndex].classList.remove('active');
-        
-        if (newIndex >= slides.length) currentIndex = 0;
-        else if (newIndex < 0) currentIndex = slides.length - 1;
-        else currentIndex = newIndex;
-
-        slides[currentIndex].classList.add('active');
-
-        setTimeout(() => { isMoving = false; }, 900);
+    // 1. Remove active from the current slide
+    slides[currentIndex].classList.remove('active');
+    
+    // 2. Calculate the correct new index
+    if (newIndex >= slides.length) {
+        currentIndex = 0;
+    } else if (newIndex < 0) {
+        currentIndex = slides.length - 1;
+    } else {
+        currentIndex = newIndex;
     }
+
+    // 3. Add active to the new slide
+    slides[currentIndex].classList.add('active');
+
+    // 4. Match this timeout to your CSS transition speed (0.9s = 900)
+    setTimeout(() => { 
+        isMoving = false; 
+    }, 900);
+}
 
     // "Anywhere click" handler
     slides.forEach(slide => {
