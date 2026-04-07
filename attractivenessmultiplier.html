@@ -2,123 +2,174 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Attractiveness Multiplier Assessment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Assessment</title>
     <style>
-        /* Base Setup */
-        body, html {
-            margin: 0; padding: 0; height: 100%; width: 100%;
-            display: flex; justify-content: center; align-items: center;
-            background: url('https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&w=2040') no-repeat center center fixed;
-            background-size: cover; background-color: black;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
+        /* 1. Global Reset & Full Screen Flex */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Container: 95% Width */
-        .glass-box {
-            width: 95vw; 
-            max-width: 1800px; /* Prevents it from looking stretched on ultra-wide monitors */
-            min-height: 85vh;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 40px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
-            
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #bd4f6c;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 60px;
-            box-sizing: border-box;
+        }
+
+        /* 2. Simplified Flexbox Container (No border/bg) */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;     
+            width: 100vw;
+            height: 100vh;
+            max-width: 1200px;
+            padding: 10px; /* Reduced margin/padding */
             color: white;
+            text-align: center;
         }
 
         h2 { 
-            font-size: 2.8rem; 
+            flex-shrink: 0;
+            font-size: clamp(1.4rem, 4vw, 2.2rem); 
             font-weight: 900; 
             text-transform: uppercase; 
-            margin-bottom: 20px; 
-            letter-spacing: 3px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
         }
         
-        /* Centered Guide Class */
-        .guide {
-            background: rgba(255, 255, 255, 0.1); 
-            padding: 30px; 
-            border-radius: 20px;
-            margin: 30px auto; /* Centers the block horizontally */
-            font-size: 1.2rem; 
-            text-align: center; /* Centers the text inside */
-            width: 80%; /* Takes up 80% of the 95% container */
-            max-width: 900px; /* Keeps line length readable */
-            line-height: 1.7; 
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* 3. Streamlined Content Box */
+        .content-box {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; 
+            flex-shrink: 1; 
+            width: 100%;
+            max-width: 850px;
+            margin-bottom: 20px;
+            padding: clamp(15px, 2.5vw, 25px);
+            background-color: rgba(0, 0, 0, 0.15); /* Slightly darker for contrast against base bg */
+            border-radius: 15px;
+            font-size: clamp(0.85rem, 2vw, 1.05rem); 
+            line-height: 1.5; 
+            overflow-y: auto;
+        }
+
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0; 
+            gap: 15px;
+            padding-bottom: 10px;
         }
 
         input[type="number"] {
-            background: rgba(0, 0, 0, 0.4); 
-            border: 3px solid white;
-            border-radius: 15px; 
-            padding: 20px; 
+            background-color: rgba(0, 0, 0, 0.2); 
+            border: 2px solid white;
+            border-radius: 12px; 
+            padding: 10px; 
             color: white; 
-            font-size: 3rem;
-            width: 150px; 
+            font-size: clamp(1.8rem, 7vw, 3rem);
+            width: clamp(90px, 18vw, 140px); 
             text-align: center; 
             outline: none; 
             font-weight: bold;
-            margin-bottom: 20px;
         }
 
         button {
-            background: white; 
-            color: black; 
+            background-color: white; 
+            color: #bd4f6c; 
             border: none;
-            padding: 20px 80px; 
-            border-radius: 60px; 
+            padding: 12px 40px; 
+            border-radius: 50px; 
             font-weight: 900;
-            font-size: 1.1rem;
+            font-size: clamp(0.8rem, 1.8vw, 1rem);
             cursor: pointer; 
             text-transform: uppercase; 
-            transition: all 0.3s ease;
+            transition: 0.2s ease-in-out;
         }
 
-        button:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
-            background: #fdfdfd;
+        button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        
-        .result-val { font-size: 6rem; font-weight: 900; margin: 10px 0; color: #fff; }
-        .logic-note { font-style: italic; opacity: 0.7; font-size: 1rem; margin-top: 30px; }
+
+        /* 4. Results Compact Styling */
+        .score-display {
+            font-size: clamp(2.2rem, 9vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .growth-list {
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .growth-list h3 {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 4px;
+        }
+
+        .growth-item {
+            background: rgba(255,255,255,0.06);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            border-left: 3px solid white;
+            font-size: 0.85rem;
+        }
+
+        .growth-item strong { text-transform: uppercase; color: #ffda79; font-size: 0.75rem; }
+
+        @media (max-width: 600px) {
+            .content-box { padding: 12px; }
+            h2 { margin-bottom: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="glass-box" id="container">
+    <div class="main-container" id="container">
         <h2 id="title">Physical Attractiveness</h2>
-        <div class="guide" id="guide">Loading your assessment metrics...</div>
-        <input type="number" id="rating-input" min="1" max="10" value="5">
-        <br>
-        <button onclick="handleNext()">Next Category</button>
+        
+        <div class="content-box" id="display-area">
+            This is your aesthetic 'front door'—how you are perceived visually by the world. High scores reflect peak grooming, fitness, and natural symmetry, while lower scores suggest neglect or significant room for physical improvement.
+        </div>
+        
+        <div class="input-area" id="control-area">
+            <input type="number" id="rating-input" pattern="[0-9]*" inputmode="numeric" min="1" max="10" value="5">
+            <button onclick="handleNext()">Next Category</button>
+        </div>
     </div>
 
     <script>
         const questions = [
-            { id: "phys", title: "Physical Attractiveness", guide: "This is your aesthetic 'front door'—how you are perceived visually by the world. High scores reflect peak grooming, fitness, and natural symmetry, while lower scores suggest neglect or significant room for physical improvement." },
-            { id: "wealth", title: "Financial Wealth", guide: "This measures your command over resources and your ability to provide stability. A 10 represents complete financial independence and generational wealth, whereas a 1 indicates being burdened by debt or unable to meet basic needs." },
-            { id: "socialConn", title: "Supportive Friendships", guide: "This reflects the quality of your inner circle and the people who would stand by you in a crisis. Consider whether you have a deep network of loyal companions or if your social life is largely superficial and transactional." },
-            { id: "proConn", title: "Professional Connections", guide: "This is your 'network net worth' or your access to influential decision-makers. High scores mean you are one phone call away from major opportunities, while low scores suggest you lack advocates in your industry." },
-            { id: "hobbies", title: "Hobbies and Interests", guide: "This determines how multi-dimensional and interesting you are as a person. Engaging in high-skill or unique passions earns a high score, while having no active interests beyond passive consumption (like TV or Video games) suggests a 1." },
-            { id: "skills", title: "Practical Skills", guide: "This measures your utility and competence in the real world, from technical expertise to survival skills. High scores go to polymaths who can build or fix almost anything, while low scores represent a total dependence on others for basic tasks." },
-            { id: "empathy", title: "Empathy", guide: "This is your capacity to understand and share the feelings of others accurately. Those who are deeply attuned to social cues and emotional needs score highly, while those who are self-centered or socially oblivious score low." },
-            { id: "courage", title: "Courage", guide: "This is your willingness to face fear, pain, or uncertainty to do what is right. High scores are reserved for those who take calculated risks and show integrity under pressure, while low scores indicate a tendency to shrink or hide." },
-            { id: "acadIntel", title: "Academic Intelligence", guide: "This tracks your ability to process complex information, logic, and formal education. A high score suggests a mastery of abstract concepts and deep knowledge, while lower scores suggest a struggle with structured learning." },
-            { id: "socialIntel", title: "Social Intelligence", guide: "This is your 'EQ' and your ability to navigate any room or social hierarchy with ease. Master communicators who can influence others score a 10, while those who frequently misread situations or alienate people score near a 1." },
-            { id: "motivation", title: "Self-Control & Motivation", guide: "This represents your internal engine and your ability to delay gratification for long-term goals. High scores reflect elite discipline and work ethic, whereas low scores suggest a life governed by impulse and procrastination." }
+            { id: "phys", title: "Physical Attractiveness", guide: "This is your aesthetic 'front door'—how you are perceived visually by the world. High scores reflect peak grooming, fitness, and natural symmetry, while lower scores suggest neglect or significant room for physical improvement.", advice: "Focus on fitness (resistance training), skin-care consistency, and upgrading your wardrobe to fit your body type." },
+            { id: "wealth", title: "Financial Wealth", guide: "This measures your command over resources and your ability to provide stability. A 10 represents complete financial independence and generational wealth, whereas a 1 indicates being burdened by debt.", advice: "Audit your spending, start an automated high-yield savings plan, and invest in a skill that increases your hourly market value." },
+            { id: "socialConn", title: "Supportive Friendships", guide: "This reflects the quality of your inner circle and the people who would stand by you in a crisis. Consider whether you have a deep network or if your life is largely transactional.", advice: "Initiate 'no-agenda' check-ins with old friends and join a community group (sports, hobby, or volunteer) to expand your circle." },
+            { id: "proConn", title: "Professional Connections", guide: "This is your 'network net worth' or your access to influential decision-makers. High scores mean you are one phone call away from major opportunities.", advice: "Update your LinkedIn, attend industry mixers, and offer to buy coffee for a mentor in the field you want to grow in." },
+            { id: "hobbies", title: "Hobbies and Interests", guide: "This determines how multi-dimensional you are. Engaging in high-skill or unique passions earns a high score, while passive consumption (TV/Games) suggests a 1.", advice: "Pick one skill-based hobby (instrument, martial arts, cooking) and commit to a 30-day challenge to move from consumer to creator." },
+            { id: "skills", title: "Practical Skills", guide: "This measures your utility in the real world, from technical expertise to survival skills. High scores go to polymaths who can fix or build almost anything.", advice: "Learn basic home/car repair via YouTube or take a first-aid certification course to increase your real-world utility." },
+            { id: "empathy", title: "Empathy", guide: "This is your capacity to understand and share the feelings of others accurately. Attuned individuals score highly; self-centered or oblivious score low.", advice: "Practice active listening—ask follow-up questions without talking about yourself. Try to volunteer for a cause that forces you into someone else's shoes." },
+            { id: "courage", title: "Courage", guide: "This is your willingness to face fear or uncertainty to do what is right. High scores are for those who take calculated risks and show integrity.", advice: "Start small: speak up in a meeting when you disagree or do one thing every day that makes you socially uncomfortable until it's normal." },
+            { id: "acadIntel", title: "Academic Intelligence", guide: "This tracks your ability to process complex information and formal logic. A high score suggests mastery of abstract concepts.", advice: "Read one non-fiction book per month or take a free online course (Coursera/MIT) on a subject completely outside your comfort zone." },
+            { id: "socialIntel", title: "Social Intelligence", guide: "This is your 'EQ' and your ability to navigate any room with ease. Master communicators score a 10; those who alienate people score low.", advice: "Study body language basics and record yourself speaking to identify awkward habits. Practice the art of the 'small talk' transition." },
+            { id: "motivation", title: "Self-Control & Motivation", guide: "This represents your internal engine and your ability to delay gratification. High scores reflect elite discipline; low scores suggest impulsivity.", advice: "Use a habit tracker. Start with one non-negotiable morning task and build a streak. Eliminate high-dopamine distractions (phone/sugar) for set hours." }
         ];
 
         let currentIndex = 0;
@@ -127,7 +178,7 @@
         function updateUI() {
             const q = questions[currentIndex];
             document.getElementById('title').innerText = q.title;
-            document.getElementById('guide').innerText = q.guide;
+            document.getElementById('display-area').innerHTML = q.guide;
             document.getElementById('rating-input').value = 5;
         }
 
@@ -149,28 +200,34 @@
         }
 
         function calculateResults() {
-            const physAttr = answers['phys'];
-            const otherKeys = Object.keys(answers).filter(key => key !== 'phys');
-            const sum = otherKeys.reduce((acc, key) => acc + answers[key], 0);
-            const internalAverage = sum / otherKeys.length;
-            const finalScore = (internalAverage * physAttr).toFixed(2);
+            const vals = Object.values(answers);
+            const average = (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(1);
+            
+            document.getElementById('title').innerText = "Overall Rating";
+            
+            let growthHTML = `<div class="score-display">${average}</div>`;
+            
+            const lowCategories = questions.filter(q => answers[q.id] < 6);
+            
+            if (lowCategories.length > 0) {
+                growthHTML += `<div class="growth-list"><h3>Personal Growth Strategy</h3>`;
+                lowCategories.forEach(cat => {
+                    growthHTML += `
+                        <div class="growth-item">
+                            <strong>${cat.title}:</strong> ${cat.advice}
+                        </div>
+                    `;
+                });
+                growthHTML += `</div>`;
+            } else {
+                growthHTML += `<p>Exemplary scores. Maintain your trajectory.</p>`;
+            }
 
-            document.getElementById('container').innerHTML = `
-                <h2>Overall Attractiveness Score</h2>
-                <div class="result-val">${finalScore}</div>
-                <div class="guide">
-                    <strong>The Multiplier Principle:</strong> Your substantive qualities averaged to a <strong>${internalAverage.toFixed(1)}</strong>. 
-                    Your Physical Attractiveness (<strong>${physAttr}</strong>) acts as the multiplier. 
-                    <br><br>
-                    Physical attractiveness is the primary 'hook' that attracts attention initially. Without it, even exceptional intelligence or wealth can be overlooked or trapped in the 'friendzone.' However, beauty alone is one-dimensional if it isn't multiplying a solid foundation of character.
-                </div>
-                <p class="logic-note">Mathematical Ceiling: 100.00</p>
-                <button onclick="location.reload()">Reset Assessment</button>
+            document.getElementById('display-area').innerHTML = growthHTML;
+            document.getElementById('control-area').innerHTML = `
+                <button onclick="location.reload()">Restart</button>
             `;
         }
-
-        // Init
-        updateUI();
     </script>
 </body>
 </html>
