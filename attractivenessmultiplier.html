@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Attractiveness Multiplier Assessment</title>
+    <style>
+        /* Base Setup */
+        body, html {
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            display: flex; justify-content: center; align-items: center;
+            background: url('https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&w=2040') no-repeat center center fixed;
+            background-size: cover; background-color: black;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Container: 95% Width */
+        .glass-box {
+            width: 95vw; 
+            max-width: 1800px; /* Prevents it from looking stretched on ultra-wide monitors */
+            min-height: 85vh;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px;
+            box-sizing: border-box;
+            color: white;
+        }
+
+        h2 { 
+            font-size: 2.8rem; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            margin-bottom: 20px; 
+            letter-spacing: 3px;
+        }
+        
+        /* Centered Guide Class */
+        .guide {
+            background: rgba(255, 255, 255, 0.1); 
+            padding: 30px; 
+            border-radius: 20px;
+            margin: 30px auto; /* Centers the block horizontally */
+            font-size: 1.2rem; 
+            text-align: center; /* Centers the text inside */
+            width: 80%; /* Takes up 80% of the 95% container */
+            max-width: 900px; /* Keeps line length readable */
+            line-height: 1.7; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        input[type="number"] {
+            background: rgba(0, 0, 0, 0.4); 
+            border: 3px solid white;
+            border-radius: 15px; 
+            padding: 20px; 
+            color: white; 
+            font-size: 3rem;
+            width: 150px; 
+            text-align: center; 
+            outline: none; 
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: white; 
+            color: black; 
+            border: none;
+            padding: 20px 80px; 
+            border-radius: 60px; 
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer; 
+            text-transform: uppercase; 
+            transition: all 0.3s ease;
+        }
+
+        button:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
+            background: #fdfdfd;
+        }
+        
+        .result-val { font-size: 6rem; font-weight: 900; margin: 10px 0; color: #fff; }
+        .logic-note { font-style: italic; opacity: 0.7; font-size: 1rem; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="glass-box" id="container">
+        <h2 id="title">Physical Attractiveness</h2>
+        <div class="guide" id="guide">Loading your assessment metrics...</div>
+        <input type="number" id="rating-input" min="1" max="10" value="5">
+        <br>
+        <button onclick="handleNext()">Next Category</button>
+    </div>
+
+    <script>
+        const questions = [
+            { id: "phys", title: "Physical Attractiveness", guide: "This is your aesthetic 'front door'—how you are perceived visually by the world. High scores reflect peak grooming, fitness, and natural symmetry, while lower scores suggest neglect or significant room for physical improvement." },
+            { id: "wealth", title: "Financial Wealth", guide: "This measures your command over resources and your ability to provide stability. A 10 represents complete financial independence and generational wealth, whereas a 1 indicates being burdened by debt or unable to meet basic needs." },
+            { id: "socialConn", title: "Supportive Friendships", guide: "This reflects the quality of your inner circle and the people who would stand by you in a crisis. Consider whether you have a deep network of loyal companions or if your social life is largely superficial and transactional." },
+            { id: "proConn", title: "Professional Connections", guide: "This is your 'network net worth' or your access to influential decision-makers. High scores mean you are one phone call away from major opportunities, while low scores suggest you lack advocates in your industry." },
+            { id: "hobbies", title: "Hobbies and Interests", guide: "This determines how multi-dimensional and interesting you are as a person. Engaging in high-skill or unique passions earns a high score, while having no active interests beyond passive consumption (like TV or Video games) suggests a 1." },
+            { id: "skills", title: "Practical Skills", guide: "This measures your utility and competence in the real world, from technical expertise to survival skills. High scores go to polymaths who can build or fix almost anything, while low scores represent a total dependence on others for basic tasks." },
+            { id: "empathy", title: "Empathy", guide: "This is your capacity to understand and share the feelings of others accurately. Those who are deeply attuned to social cues and emotional needs score highly, while those who are self-centered or socially oblivious score low." },
+            { id: "courage", title: "Courage", guide: "This is your willingness to face fear, pain, or uncertainty to do what is right. High scores are reserved for those who take calculated risks and show integrity under pressure, while low scores indicate a tendency to shrink or hide." },
+            { id: "acadIntel", title: "Academic Intelligence", guide: "This tracks your ability to process complex information, logic, and formal education. A high score suggests a mastery of abstract concepts and deep knowledge, while lower scores suggest a struggle with structured learning." },
+            { id: "socialIntel", title: "Social Intelligence", guide: "This is your 'EQ' and your ability to navigate any room or social hierarchy with ease. Master communicators who can influence others score a 10, while those who frequently misread situations or alienate people score near a 1." },
+            { id: "motivation", title: "Self-Control & Motivation", guide: "This represents your internal engine and your ability to delay gratification for long-term goals. High scores reflect elite discipline and work ethic, whereas low scores suggest a life governed by impulse and procrastination." }
+        ];
+
+        let currentIndex = 0;
+        const answers = {};
+
+        function updateUI() {
+            const q = questions[currentIndex];
+            document.getElementById('title').innerText = q.title;
+            document.getElementById('guide').innerText = q.guide;
+            document.getElementById('rating-input').value = 5;
+        }
+
+        function handleNext() {
+            const val = parseInt(document.getElementById('rating-input').value);
+            if (val < 1 || val > 10 || isNaN(val)) {
+                alert("Please enter a number between 1 and 10.");
+                return;
+            }
+
+            answers[questions[currentIndex].id] = val;
+            currentIndex++;
+
+            if (currentIndex < questions.length) {
+                updateUI();
+            } else {
+                calculateResults();
+            }
+        }
+
+        function calculateResults() {
+            const physAttr = answers['phys'];
+            const otherKeys = Object.keys(answers).filter(key => key !== 'phys');
+            const sum = otherKeys.reduce((acc, key) => acc + answers[key], 0);
+            const internalAverage = sum / otherKeys.length;
+            const finalScore = (internalAverage * physAttr).toFixed(2);
+
+            document.getElementById('container').innerHTML = `
+                <h2>Overall Attractiveness Score</h2>
+                <div class="result-val">${finalScore}</div>
+                <div class="guide">
+                    <strong>The Multiplier Principle:</strong> Your substantive qualities averaged to a <strong>${internalAverage.toFixed(1)}</strong>. 
+                    Your Physical Attractiveness (<strong>${physAttr}</strong>) acts as the multiplier. 
+                    <br><br>
+                    Physical attractiveness is the primary 'hook' that attracts attention initially. Without it, even exceptional intelligence or wealth can be overlooked or trapped in the 'friendzone.' However, beauty alone is one-dimensional if it isn't multiplying a solid foundation of character.
+                </div>
+                <p class="logic-note">Mathematical Ceiling: 100.00</p>
+                <button onclick="location.reload()">Reset Assessment</button>
+            `;
+        }
+
+        // Init
+        updateUI();
+    </script>
+</body>
+</html>
