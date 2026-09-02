@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WiGLE Map Viewer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; height: 100vh; background: #121212; color: #fff; }
+    #sidebar { width: 340px; min-width: 340px; background: #1e1e24; padding: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 1000; box-shadow: 2px 0 10px rgba(0,0,0,0.5); overflow-y: auto; }
+    #map { flex: 1; height: 100vh; width: 100%; background: #000; position: relative; }
+    h2 { font-size: 1.2rem; border-bottom: 1px solid #333; padding-bottom: 10px; color: #3edbf0; }
+    .control-group { display: flex; flex-direction: column; gap: 6px; }
+    .checkbox-group { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .checkbox-group input { width: 16px; height: 16px; cursor: pointer; }
+    label { font-size: 0.8rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; }
+    input[type="file"], input[type="text"], select { background: #2a2a32; border: 1px solid #444; padding: 10px; border-radius: 4px; color: #fff; outline: none; }
+    input[type="file"] { border-style: dashed; cursor: pointer; }
+    input[type="text"]:focus, select:focus { border-color: #3edbf0; }
+    
+    .button-group { display: flex; flex-direction: column; gap: 8px; }
+    button { background: #3edbf0; color: #121212; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+    button:hover { background: #32b8cc; }
+    button.btn-danger { background: #ff4757; color: white; }
+    button.btn-danger:hover { background: #ff6b81; }
+
+    .stats { background: #2a2a32; padding: 12px; border-radius: 4px; font-size: 0.85rem; display: flex; flex-direction: column; gap: 6px; }
+    .stats div { display: flex; justify-content: space-between; }
+    .stats span { color: #2ed573; font-weight: bold; }
+    .legend { font-size: 0.75rem; color: #ccc; display: flex; flex-direction: column; gap: 4px; margin-top: auto; background: #2a2a32; padding: 10px; border-radius: 4px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+    .leaflet-control-layers {
+      background: #1e1e24 !important;
+      color: #fff !important;
+      border: 1px solid #444 !important;
+      border-radius: 4px !important;
+    }
+    .leaflet-control-layers-expanded {
+      padding: 10px 12px !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar">
+    <h2>WiGLE Map Viewer</h2>
+    
+    <div class="control-group">
+      <label for="csv-file">Import WiGLE Logs (.csv)</label>
+      <input type="file" id="csv-file" accept=".csv" multiple>
+    </div>
+
+    <div class="button-group">
+      <button id="import-json-btn">Import Backup (JSON)</button>
+      <button id="export-json-btn">Export Database (JSON)</button>
+      <button id="clear-btn" class="btn-danger">Clear Cloud Database</button>
+    </div>
+
+    <div class="control-group">
+      <label for="auth-filter">Security Type</label>
+      <select id="auth-filter">
+        <option value="all">All Security Types</option>
+        <option value="open">Open</option>
+        <option value="wpa2">WPA2</option>
+        <option value="wpa3">WPA3</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="search">Filter SSIDs / BSSIDs</label>
+      <input type="text" id="search" placeholder="Type to filter...">
+    </div>
+
+    <div class="control-group">
+      <label class="checkbox-group">
+        <input type="checkbox" id="group-ssid-toggle">
+        <span style="color: #fff; font-size: 0.85rem; text-transform: none;">Outline SSIDs (Group & Connect)</span>
+      </label>
+    </div>
+    
+    <div class="stats">
+      <div>Total Points: <span id="stat-total">0</span></div>
+      <div>Unique BSSIDs: <span id="stat-bssids">0</span></div>
+      <div>Filtered Matches: <span id="stat-visible">0</span></div>
+    </div>
+
+    <div class="legend">
+      <strong>Network Auth Colors</strong>
+      <div class="legend-item"><span class="dot" style="background: #2ed573;"></span> WPA2 / WPA3</div>
+      <div class="legend-item"><span class="dot" style="background: #ffa500;"></span> WPA / Mixed</div>
+      <div class="legend-item"><span class="dot" style="background: #ff4757;"></span> Open Network</div>
+      <div class="legend-item"><span class="dot" style="background: #1e90ff;"></span> Enterprise / Other</div>
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+  <!-- Firebase Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      doc, 
+      writeBatch, 
+      getDocs, 
+      collection, 
+      deleteDoc 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // Replace with your Firebase Project Config credentials
+const firebaseConfig = {
+  apiKey: "AIzaSyA-hrOxJlBLuMh5IrC1CxdCriZ3VjIXt0c",
+  authDomain: "wigle-map-db.firebaseapp.com",
+  projectId: "wigle-map-db",
+  storageBucket: "wigle-map-db.firebasestorage.app",
+  messagingSenderId: "199071806906",
+  appId: "1:199071806906:web:6972c0cf471a9304d8d983"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let map;
+    const layerGroup = L.layerGroup();
+    let allRecords = [];
+
+    function initMap() {
+      const mapElement = document.getElementById('map');
+      if (!mapElement || map) return;
+
+      map = L.map('map', { preferCanvas: true }).setView([21.3398, -157.9302], 13);
+
+      const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        attribution: 'Tiles &copy; Esri'
+      });
+
+      const topoLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: '© OpenStreetMap contributors, SRTM | © OpenTopoMap'
+      });
+
+      const shadedReliefLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 13,
+        attribution: 'Tiles &copy; Esri'
+      });
+
+      satelliteLayer.addTo(map);
+
+      const baseMaps = {
+        "Satellite": satelliteLayer,
+        "Topographic": topoLayer,
+        "Shaded Relief": shadedReliefLayer
+      };
+
+      L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
+      layerGroup.addTo(map);
+
+      // Recalculate dimensions once layout settles
+      requestAnimationFrame(() => {
+        if (map) map.invalidateSize();
+      });
+
+      loadMapFromStorage();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMap);
+    } else {
+      initMap();
+    }
+
+    // Batch upsert to Firebase in chunks of 450 (under Firestore's 500 operation limit)
+    async function savePoints(points) {
+      if (!points || points.length === 0) return;
+      
+      const BATCH_SIZE = 450;
+      for (let i = 0; i < points.length; i += BATCH_SIZE) {
+        const chunk = points.slice(i, i + BATCH_SIZE);
+        const batch = writeBatch(db);
+
+        chunk.forEach(pt => {
+          // Replace slashes in BSSID key if present for safe document IDs
+          const safeBssidKey = pt.bssid.replace(/\//g, '_');
+          const docRef = doc(db, 'sightings', safeBssidKey);
+          batch.set(docRef, pt, { merge: true });
+        });
+
+        await batch.commit();
+      }
+
+      await loadMapFromStorage();
+    }
+
+    async function loadMapFromStorage() {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'sightings'));
+        allRecords = [];
+        querySnapshot.forEach(docSnap => {
+          allRecords.push(docSnap.data());
+        });
+        renderMarkers();
+      } catch (err) {
+        console.error("Failed to load records from Firebase:", err);
+      }
+    }
+
+    function getMarkerColor(auth) {
+      if (!auth) return '#1e90ff';
+      const a = auth.toUpperCase();
+      if (a.includes('OPEN') || a.includes('ESS')) return '#ff4757';
+      if (a.includes('WPA3') || a.includes('WPA2')) return '#2ed573';
+      if (a.includes('WPA')) return '#ffa500';
+      return '#1e90ff';
+    }
+
+    function checkAuthFilter(auth, filterValue) {
+      if (filterValue === 'all') return true;
+      if (!auth) return false;
+      const a = auth.toUpperCase();
+
+      if (filterValue === 'open') {
+        return a.includes('OPEN') || a.includes('[ESS]') || a === 'ESS';
+      }
+      if (filterValue === 'wpa2') {
+        return a.includes('WPA2');
+      }
+      if (filterValue === 'wpa3') {
+        return a.includes('WPA3');
+      }
+      return true;
+    }
+
+    function getConvexHull(points) {
+      if (points.length < 3) return points;
+      const sorted = points.slice().sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
+
+      function crossProduct(o, a, b) {
+        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+      }
+
+      const lower = [];
+      for (let i = 0; i < sorted.length; i++) {
+        while (lower.length >= 2 && crossProduct(lower[lower.length - 2], lower[lower.length - 1], sorted[i]) <= 0) {
+          lower.pop();
+        }
+        lower.push(sorted[i]);
+      }
+
+      const upper = [];
+      for (let i = sorted.length - 1; i >= 0; i--) {
+        while (upper.length >= 2 && crossProduct(upper[upper.length - 2], upper[upper.length - 1], sorted[i]) <= 0) {
+          upper.pop();
+        }
+        upper.push(sorted[i]);
+      }
+
+      lower.pop();
+      upper.pop();
+      return lower.concat(upper);
+    }
+
+    function stringToColor(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      let color = '#';
+      for (let i = 0; i < 3; i++) {
+        const value = (hash >> (i * 8)) & 0xFF;
+        color += ('00' + value.toString(16)).substr(-2);
+      }
+      return color;
+    }
+
+    function renderMarkers() {
+      if (!map) return;
+      layerGroup.clearLayers();
+      const filterTerm = document.getElementById('search').value.toLowerCase().trim();
+      const selectedAuth = document.getElementById('auth-filter').value;
+      const groupSSIDs = document.getElementById('group-ssid-toggle').checked;
+      
+      const bounds = [];
+      const bssids = new Set();
+      let matchCount = 0;
+      const ssidGroups = {};
+
+      allRecords.forEach(item => {
+        bssids.add(item.bssid);
+
+        const matchesSearch = !filterTerm || 
+          (item.ssid && item.ssid.toLowerCase().includes(filterTerm)) || 
+          (item.bssid && item.bssid.toLowerCase().includes(filterTerm));
+
+        const matchesAuth = checkAuthFilter(item.auth, selectedAuth);
+
+        if (matchesSearch && matchesAuth) {
+          matchCount++;
+          bounds.push([item.lat, item.lon]);
+
+          L.circleMarker([item.lat, item.lon], {
+            radius: 5,
+            fillColor: getMarkerColor(item.auth),
+            color: '#000',
+            weight: 0.5,
+            fillOpacity: 0.85
+          })
+          .bindPopup(`
+            <strong>SSID:</strong> ${item.ssid || '<i>Hidden</i>'}<br>
+            <strong>BSSID:</strong> ${item.bssid}<br>
+            <strong>Auth:</strong> ${item.auth || 'Unknown'}<br>
+            <strong>Signal:</strong> ${item.rssi} dBm<br>
+            <strong>Channel:</strong> ${item.channel || 'N/A'}<br>
+            <strong>First Seen:</strong> ${item.firstSeen || 'N/A'}
+          `)
+          .addTo(layerGroup);
+
+          if (groupSSIDs && item.ssid && item.ssid.trim() !== '') {
+            if (!ssidGroups[item.ssid]) ssidGroups[item.ssid] = [];
+            ssidGroups[item.ssid].push([item.lat, item.lon]);
+          }
+        }
+      });
+
+      if (groupSSIDs) {
+        Object.keys(ssidGroups).forEach(ssid => {
+          const coords = ssidGroups[ssid];
+          const groupColor = stringToColor(ssid);
+
+          if (coords.length >= 3) {
+            const hullPoints = getConvexHull(coords);
+            L.polygon(hullPoints, {
+              color: groupColor,
+              weight: 2,
+              fillColor: groupColor,
+              fillOpacity: 0.25
+            })
+            .bindPopup(`<strong>Grouped SSID:</strong> ${ssid}<br><strong>Access Points:</strong> ${coords.length}`)
+            .addTo(layerGroup);
+          } else if (coords.length === 2) {
+            L.polyline(coords, {
+              color: groupColor,
+              weight: 3,
+              dashArray: '4, 4'
+            })
+            .bindPopup(`<strong>Grouped SSID:</strong> ${ssid}<br><strong>Access Points:</strong> 2`)
+            .addTo(layerGroup);
+          }
+        });
+      }
+
+      document.getElementById('stat-total').innerText = allRecords.length;
+      document.getElementById('stat-bssids').innerText = bssids.size;
+      document.getElementById('stat-visible').innerText = matchCount;
+
+      if (bounds.length > 0 && (!filterTerm && selectedAuth === 'all')) {
+        map.fitBounds(bounds, { padding: [30, 30] });
+      }
+    }
+
+    document.getElementById('search').addEventListener('input', renderMarkers);
+    document.getElementById('auth-filter').addEventListener('change', renderMarkers);
+    document.getElementById('group-ssid-toggle').addEventListener('change', renderMarkers);
+
+    document.getElementById('csv-file').addEventListener('change', (e) => {
+      const files = e.target.files;
+      if (!files.length) return;
+
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+
+        reader.onload = function(evt) {
+          const text = evt.target.result;
+          const lines = text.split(/\r?\n/);
+
+          let headerLineIndex = -1;
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].toLowerCase();
+            if ((line.includes('mac') || line.includes('bssid')) && (line.includes('lat') || line.includes('currentlatitude'))) {
+              headerLineIndex = i;
+              break;
+            }
+          }
+
+          if (headerLineIndex === -1) {
+            alert(`Unable to locate CSV header row in ${file.name}`);
+            return;
+          }
+
+          const cleanCsvText = lines.slice(headerLineIndex).join('\n');
+
+          Papa.parse(cleanCsvText, {
+            header: true,
+            skipEmptyLines: true,
+            complete: async (results) => {
+              const parsedData = [];
+
+              results.data.forEach(row => {
+                const keys = Object.keys(row);
+                const getVal = (target) => {
+                  const k = keys.find(key => key && key.trim().toLowerCase() === target.toLowerCase());
+                  return k && row[k] ? row[k].trim() : null;
+                };
+
+                const lat = parseFloat(getVal('CurrentLatitude') || getVal('Lat') || getVal('latitude'));
+                const lon = parseFloat(getVal('CurrentLongitude') || getVal('Lon') || getVal('longitude'));
+                const bssid = getVal('MAC') || getVal('BSSID') || getVal('mac');
+                const ssid = getVal('SSID') || getVal('ssid');
+                const auth = getVal('AuthMode') || getVal('Auth') || getVal('authmode');
+                const rssi = getVal('RSSI') || getVal('rssi') || getVal('Signal');
+                const channel = getVal('Channel') || getVal('channel');
+                const firstSeen = getVal('FirstSeen') || getVal('firstseen') || getVal('Time');
+
+                if (!isNaN(lat) && !isNaN(lon) && bssid) {
+                  parsedData.push({
+                    bssid,
+                    ssid,
+                    lat,
+                    lon,
+                    auth,
+                    rssi,
+                    channel,
+                    firstSeen
+                  });
+                }
+              });
+
+              if (parsedData.length > 0) {
+                await savePoints(parsedData);
+              } else {
+                alert(`No valid coordinate rows extracted from ${file.name}`);
+              }
+            }
+          });
+        };
+
+        reader.readAsText(file);
+      });
+    });
+
+    document.getElementById('export-json-btn').addEventListener('click', async () => {
+      if (!allRecords.length) {
+        alert('No data to export.');
+        return;
+      }
+
+      const dateStr = new Date().toISOString().slice(0, 10);
+      const defaultName = `wigle_map_backup_${dateStr}.json`;
+
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: defaultName,
+            types: [{
+              description: 'JSON Files',
+              accept: { 'application/json': ['.json'] }
+            }]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(JSON.stringify(allRecords, null, 2));
+          await writable.close();
+        } catch (err) {
+          if (err.name !== 'AbortError') alert('Export failed: ' + err.message);
+        }
+      } else {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allRecords, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", defaultName);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+      }
+    });
+
+    document.getElementById('import-json-btn').addEventListener('click', async () => {
+      if ('showOpenFilePicker' in window) {
+        try {
+          const [handle] = await window.showOpenFilePicker({
+            types: [{
+              description: 'JSON Files',
+              accept: { 'application/json': ['.json'] }
+            }],
+            multiple: false
+          });
+          const file = await handle.getFile();
+          const text = await file.text();
+          const importedPoints = JSON.parse(text);
+
+          if (Array.isArray(importedPoints)) {
+            await savePoints(importedPoints);
+            alert(`Successfully imported ${importedPoints.length} records.`);
+          } else {
+            alert('Invalid JSON structure.');
+          }
+        } catch (err) {
+          if (err.name !== 'AbortError') alert('Import failed: ' + err.message);
+        }
+      } else {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = async (evt) => {
+            try {
+              const importedPoints = JSON.parse(evt.target.result);
+              if (Array.isArray(importedPoints)) {
+                await savePoints(importedPoints);
+                alert(`Successfully imported ${importedPoints.length} records.`);
+              } else {
+                alert('Invalid JSON structure.');
+              }
+            } catch (err) {
+              alert('Failed to parse JSON file: ' + err.message);
+            }
+          };
+          reader.readAsText(file);
+        };
+        input.click();
+      }
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', async () => {
+      if (confirm('Clear all stored network locations from Firebase?')) {
+        try {
+          const querySnapshot = await getDocs(collection(db, 'sightings'));
+          const deletePromises = [];
+          querySnapshot.forEach(docSnap => {
+            deletePromises.push(deleteDoc(docSnap.ref));
+          });
+          await Promise.all(deletePromises);
+          await loadMapFromStorage();
+        } catch (err) {
+          alert('Failed to clear database: ' + err.message);
+        }
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (map) map.invalidateSize();
+    });
+  </script>
+</body>
+</html>
