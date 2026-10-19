@@ -1,13 +1,464 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Howard Kam | CTE Computer Science Educator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        hawaii: {
+                            teal: '#06b6d4',
+                            ocean: '#0284c7',
+                            coral: '#f43f5e',
+                            sunset: '#f97316',
+                            gold: '#eab308',
+                            palm: '#10b981'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Ambient animated background grid */
+        .bg-grid-pattern {
+            background-size: 30px 30px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+        .light .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+        }
+
+        /* Glassmorphism utility */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .light .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Canvas canvas styling */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.8);
+        }
+        .light ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0284c7;
+            border-radius: 4px;
+        }
+
+        /* Wave SVG animation */
+        @keyframes floatWave {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        .animate-wave {
+            animation: floatWave 6s ease-in-out infinite;
+        }
+    </style>
 </head>
-<body>
-    <h1>Hello</h1>
-    <p>My first page</p>
-    <p>Another line</p>
+<body class="bg-slate-950 text-slate-100 min-h-screen relative overflow-x-hidden selection:bg-hawaii-teal selection:text-slate-900">
+
+    <!-- Interactive Ambient Canvas Background -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Content Container -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+        
+        <!-- Header / Navigation -->
+        <header class="w-full max-w-6xl mx-auto px-4 py-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-hawaii-ocean to-hawaii-teal flex items-center justify-center text-white font-bold font-mono text-xl shadow-lg shadow-hawaii-ocean/20">
+                    HK
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold tracking-tight text-slate-100 dark:text-slate-100 text-slate-900 transition-colors">Howard Kam</span>
+                    <span class="text-xs text-hawaii-teal font-mono flex items-center gap-1">
+                        <i class="fa-solid font-xs fa-location-dot"></i> Hawaii, USA
+                    </span>
+                </div>
+            </div>
+
+            <!-- Theme Toggle & Quick Action -->
+            <div class="flex items-center gap-3">
+                <button id="themeToggle" class="p-2.5 rounded-xl glass-card text-slate-300 hover:text-white transition-all hover:scale-105" aria-label="Toggle Theme">
+                    <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+                <button onclick="copyContactEmail()" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-xs font-mono border border-slate-700/50 transition-all active:scale-95 text-slate-200">
+                    <i class="fa-regular fa-copy text-hawaii-teal"></i>
+                    <span id="copyBtnText">Copy Email</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <main class="flex-grow max-w-6xl mx-auto px-4 py-8 md:py-12 flex flex-col items-center">
+            
+            <div class="text-center max-w-3xl mb-12">
+                <!-- Hawaii CTE Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card text-xs md:text-sm font-medium text-hawaii-teal mb-6 border border-hawaii-teal/30 shadow-sm animate-wave">
+                    <span class="flex h-2 w-2 rounded-full bg-hawaii-teal animate-ping"></span>
+                    <span>State of Hawaii • CTE Computer Science Educator</span>
+                </div>
+
+                <!-- Main Title -->
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight text-slate-900 dark:text-white">
+                    Empowering Next-Gen Innovators in <span class="bg-gradient-to-r from-hawaii-teal via-hawaii-ocean to-hawaii-coral bg-clip-text text-transparent">Hawaii</span>
+                </h1>
+
+                <!-- Subtitle / Motto -->
+                <p class="text-lg md:text-xl text-slate-400 dark:text-slate-300 leading-relaxed font-light mb-8">
+                    Dedicated to advancing Career & Technical Education (CTE) Computer Science. Blending real-world code, interactive game development, and modern STEM curriculum for student success.
+                </p>
+
+                <!-- Quick Social Bar -->
+                <div class="flex flex-wrap justify-center items-center gap-4 text-sm font-mono">
+                    <a href="https://github.com/howardkam" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900/60 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-all">
+                        <i class="fa-brands fa-github text-hawaii-teal"></i> github.com/howardkam
+                    </a>
+                    <a href="https://howardkam.itch.io/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900/60 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-all">
+                        <i class="fa-solid fa-gamepad text-hawaii-coral"></i> howardkam.itch.io
+                    </a>
+                </div>
+            </div>
+
+            <!-- THREE MAIN HIGHLIGHTED FEATURE CARDS -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-16">
+                
+                <!-- CARD 1: GitHub Profile -->
+                <a href="https://github.com/howardkam" target="_blank" rel="noopener noreferrer" class="group glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:border-hawaii-teal/50 hover:shadow-xl hover:shadow-hawaii-teal/10 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-24 h-24 bg-hawaii-teal/10 rounded-full blur-xl group-hover:bg-hawaii-teal/20 transition-all"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-900/80 border border-slate-700/50 flex items-center justify-center text-hawaii-teal text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-brands fa-github"></i>
+                            </div>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-hawaii-teal/10 text-hawaii-teal border border-hawaii-teal/20 flex items-center gap-1">
+                                Code & Repos <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </span>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-2 group-hover:text-hawaii-teal transition-colors text-slate-900 dark:text-white">GitHub Profile</h2>
+                        <p class="text-slate-400 dark:text-slate-300 text-sm mb-6 leading-relaxed">
+                            Explore open-source projects, Computer Science curriculum repositories, coding exercises, and educational resources.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="text-xs font-mono text-slate-400 flex items-center justify-between border-t border-slate-800 pt-3">
+                            <span><i class="fa-solid fa-code text-hawaii-teal mr-1"></i> Public Repos</span>
+                            <span class="text-slate-200">View All &rarr;</span>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Python</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">JavaScript</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Curriculum</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- CARD 2: itch.io Page -->
+                <a href="https://howardkam.itch.io/" target="_blank" rel="noopener noreferrer" class="group glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:border-hawaii-coral/50 hover:shadow-xl hover:shadow-hawaii-coral/10 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-24 h-24 bg-hawaii-coral/10 rounded-full blur-xl group-hover:bg-hawaii-coral/20 transition-all"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-900/80 border border-slate-700/50 flex items-center justify-center text-hawaii-coral text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-gamepad"></i>
+                            </div>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-hawaii-coral/10 text-hawaii-coral border border-hawaii-coral/20 flex items-center gap-1">
+                                Game Dev <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </span>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-2 group-hover:text-hawaii-coral transition-colors text-slate-900 dark:text-white">itch.io Games</h2>
+                        <p class="text-slate-400 dark:text-slate-300 text-sm mb-6 leading-relaxed">
+                            Play interactive indie games, game jam submissions, prototype builds, and creative computing projects.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="text-xs font-mono text-slate-400 flex items-center justify-between border-t border-slate-800 pt-3">
+                            <span><i class="fa-solid fa-cubes text-hawaii-coral mr-1"></i> Interactive Builds</span>
+                            <span class="text-slate-200">Play Games &rarr;</span>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Indie Games</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Game Jams</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Prototypes</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- CARD 3: Hawaii CTE Educator Impact -->
+                <div class="group glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:border-hawaii-ocean/50 hover:shadow-xl hover:shadow-hawaii-ocean/10 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-24 h-24 bg-hawaii-ocean/10 rounded-full blur-xl group-hover:bg-hawaii-ocean/20 transition-all"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-900/80 border border-slate-700/50 flex items-center justify-center text-hawaii-ocean text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-hawaii-ocean/10 text-hawaii-ocean border border-hawaii-ocean/20">
+                                Hawaii Educator
+                            </span>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-2 group-hover:text-hawaii-ocean transition-colors text-slate-900 dark:text-white">CTE CS Educator</h2>
+                        <p class="text-slate-400 dark:text-slate-300 text-sm mb-6 leading-relaxed">
+                            Serving Hawaii's students through Career & Technical Education. Preparing learners with pathways to software development, technology careers, and computational thinking.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="text-xs font-mono text-slate-400 flex items-center justify-between border-t border-slate-800 pt-3">
+                            <span><i class="fa-solid fa-shield-halved text-hawaii-ocean mr-1"></i> Public Education</span>
+                            <span class="text-slate-300">State of Hawaii</span>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">CTE Pathway</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">CS Education</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Hawaii Schools</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- EDUCATOR IMPACT & PHILOSOPHY DETAIL SECTION -->
+            <section class="w-full glass-card rounded-3xl p-8 md:p-10 mb-12 relative overflow-hidden border border-slate-800">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="space-y-4 max-w-2xl">
+                        <div class="inline-flex items-center gap-2 text-xs font-mono text-hawaii-teal">
+                            <i class="fa-solid fa-compass"></i> MISSION & EDUCATION VISION
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+                            Bridging Computer Science & Real-World Pathways
+                        </h3>
+                        <p class="text-slate-400 dark:text-slate-300 text-sm md:text-base leading-relaxed">
+                            As a CTE Computer Science Educator in Hawaii, my goal is to foster problem-solving, creative game design, and modern coding skills. By combining hands-on technical projects on GitHub with creative interactive media on itch.io, students learn to build, collaborate, and innovate.
+                        </p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
+                            <div class="p-3 rounded-xl bg-slate-900/50 border border-slate-800/80">
+                                <div class="text-xl font-bold text-hawaii-teal">CTE CS</div>
+                                <div class="text-xs text-slate-400">Career Readiness</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/50 border border-slate-800/80">
+                                <div class="text-xl font-bold text-hawaii-coral">Game Dev</div>
+                                <div class="text-xs text-slate-400">Creative Learning</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/50 border border-slate-800/80">
+                                <div class="text-xl font-bold text-hawaii-gold">Open Source</div>
+                                <div class="text-xs text-slate-400">Code Collaboration</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Quick Launcher Box -->
+                    <div class="w-full md:w-auto min-w-[280px] p-6 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col gap-4 text-center">
+                        <h4 class="font-bold text-slate-200 text-sm">Quick Navigation</h4>
+                        <a href="https://github.com/howardkam" target="_blank" rel="noopener noreferrer" class="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-mono text-xs flex items-center justify-between border border-slate-700 transition-all">
+                            <span class="flex items-center gap-2"><i class="fa-brands fa-github text-hawaii-teal"></i> GitHub</span>
+                            <i class="fa-solid fa-arrow-right text-slate-500"></i>
+                        </a>
+                        <a href="https://howardkam.itch.io/" target="_blank" rel="noopener noreferrer" class="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-mono text-xs flex items-center justify-between border border-slate-700 transition-all">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-gamepad text-hawaii-coral"></i> itch.io</span>
+                            <i class="fa-solid fa-arrow-right text-slate-500"></i>
+                        </a>
+                        <button onclick="copyContactEmail()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-hawaii-ocean to-hawaii-teal text-white font-medium text-xs flex items-center justify-center gap-2 shadow-lg shadow-hawaii-ocean/20 hover:opacity-90 transition-all">
+                            <i class="fa-solid fa-envelope"></i> Copy Contact Email
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Toast Notification for Copy -->
+        <div id="toast" class="fixed bottom-6 right-6 translate-y-20 opacity-0 transition-all duration-300 glass-card px-4 py-3 rounded-xl text-xs font-mono text-hawaii-teal border border-hawaii-teal/30 flex items-center gap-2 shadow-2xl z-50">
+            <i class="fa-solid fa-circle-check"></i>
+            <span id="toastMessage">Copied to clipboard!</span>
+        </div>
+
+        <!-- Footer -->
+        <footer class="w-full max-w-6xl mx-auto px-4 py-8 border-t border-slate-800/60 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-mono">
+            <div>
+                &copy; <span id="year"></span> Howard Kam. Hawaii CTE Computer Science.
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="https://github.com/howardkam" target="_blank" rel="noopener noreferrer" class="hover:text-hawaii-teal transition-colors">GitHub</a>
+                <a href="https://howardkam.itch.io/" target="_blank" rel="noopener noreferrer" class="hover:text-hawaii-coral transition-colors">itch.io</a>
+                <span class="text-slate-700">•</span>
+                <span>Aloha & Community</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Logic & Canvas Particles -->
+    <script>
+        // Set dynamic year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Copy Email Logic
+        function copyContactEmail() {
+            const email = "howardkam@hawaii.edu"; // Placeholder/Standard Hawaiian CTE format
+            const tempInput = document.createElement('input');
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            showToast("Copied contact email (" + email + ")");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Ambient Dynamic Hawaii Ocean Particles Background
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = -Math.random() * 0.5 - 0.2; // Upward drift like ocean bubbles/sparks
+                this.alpha = Math.random() * 0.5 + 0.1;
+                this.color = Math.random() > 0.5 ? '#06b6d4' : '#0284c7';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.y < 0 || this.x < 0 || this.x > width) {
+                    this.reset();
+                    this.y = height + 10;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(Math.floor(width / 20), 60);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw floating ambient particles
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.onload = function() {
+            initParticles();
+            animateCanvas();
+        };
+    </script>
 </body>
 </html>
