@@ -22,12 +22,14 @@
         .section-label { font-size: 0.9rem; font-weight: 700; color: #4b5563; text-transform: uppercase; letter-spacing: 0.05em; }
         
         .tip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .tip-btn { padding: 24px 12px; font-size: 1.25rem; font-weight: 700; border: 2px solid #d1d5db; background: #ffffff; border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: center; }
-        .tip-btn.active { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+        .tip-btn { padding: 24px 12px; font-size: 1.25rem; font-weight: 700; border: 2px solid #2563eb; background: #eff6ff; color: #1d4ed8; border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .tip-btn .tip-subtext { font-size:0.9rem; font-weight:500; color:#3b82f6; }
+        .tip-btn.active { border-color: #1d4ed8; background: #2563eb; color: #ffffff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); transform: scale(1.02); }
+        .tip-btn.active .tip-subtext { color: #e0e7ff; }
         
         .custom-row { display: flex; gap: 12px; }
-        .custom-input { flex: 1; padding: 16px; font-size: 1.1rem; border: 2px solid #d1d5db; border-radius: 14px; outline: none; }
-        .custom-btn { padding: 0 28px; font-weight: 600; font-size: 1rem; background: #f3f4f6; border: 2px solid #d1d5db; border-radius: 14px; cursor: pointer; color: #374151; }
+        .custom-input { width: 100%; padding: 16px; font-size: 1.1rem; border: 2px solid #d1d5db; border-radius: 14px; outline: none; }
+        .custom-input:focus { border-color: #2563eb; }
         
         .total-box { display: flex; justify-content: space-between; align-items: center; background: #f0fdf4; border: 2px solid #bbf7d0; padding: 20px; border-radius: 16px; }
         .total-label { font-size: 1.1rem; font-weight: 700; color: #166534; }
@@ -66,26 +68,25 @@
 
         <div class="item-row">
             <span class="item-title">Education Lesson</span>
-            <span class="item-price">\$100.00</span>
+            <span class="item-price">$100.00</span>
         </div>
 
         <div>
             <div class="section-label" style="margin-bottom: 12px;">Select Tip</div>
             <div class="tip-grid">
-                <button class="tip-btn active" onclick="setTip(15, this)">15%<br><span style="font-size:0.9rem; font-weight:400; color:#4b5563;">\$15.00</span></button>
-                <button class="tip-btn" onclick="setTip(20, this)">20%<br><span style="font-size:0.9rem; font-weight:400; color:#4b5563;">\$20.00</span></button>
-                <button class="tip-btn" onclick="setTip(30, this)">30%<br><span style="font-size:0.9rem; font-weight:400; color:#4b5563;">\$30.00</span></button>
+                <button class="tip-btn active" onclick="setTip(15, this)">15%<br><span class="tip-subtext">$15.00</span></button>
+                <button class="tip-btn" onclick="setTip(20, this)">20%<br><span class="tip-subtext">$20.00</span></button>
+                <button class="tip-btn" onclick="setTip(30, this)">30%<br><span class="tip-subtext">$30.00</span></button>
             </div>
         </div>
 
         <div class="custom-row">
-            <input type="number" id="customTipInput" class="custom-input" placeholder="Custom Tip (\$)" oninput="setCustomTip(this.value)">
-            <button class="custom-btn" onclick="clearTip()">No Tip</button>
+            <input type="number" id="customTipInput" class="custom-input" placeholder="Custom Tip ($)" oninput="setCustomTip(this.value)">
         </div>
 
         <div class="total-box">
             <span class="total-label">Total Amount Due</span>
-            <span class="total-amount" id="totalDisplay">\$115.00</span>
+            <span class="total-amount" id="totalDisplay">$115.00</span>
         </div>
 
         <button class="enter-btn" onclick="openSignatureModal()">ENTER ➔</button>
@@ -100,4 +101,109 @@
             </div>
             <div class="sig-actions">
                 <span style="font-size: 0.9rem; color: #6b7280;">X ___________________________</span>
-                <button class="clear-btn" onclick="clearSignature()">Clear Signature
+                <button class="clear-btn" onclick="clearSignature()">Clear Signature</button>
+            </div>
+            <div class="modal-btns">
+                <button class="btn-secondary" onclick="closeSignatureModal()">Cancel</button>
+                <button class="btn-primary" onclick="completeTransaction()">Confirm & Pay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mahalo Success Screen -->
+    <div id="successModal" class="success-modal">
+        <div class="success-icon">🌺</div>
+        <div class="success-title">Mahalo!</div>
+        <p style="font-size: 1.35rem; margin-top: 10px; opacity: 0.9;">Payment Approved</p>
+    </div>
+
+    <script>
+        const baseAmount = 100.00;
+        let currentTipPercent = 15;
+        let customTipAmount = null;
+
+        function setTip(percent, btn) {
+            document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('customTipInput').value = '';
+            currentTipPercent = percent;
+            customTipAmount = null;
+            updateTotal();
+        }
+
+        function setCustomTip(val) {
+            document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
+            if (val === '') {
+                customTipAmount = null;
+                currentTipPercent = 15;
+                document.querySelector('.tip-btn').classList.add('active');
+            } else {
+                customTipAmount = parseFloat(val) || 0;
+            }
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let tipVal = customTipAmount !== null ? customTipAmount : (baseAmount * (currentTipPercent / 100));
+            let total = baseAmount + tipVal;
+            document.getElementById('totalDisplay').textContent = '$' + total.toFixed(2);
+        }
+
+        // Signature Canvas Logic
+        const canvas = document.getElementById('sigCanvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 3.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+        }
+
+        function openSignatureModal() {
+            document.getElementById('sigModal').classList.add('active');
+            setTimeout(resizeCanvas, 50);
+        }
+
+        function closeSignatureModal() {
+            document.getElementById('sigModal').classList.remove('active');
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Touch & Mouse event listeners for drawing
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        canvas.addEventListener('mousedown', (e) => { drawing = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); });
+        canvas.addEventListener('mousemove', (e) => { if (!drawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); });
+        window.addEventListener('mouseup', () => { drawing = false; });
+
+        canvas.addEventListener('touchstart', (e) => { drawing = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); e.preventDefault(); });
+        canvas.addEventListener('touchmove', (e) => { if (!drawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); e.preventDefault(); });
+        canvas.addEventListener('touchend', () => { drawing = false; });
+
+        function completeTransaction() {
+            closeSignatureModal();
+            const success = document.getElementById('successModal');
+            success.classList.add('active');
+            
+            setTimeout(() => {
+                success.classList.remove('active');
+                clearSignature();
+                setTip(15, document.querySelector('.tip-btn'));
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
