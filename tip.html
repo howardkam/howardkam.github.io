@@ -6,204 +6,98 @@
     <title>Teacher Tip Terminal</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #f3f4f6; color: #111827; height: 100vh; width: 100vw; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
-        header { background: #ffffff; padding: 16px; text-align: center; border-bottom: 1px solid #e5e7eb; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        h1 { font-size: 1.25rem; font-weight: 700; color: #1f2937; }
-        .subtitle { font-size: 0.875rem; color: #6b7280; margin-top: 2px; }
-        main { flex: 1; display: flex; flex-direction: column; padding: 16px; max-width: 600px; margin: 0 auto; width: 100%; justify-content: space-between; }
-        .card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 16px; }
-        .item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #f3f4f6; }
-        .item-title { font-size: 1.125rem; font-weight: 600; }
-        .item-price { font-size: 1.25rem; font-weight: 700; color: #059669; }
-        .section-label { font-size: 0.875rem; font-weight: 600; color: #4b5563; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .tip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
-        .tip-btn { padding: 16px 8px; font-size: 1.125rem; font-weight: 600; border: 2px solid #d1d5db; background: #ffffff; border-radius: 12px; cursor: pointer; transition: all 0.2s; text-align: center; }
-        .tip-btn.active { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; }
-        .custom-row { display: flex; gap: 8px; margin-bottom: 16px; }
-        .custom-input { flex: 1; padding: 12px; font-size: 1rem; border: 2px solid #d1d5db; border-radius: 12px; outline: none; }
-        .custom-btn { padding: 0 20px; font-weight: 600; background: #e5e7eb; border: none; border-radius: 12px; cursor: pointer; }
-        .total-box { display: flex; justify-content: space-between; align-items: center; background: #f9fafb; padding: 16px; border-radius: 12px; margin-bottom: 16px; }
-        .total-label { font-size: 1rem; font-weight: 600; color: #374151; }
-        .total-amount { font-size: 1.75rem; font-weight: 800; color: #111827; }
-        .enter-btn { width: 100%; background: #16a34a; color: white; border: none; padding: 18px; font-size: 1.25rem; font-weight: 700; border-radius: 14px; cursor: pointer; box-shadow: 0 4px 6px rgba(22, 163, 74, 0.3); }
+        body { background-color: #e5e7eb; color: #111827; height: 100vh; width: 100vw; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px; }
+        
+        /* Main card takes up almost full viewport width and height */
+        .card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15); width: 100%; height: 100%; max-width: none; max-height: none; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .header-area { text-align: center; border-bottom: 2px solid #f3f4f6; padding-bottom: 12px; }
+        h1 { font-size: 1.5rem; font-weight: 800; color: #1f2937; }
+        .subtitle { font-size: 0.95rem; color: #6b7280; margin-top: 4px; }
+        
+        .item-row { display: flex; justify-content: space-between; align-items: center; background: #f9fafb; padding: 16px 20px; border-radius: 14px; border: 1px solid #e5e7eb; }
+        .item-title { font-size: 1.25rem; font-weight: 600; }
+        .item-price { font-size: 1.5rem; font-weight: 700; color: #059669; }
+        
+        .section-label { font-size: 0.9rem; font-weight: 700; color: #4b5563; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .tip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .tip-btn { padding: 24px 12px; font-size: 1.25rem; font-weight: 700; border: 2px solid #d1d5db; background: #ffffff; border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .tip-btn.active { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+        
+        .custom-row { display: flex; gap: 12px; }
+        .custom-input { flex: 1; padding: 16px; font-size: 1.1rem; border: 2px solid #d1d5db; border-radius: 14px; outline: none; }
+        .custom-btn { padding: 0 28px; font-weight: 600; font-size: 1rem; background: #f3f4f6; border: 2px solid #d1d5db; border-radius: 14px; cursor: pointer; color: #374151; }
+        
+        .total-box { display: flex; justify-content: space-between; align-items: center; background: #f0fdf4; border: 2px solid #bbf7d0; padding: 20px; border-radius: 16px; }
+        .total-label { font-size: 1.1rem; font-weight: 700; color: #166534; }
+        .total-amount { font-size: 2.25rem; font-weight: 800; color: #15803d; }
+        
+        .enter-btn { width: 100%; background: #16a34a; color: white; border: none; padding: 22px; font-size: 1.5rem; font-weight: 800; border-radius: 16px; cursor: pointer; box-shadow: 0 6px 12px rgba(22, 163, 74, 0.35); letter-spacing: 0.05em; }
         .enter-btn:active { background: #15803d; transform: scale(0.99); }
         
         /* Modal & Signature */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 50; align-items: center; justify-content: center; padding: 20px; }
         .modal.active { display: flex; }
-        .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 20px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); text-align: center; }
-        .sig-container { border: 2px dashed #9ca3af; border-radius: 12px; margin: 16px 0; background: #fafafa; position: relative; height: 180px; }
+        .modal-content { background: white; width: 100%; max-width: 550px; border-radius: 20px; padding: 28px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); text-align: center; }
+        .sig-container { border: 2px dashed #9ca3af; border-radius: 14px; margin: 16px 0; background: #fafafa; position: relative; height: 220px; }
         canvas { width: 100%; height: 100%; touch-action: none; display: block; }
-        .sig-actions { display: flex; justify-content: space-between; margin-bottom: 16px; }
-        .clear-btn { background: none; border: none; color: #dc2626; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+        .sig-actions { display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center; }
+        .clear-btn { background: none; border: none; color: #dc2626; font-weight: 600; cursor: pointer; font-size: 0.95rem; }
         .modal-btns { display: flex; gap: 12px; }
-        .btn-secondary { flex: 1; padding: 14px; background: #e5e7eb; border: none; font-weight: 600; border-radius: 12px; cursor: pointer; }
-        .btn-primary { flex: 2; padding: 14px; background: #2563eb; color: white; border: none; font-weight: 600; border-radius: 12px; cursor: pointer; }
+        .btn-secondary { flex: 1; padding: 16px; background: #e5e7eb; border: none; font-weight: 600; font-size: 1.05rem; border-radius: 14px; cursor: pointer; }
+        .btn-primary { flex: 2; padding: 16px; background: #2563eb; color: white; border: none; font-weight: 700; font-size: 1.05rem; border-radius: 14px; cursor: pointer; }
         
         /* Success Screen */
         .success-modal { display: none; position: fixed; inset: 0; background: #16a34a; z-index: 100; align-items: center; justify-content: center; flex-direction: column; color: white; }
         .success-modal.active { display: flex; }
-        .success-icon { font-size: 5rem; margin-bottom: 16px; animation: bounce 0.6s infinite alternate; }
-        .success-title { font-size: 3rem; font-weight: 800; letter-spacing: 0.05em; }
-        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+        .success-icon { font-size: 6rem; margin-bottom: 16px; animation: bounce 0.6s infinite alternate; }
+        .success-title { font-size: 3.5rem; font-weight: 800; letter-spacing: 0.05em; }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Teacher Tip Terminal</h1>
-        <div class="subtitle">Please select a tip amount</div>
-    </header>
-
-    <main>
-        <div class="card">
-            <div class="item-row">
-                <span class="item-title">Education Lesson</span>
-                <span class="item-price">$100.00</span>
-            </div>
-
-            <div class="section-label">Select Tip</div>
-            <div class="tip-grid">
-                <button class="tip-btn active" onclick="setTip(15, this)">15%<br><span style="font-size:0.8rem; font-weight:400;">$15.00</span></button>
-                <button class="tip-btn" onclick="setTip(20, this)">20%<br><span style="font-size:0.8rem; font-weight:400;">$20.00</span></button>
-                <button class="tip-btn" onclick="setTip(30, this)">30%<br><span style="font-size:0.8rem; font-weight:400;">$30.00</span></button>
-            </div>
-
-            <div class="custom-row">
-                <input type="number" id="customTipInput" class="custom-input" placeholder="Custom Tip ($)" oninput="setCustomTip(this.value)">
-                <button class="custom-btn" onclick="clearTip()">No Tip</button>
-            </div>
-
-            <div class="total-box">
-                <span class="total-label">Total Amount Due</span>
-                <span class="total-amount" id="totalDisplay">$115.00</span>
-            </div>
-
-            <button class="enter-btn" onclick="openSignatureModal()">ENTER ➔</button>
+    <div class="card">
+        <div class="header-area">
+            <h1>Teacher Tip Terminal</h1>
+            <div class="subtitle">Please select a tip amount</div>
         </div>
-    </main>
+
+        <div class="item-row">
+            <span class="item-title">Education Lesson</span>
+            <span class="item-price">\$100.00</span>
+        </div>
+
+        <div>
+            <div class="section-label" style="margin-bottom: 12px;">Select Tip</div>
+            <div class="tip-grid">
+                <button class="tip-btn active" onclick="setTip(15, this)">15%<br><span style="font-size:0.9rem; font-weight:400; color:#4b5563;">\$15.00</span></button>
+                <button class="tip-btn" onclick="setTip(20, this)">20%<br><span style="font-size:0.9rem; font-weight:400; color:#4b5563;">\$20.00</span></button>
+                <button class="tip-btn" onclick="setTip(30, this)">30%<br><span style="font-size:0.9rem; font-weight:400; color:#4b5563;">\$30.00</span></button>
+            </div>
+        </div>
+
+        <div class="custom-row">
+            <input type="number" id="customTipInput" class="custom-input" placeholder="Custom Tip (\$)" oninput="setCustomTip(this.value)">
+            <button class="custom-btn" onclick="clearTip()">No Tip</button>
+        </div>
+
+        <div class="total-box">
+            <span class="total-label">Total Amount Due</span>
+            <span class="total-amount" id="totalDisplay">\$115.00</span>
+        </div>
+
+        <button class="enter-btn" onclick="openSignatureModal()">ENTER ➔</button>
+    </div>
 
     <!-- Signature Modal -->
     <div id="sigModal" class="modal">
         <div class="modal-content">
-            <h3 style="font-size: 1.25rem; font-weight: 700;">Sign Below</h3>
+            <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 8px;">Sign Below</h3>
             <div class="sig-container">
                 <canvas id="sigCanvas"></canvas>
             </div>
             <div class="sig-actions">
-                <span style="font-size: 0.85srem; color: #6b7280;">X ___________________________</span>
-                <button class="clear-btn" onclick="clearSignature()">Clear Signature</button>
-            </div>
-            <div class="modal-btns">
-                <button class="btn-secondary" onclick="closeSignatureModal()">Cancel</button>
-                <button class="btn-primary" onclick="completeTransaction()">Confirm & Pay</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mahalo Success Screen -->
-    <div id="successModal" class="success-modal">
-        <div class="success-icon">🌺</div>
-        <div class="success-title">Mahalo!</div>
-        <p style="font-size: 1.25rem; margin-top: 10px; opacity: 0.9;">Payment Approved</p>
-    </div>
-
-    <script>
-        const baseAmount = 100.00;
-        let currentTipPercent = 15;
-        let customTipAmount = null;
-
-        function setTip(percent, btn) {
-            document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('customTipInput').value = '';
-            currentTipPercent = percent;
-            customTipAmount = null;
-            updateTotal();
-        }
-
-        function setCustomTip(val) {
-            document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
-            if (val === '') {
-                customTipAmount = null;
-                currentTipPercent = 15;
-                document.querySelector('.tip-btn').classList.add('active');
-            } else {
-                customTipAmount = parseFloat(val) || 0;
-            }
-            updateTotal();
-        }
-
-        function clearTip() {
-            document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('customTipInput').value = '';
-            currentTipPercent = 0;
-            customTipAmount = 0;
-            updateTotal();
-        }
-
-        function updateTotal() {
-            let tipVal = customTipAmount !== null ? customTipAmount : (baseAmount * (currentTipPercent / 100));
-            let total = baseAmount + tipVal;
-            document.getElementById('totalDisplay').textContent = '$' + total.toFixed(2);
-        }
-
-        // Signature Canvas Logic
-        const canvas = document.getElementById('sigCanvas');
-        const ctx = canvas.getContext('2d');
-        let drawing = false;
-
-        function resizeCanvas() {
-            const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 3;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-        }
-
-        function openSignatureModal() {
-            document.getElementById('sigModal').classList.add('active');
-            setTimeout(resizeCanvas, 50);
-        }
-
-        function closeSignatureModal() {
-            document.getElementById('sigModal').classList.remove('active');
-        }
-
-        function clearSignature() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        // Touch & Mouse event listeners for drawing
-        function getPos(e) {
-            const rect = canvas.getBoundingClientRect();
-            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-            return { x: clientX - rect.left, y: clientY - rect.top };
-        }
-
-        canvas.addEventListener('mousedown', (e) => { drawing = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); });
-        canvas.addEventListener('mousemove', (e) => { if (!drawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); });
-        window.addEventListener('mouseup', () => { drawing = false; });
-
-        canvas.addEventListener('touchstart', (e) => { drawing = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); e.preventDefault(); });
-        canvas.addEventListener('touchmove', (e) => { if (!drawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); e.preventDefault(); });
-        canvas.addEventListener('touchend', () => { drawing = false; });
-
-        function completeTransaction() {
-            closeSignatureModal();
-            const success = document.getElementById('successModal');
-            success.classList.add('active');
-            
-            setTimeout(() => {
-                success.classList.remove('active');
-                clearSignature();
-                clearTip();
-                setTip(15, document.querySelector('.tip-btn'));
-            }, 3000);
-        }
-    </script>
-</body>
-</html>
+                <span style="font-size: 0.9rem; color: #6b7280;">X ___________________________</span>
+                <button class="clear-btn" onclick="clearSignature()">Clear Signature
