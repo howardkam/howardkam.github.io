@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roosevelt High School - Computer Science & Information Technology</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'Inter', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Space Mono', 'JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            ink: '#0D0D0D',
+            paper: '#FFFFFF',
+            accent: '#FF3B30',
+            subtle: '#8E8E93',
+            line: '#E5E5EA',
+            softbg: '#F8F8FA',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Syne, Inter, Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #0D0D0D;
+      font-family: 'Inter', sans-serif;
+      overscroll-behavior-x: none;
+    }
+
+    .font-display {
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* Track transitions */
+    .slide-track {
+      display: flex;
+      width: 600vw;
+      height: 100vh;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Slide container */
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      flex-shrink: 0;
+      box-sizing: border-box;
+    }
+
+    /* Editorial hairline borders */
+    .border-line {
+      border-color: #E5E5EA;
+    }
+
+    /* Custom subtle scroll */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="h-full w-full overflow-hidden select-none bg-paper text-ink">
+
+  <!-- TOP MINIMAL NAVIGATION HEADER -->
+  <header class="fixed top-0 left-0 right-0 z-40 px-6 py-5 md:px-12 flex items-center justify-between border-b border-line bg-paper/90 backdrop-blur-md">
+    
+    <!-- Left: Brand / School Title -->
+    <div class="flex items-center space-x-3">
+      <span class="w-3 h-3 bg-ink"></span>
+      <div>
+        <span class="font-display font-black text-sm md:text-base tracking-tight uppercase text-ink">ROOSEVELT HIGH SCHOOL</span>
+        <span class="text-xs font-mono text-subtle ml-3 hidden sm:inline-block">PROGRAM OF STUDIES 2027–2028</span>
+      </div>
+    </div>
+
+    <!-- Center: Horizontal Navigation Dots & Numbers -->
+    <nav class="hidden md:flex items-center space-x-2 font-mono text-xs">
+      <button onclick="goToSlide(0)" class="nav-tab px-3 py-1 text-ink font-bold border-b-2 border-ink" data-slide="0">00 OVERVIEW</button>
+      <button onclick="goToSlide(1)" class="nav-tab px-3 py-1 text-subtle hover:text-ink border-b-2 border-transparent" data-slide="1">01 TIF1000</button>
+      <button onclick="goToSlide(2)" class="nav-tab px-3 py-1 text-subtle hover:text-ink border-b-2 border-transparent" data-slide="2">02 TIW2000</button>
+      <button onclick="goToSlide(3)" class="nav-tab px-3 py-1 text-subtle hover:text-ink border-b-2 border-transparent" data-slide="3">03 TIW3000</button>
+      <button onclick="goToSlide(4)" class="nav-tab px-3 py-1 text-subtle hover:text-ink border-b-2 border-transparent" data-slide="4">04 TIW4100</button>
+      <button onclick="goToSlide(5)" class="nav-tab px-3 py-1 text-subtle hover:text-ink border-b-2 border-transparent" data-slide="5">05 REGISTER</button>
+    </nav>
+
+    <!-- Right: CTE Honors Modal Trigger -->
+    <button onclick="toggleHonorsModal(true)" class="px-4 py-2 border border-ink text-xs font-mono font-bold uppercase hover:bg-ink hover:text-paper transition-all">
+      🎓 CTE HONORS
+    </button>
+  </header>
+
+  <!-- SLIDE DECK TRACK (Horizontal Sliding Left-to-Right) -->
+  <div id="slideTrack" class="slide-track">
+
+    <!-- ==================== SLIDE 1: INTRO / OVERVIEW ==================== -->
+    <section class="slide flex flex-col justify-between p-6 md:p-16 lg:p-20 pt-28 pb-20">
+      
+      <!-- Top Tagline -->
+      <div class="flex items-center justify-between border-b border-line pb-4">
+        <span class="text-xs font-mono uppercase tracking-widest text-subtle">INCOMING FRESHMAN CURRICULUM GUIDE</span>
+        <span class="text-xs font-mono uppercase text-accent font-bold">CTE INFORMATION TECHNOLOGY PATHWAY</span>
+      </div>
+
+      <!-- Main Typography Centerpiece -->
+      <div class="my-auto space-y-6 max-w-6xl">
+        <span class="inline-block px-3 py-1 bg-softbg border border-line text-xs font-mono font-bold text-ink uppercase">
+          WELCOME ROUGH RIDERS CLASS OF 2031
+        </span>
+
+        <h1 class="font-display font-black text-4xl sm:text-6xl md:text-8xl tracking-tighter uppercase leading-[0.95] text-ink">
+          COMPUTER SCIENCE <br>
+          <span class="text-subtle">& INFORMATION TECH</span>
+        </h1>
+
+        <p class="text-base sm:text-xl md:text-2xl text-ink font-light max-w-3xl leading-relaxed pt-2">
+          Start your high school journey from absolute ground zero to building custom web applications, programming 2D video games, and launching audio podcasts.
+        </p>
+
+        <!-- Quick 4-Step Level Preview Line -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-line">
+          <div onclick="goToSlide(1)" class="cursor-pointer group p-4 bg-softbg hover:bg-ink hover:text-paper transition-all">
+            <div class="text-xs font-mono text-subtle group-hover:text-paper/70">LEVEL 1 • TIF1000</div>
+            <div class="font-display font-bold text-base mt-1">Python & Systems</div>
+          </div>
+          <div onclick="goToSlide(2)" class="cursor-pointer group p-4 bg-softbg hover:bg-ink hover:text-paper transition-all">
+            <div class="text-xs font-mono text-subtle group-hover:text-paper/70">LEVEL 2 • TIW2000</div>
+            <div class="font-display font-bold text-base mt-1">Web Dev & Apps</div>
+          </div>
+          <div onclick="goToSlide(3)" class="cursor-pointer group p-4 bg-softbg hover:bg-ink hover:text-paper transition-all">
+            <div class="text-xs font-mono text-subtle group-hover:text-paper/70">LEVEL 3 • TIW3000</div>
+            <div class="font-display font-bold text-base mt-1">2D Game Studio</div>
+          </div>
+          <div onclick="goToSlide(4)" class="cursor-pointer group p-4 bg-softbg hover:bg-ink hover:text-paper transition-all">
+            <div class="text-xs font-mono text-subtle group-hover:text-paper/70">LEVEL 4 • TIW4100</div>
+            <div class="font-display font-bold text-base mt-1">Work-Based Capstone</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Action -->
+      <div class="flex items-center justify-between border-t border-line pt-4">
+        <span class="text-xs font-mono text-subtle">PRESS ARROW KEYS ➔ OR SWIPE TO NAVIGATE</span>
+        <button onclick="nextSlide()" class="px-6 py-3 bg-ink text-paper font-display font-bold text-xs uppercase tracking-wider hover:bg-accent transition-all flex items-center gap-2">
+          <span>START EXPLORING</span>
+          <span>➔</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==================== SLIDE 2: LEVEL 1 (TIF1000) ==================== -->
+    <section class="slide flex flex-col justify-between p-6 md:p-16 lg:p-20 pt-28 pb-20">
+      
+      <!-- Top Level Tag & ACCN Pill -->
+      <div class="flex items-center justify-between border-b border-line pb-4">
+        <div class="flex items-center gap-4">
+          <span class="font-display font-black text-2xl text-ink">01 / LEVEL 1</span>
+          <span class="px-3 py-1 bg-ink text-paper font-mono font-bold text-sm tracking-wider">ACCN: TIF1000</span>
+        </div>
+        <span class="text-xs font-mono text-subtle uppercase">FOUNDATION COURSE</span>
+      </div>
+
+      <!-- Course Content -->
+      <div class="my-auto space-y-8 max-w-6xl">
+        
+        <!-- Massive Course Name -->
+        <h2 class="font-display font-black text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter uppercase leading-[0.95] text-ink">
+          FOUNDATIONS OF COMPUTER SYSTEMS & TECH
+        </h2>
+
+        <!-- Metadata Tag Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-y border-line">
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">ELIGIBLE GRADES</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">Grades 9 – 12</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">GRADUATION CREDIT</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">1.0 Credit</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">TEACHER SIGNATURE</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-accent">NOT REQUIRED</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">PREREQUISITES</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">None (Beginners)</div>
+          </div>
+        </div>
+
+        <!-- Punchy Summary -->
+        <div class="space-y-4 max-w-4xl">
+          <p class="text-lg md:text-2xl text-ink font-light leading-relaxed">
+            Ever wondered how apps like Spotify, TikTok, and Instagram stream content instantly, how cyber attacks actually happen, or how global networks connect billions of people every second?
+          </p>
+          <p class="text-sm md:text-base text-subtle font-normal">
+            This course breaks down real-world apps, networks, and cybersecurity in a supportive environment <strong class="text-ink font-semibold">designed for complete beginners</strong>. Learn Python programming step-by-step to build your own apps from scratch.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Slide Footer -->
+      <div class="flex items-center justify-between border-t border-line pt-4">
+        <span class="text-xs font-mono text-subtle">02 OF 06 • LEVEL 1 FOUNDATIONS</span>
+        <div class="flex gap-3">
+          <button onclick="prevSlide()" class="px-5 py-2.5 border border-line hover:border-ink font-mono text-xs uppercase font-bold">PREV</button>
+          <button onclick="nextSlide()" class="px-6 py-2.5 bg-ink text-paper font-display font-bold text-xs uppercase tracking-wider hover:bg-accent transition-all">NEXT ➔</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SLIDE 3: LEVEL 2 (TIW2000) ==================== -->
+    <section class="slide flex flex-col justify-between p-6 md:p-16 lg:p-20 pt-28 pb-20">
+      
+      <!-- Top Level Tag & ACCN Pill -->
+      <div class="flex items-center justify-between border-b border-line pb-4">
+        <div class="flex items-center gap-4">
+          <span class="font-display font-black text-2xl text-ink">02 / LEVEL 2</span>
+          <span class="px-3 py-1 bg-ink text-paper font-mono font-bold text-sm tracking-wider">ACCN: TIW2000</span>
+        </div>
+        <span class="text-xs font-mono text-subtle uppercase">INTERMEDIATE COURSE</span>
+      </div>
+
+      <!-- Course Content -->
+      <div class="my-auto space-y-8 max-w-6xl">
+        
+        <!-- Massive Course Name -->
+        <h2 class="font-display font-black text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter uppercase leading-[0.95] text-ink">
+          WEB DESIGN & DEVELOPMENT 1
+        </h2>
+
+        <!-- Metadata Tag Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-y border-line">
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">ELIGIBLE GRADES</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">Grades 10 – 12</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">GRADUATION CREDIT</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">1.0 Credit</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">TEACHER SIGNATURE</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">REQUIRED</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">PREREQUISITE</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">Level 1 (TIF1000)</div>
+          </div>
+        </div>
+
+        <!-- Punchy Summary -->
+        <div class="space-y-4 max-w-4xl">
+          <p class="text-lg md:text-2xl text-ink font-light leading-relaxed">
+            Ready to build websites and interactive web apps like a pro? Master the core trio of web development: HTML, CSS, and JavaScript.
+          </p>
+          <p class="text-sm md:text-base text-subtle font-normal">
+            This course guides you step-by-step through structuring content, crafting responsive layouts, and writing JavaScript for real-time DOM interactivity. We provide all equipment in class—just bring your curiosity!
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Slide Footer -->
+      <div class="flex items-center justify-between border-t border-line pt-4">
+        <span class="text-xs font-mono text-subtle">03 OF 06 • LEVEL 2 WEB DEV</span>
+        <div class="flex gap-3">
+          <button onclick="prevSlide()" class="px-5 py-2.5 border border-line hover:border-ink font-mono text-xs uppercase font-bold">PREV</button>
+          <button onclick="nextSlide()" class="px-6 py-2.5 bg-ink text-paper font-display font-bold text-xs uppercase tracking-wider hover:bg-accent transition-all">NEXT ➔</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SLIDE 4: LEVEL 3 (TIW3000) ==================== -->
+    <section class="slide flex flex-col justify-between p-6 md:p-16 lg:p-20 pt-28 pb-20">
+      
+      <!-- Top Level Tag & ACCN Pill -->
+      <div class="flex items-center justify-between border-b border-line pb-4">
+        <div class="flex items-center gap-4">
+          <span class="font-display font-black text-2xl text-ink">03 / LEVEL 3</span>
+          <span class="px-3 py-1 bg-ink text-paper font-mono font-bold text-sm tracking-wider">ACCN: TIW3000</span>
+        </div>
+        <span class="text-xs font-mono text-subtle uppercase">ADVANCED 2D GAME DEV</span>
+      </div>
+
+      <!-- Course Content -->
+      <div class="my-auto space-y-8 max-w-6xl">
+        
+        <!-- Massive Course Name -->
+        <h2 class="font-display font-black text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter uppercase leading-[0.95] text-ink">
+          WEB DESIGN & DEVELOPMENT 2
+        </h2>
+
+        <!-- Metadata Tag Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-y border-line">
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">ELIGIBLE GRADES</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">Grades 11 – 12</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">GRADUATION CREDIT</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">1.0 Credit</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">TEACHER SIGNATURE</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">REQUIRED</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">ENGINE / TECH</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">Godot 2D Engine</div>
+          </div>
+        </div>
+
+        <!-- Punchy Summary -->
+        <div class="space-y-4 max-w-4xl">
+          <p class="text-lg md:text-2xl text-ink font-light leading-relaxed">
+            Turn your game ideas into playable realities using Godot, the powerful open-source 2D engine used by indie developers worldwide!
+          </p>
+          <p class="text-sm md:text-base text-subtle font-normal">
+            Design, program, and publish dynamic worlds—from fast-paced platformers and puzzle games to top-down action games. Master character movement, physics collisions, and score systems to build your indie game portfolio.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Slide Footer -->
+      <div class="flex items-center justify-between border-t border-line pt-4">
+        <span class="text-xs font-mono text-subtle">04 OF 06 • LEVEL 3 GAME DEV</span>
+        <div class="flex gap-3">
+          <button onclick="prevSlide()" class="px-5 py-2.5 border border-line hover:border-ink font-mono text-xs uppercase font-bold">PREV</button>
+          <button onclick="nextSlide()" class="px-6 py-2.5 bg-ink text-paper font-display font-bold text-xs uppercase tracking-wider hover:bg-accent transition-all">NEXT ➔</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SLIDE 5: LEVEL 4 (TIW4100) ==================== -->
+    <section class="slide flex flex-col justify-between p-6 md:p-16 lg:p-20 pt-28 pb-20">
+      
+      <!-- Top Level Tag & ACCN Pill -->
+      <div class="flex items-center justify-between border-b border-line pb-4">
+        <div class="flex items-center gap-4">
+          <span class="font-display font-black text-2xl text-ink">04 / LEVEL 4</span>
+          <span class="px-3 py-1 bg-ink text-paper font-mono font-bold text-sm tracking-wider">ACCN: TIW4100</span>
+        </div>
+        <span class="text-xs font-mono text-accent font-bold uppercase">CAPSTONE WORK-BASED LEARNING</span>
+      </div>
+
+      <!-- Course Content -->
+      <div class="my-auto space-y-8 max-w-6xl">
+        
+        <!-- Massive Course Name -->
+        <h2 class="font-display font-black text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter uppercase leading-[0.95] text-ink">
+          WEB DESIGN & DEV. WORK BASED LEARNING
+        </h2>
+
+        <!-- Metadata Tag Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-y border-line">
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">ELIGIBLE GRADES</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">Grades 11 – 12</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">GRADUATION CREDIT</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">1.0 Credit</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">TEACHER SIGNATURE</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-ink">REQUIRED</div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-subtle uppercase">CREATIVE TRACKS</div>
+            <div class="font-display font-bold text-xl md:text-2xl text-accent">Podcast OR Game</div>
+          </div>
+        </div>
+
+        <!-- Punchy Summary -->
+        <div class="space-y-4 max-w-4xl">
+          <p class="text-lg md:text-2xl text-ink font-light leading-relaxed">
+            The ultimate capstone! Choose your custom studio track to produce real-world creative technology projects:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
+            <div class="p-4 bg-softbg border border-line">
+              <div class="font-display font-bold text-ink text-base">🎙️ TRACK A: GLOBAL PODCAST</div>
+              <div class="text-subtle mt-1">Host and publish your original podcast show, master audio editing tools, and distribute to Spotify & Apple.</div>
+            </div>
+            <div class="p-4 bg-softbg border border-line">
+              <div class="font-display font-bold text-ink text-base">🎮 TRACK B: INDIE GAME STUDIO</div>
+              <div class="text-subtle mt-1">Polish your Level 3 game into a masterwork release with full mechanics, sound effects, and published web builds.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Slide Footer -->
+      <div class="flex items-center justify-between border-t border-line pt-4">
+        <span class="text-xs font-mono text-subtle">05 OF 06 • LEVEL 4 CAPSTONE</span>
+        <div class="flex gap-3">
+          <button onclick="prevSlide()" class="px-5 py-2.5 border border-line hover:border-ink font-mono text-xs uppercase font-bold">PREV</button>
+          <button onclick="nextSlide()" class="px-6 py-2.5 bg-ink text-paper font-display font-bold text-xs uppercase tracking-wider hover:bg-accent transition-all">NEXT ➔</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SLIDE 6: SUMMARY & REGISTRATION ==================== -->
+    <section class="slide flex flex-col justify-between p-6 md:p-16 lg:p-20 pt-28 pb-20">
+      
+      <!-- Top Level Tag -->
+      <div class="flex items-center justify-between border-b border-line pb-4">
+        <span class="font-display font-black text-2xl text-ink">05 / NEXT STEPS</span>
+        <span class="text-xs font-mono text-subtle uppercase">REGISTRATION INSTRUCTIONS</span>
+      </div>
+
+      <!-- Registration Steps Content -->
+      <div class="my-auto space-y-8 max-w-6xl">
+        
+        <h2 class="font-display font-black text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter uppercase leading-[0.95] text-ink">
+          READY TO REGISTER FOR CS?
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+          
+          <!-- Step 1 -->
+          <div class="p-6 border border-line bg-softbg space-y-3">
+            <span class="font-display font-black text-3xl text-ink">01</span>
+            <div class="font-display font-bold text-lg text-ink">FILL OUT WORKSHEET</div>
+            <p class="text-xs text-subtle leading-relaxed">
+              Locate your Course Registration Worksheet. Write down <strong class="text-ink">TIF1000 (Foundations of CS)</strong> as your top elective choice for Grade 9.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="p-6 border border-line bg-softbg space-y-3">
+            <span class="font-display font-black text-3xl text-ink">02</span>
+            <div class="font-display font-bold text-lg text-ink">NO SIGNATURE NEEDED</div>
+            <p class="text-xs text-subtle leading-relaxed">
+              Level 1 (TIF1000) does not require any prerequisites or teacher sign-offs. Incoming 8th graders can register directly!
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="p-6 border border-line bg-softbg space-y-3">
+            <span class="font-display font-black text-3xl text-ink">03</span>
+            <div class="font-display font-bold text-lg text-ink">EARN CTE HONORS</div>
+            <p class="text-xs text-subtle leading-relaxed">
+              Complete Level 1 + Level 2/3 with a 3.0 GPA to qualify for an official CTE Honors Stole at High School Graduation!
+            </p>
+          </div>
+
+        </div>
+
+        <div class="p-6 border-2 border-ink flex flex-col md:flex-row items-center justify-between gap-4 bg-paper">
+          <div>
+            <div class="font-display font-bold text-lg text-ink">HAVE QUESTIONS ABOUT CS COURSES?</div>
+            <div class="text-xs text-subtle font-mono">Contact the Roosevelt Counseling Department or IT Pathway Director.</div>
+          </div>
+          <button onclick="toggleHonorsModal(true)" class="px-6 py-3 bg-ink text-paper font-mono font-bold text-xs uppercase hover:bg-accent transition-all whitespace-nowrap">
+            VIEW CTE HONORS REQUIREMENTS
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Slide Footer -->
+      <div class="flex items-center justify-between border-t border-line pt-4">
+        <span class="text-xs font-mono text-subtle">06 OF 06 • COMPLETE PATHWAY</span>
+        <div class="flex gap-3">
+          <button onclick="prevSlide()" class="px-5 py-2.5 border border-line hover:border-ink font-mono text-xs uppercase font-bold">PREV</button>
+          <button onclick="goToSlide(0)" class="px-6 py-2.5 bg-ink text-paper font-display font-bold text-xs uppercase tracking-wider hover:bg-accent transition-all">RESTART ↺</button>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- FIXED BOTTOM CONTROLS & PROGRESS BAR -->
+  <footer class="fixed bottom-0 left-0 right-0 z-40 px-6 py-4 md:px-12 bg-paper/90 backdrop-blur-md border-t border-line flex items-center justify-between">
+    
+    <!-- Left: Slide Counter -->
+    <div class="flex items-center space-x-3">
+      <span id="slideCounter" class="font-mono text-sm font-extrabold text-ink">01 / 06</span>
+      <span class="hidden md:inline-block text-xs font-mono text-subtle">| Use Left/Right Arrow Keys</span>
+    </div>
+
+    <!-- Center: Horizontal Line Progress Bar -->
+    <div class="hidden sm:block w-1/3 bg-line h-1 relative overflow-hidden">
+      <div id="progressBar" class="bg-ink h-full w-1/6 transition-all duration-500"></div>
+    </div>
+
+    <!-- Right: Next / Prev Touch Controls -->
+    <div class="flex items-center space-x-2">
+      <button onclick="prevSlide()" class="px-4 py-2 border border-line hover:border-ink text-xs font-mono font-bold uppercase transition-all">
+        ← PREV
+      </button>
+
+      <button onclick="nextSlide()" class="px-5 py-2 bg-ink hover:bg-accent text-paper text-xs font-display font-bold uppercase tracking-wider transition-all">
+        NEXT →
+      </button>
+    </div>
+  </footer>
+
+  <!-- CTE HONORS MODAL DRAWER -->
+  <div id="honorsModal" class="fixed inset-0 z-50 bg-ink/70 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-paper max-w-2xl w-full p-8 border-2 border-ink space-y-6 text-left relative max-h-[90vh] overflow-y-auto">
+      
+      <button onclick="toggleHonorsModal(false)" class="absolute top-6 right-6 text-subtle hover:text-ink text-sm font-mono p-2">
+        ✕ CLOSE
+      </button>
+
+      <div class="space-y-1">
+        <span class="text-xs font-mono text-accent font-bold uppercase">GRADUATION HONOR DIPLOMA</span>
+        <h3 class="font-display font-black text-2xl md:text-3xl text-ink uppercase">CTE Honors Recognition Criteria</h3>
+      </div>
+
+      <p class="text-subtle text-xs md:text-sm font-light leading-relaxed">
+        To qualify to wear the official <strong class="text-ink font-semibold">CTE Honors Stole</strong> during the Roosevelt High School graduation ceremony in the Information Technology Pathway, students must meet all of the following requirements:
+      </p>
+
+      <div class="space-y-3 font-mono text-xs">
+        <div class="p-4 bg-softbg border border-line flex items-start gap-3">
+          <span class="text-ink font-black text-base">01</span>
+          <div>
+            <span class="text-ink font-bold">Cumulative GPA:</span> Minimum 3.0 cumulative overall GPA.
+          </div>
+        </div>
+
+        <div class="p-4 bg-softbg border border-line flex items-start gap-3">
+          <span class="text-ink font-black text-base">02</span>
+          <div>
+            <span class="text-ink font-bold">Pathway Sequence:</span> Complete a sequential 2–3 course program starting with Foundations (TIF1000).
+          </div>
+        </div>
+
+        <div class="p-4 bg-softbg border border-line flex items-start gap-3">
+          <span class="text-ink font-black text-base">03</span>
+          <div>
+            <span class="text-ink font-bold">Course Marks:</span> Earn a "B" or better (3.0 GPA) in each required pathway course.
+          </div>
+        </div>
+
+        <div class="p-4 bg-softbg border border-line flex items-start gap-3">
+          <span class="text-ink font-black text-base">04</span>
+          <div>
+            <span class="text-ink font-bold">Performance-Based Assessment:</span> Meet or exceed proficiency on:
+            <ul class="list-disc list-inside text-subtle mt-1 space-y-1 font-normal">
+              <li>Technical writing documentation</li>
+              <li>Deliverable internship or project design</li>
+              <li>Formal project presentation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-end">
+        <button onclick="toggleHonorsModal(false)" class="px-6 py-2.5 bg-ink text-paper font-mono font-bold text-xs uppercase hover:bg-accent transition-all">
+          GOT IT
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT SLIDER & INTERACTION CONTROLLER -->
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 6;
+    const slideTrack = document.getElementById('slideTrack');
+
+    function updateSlider() {
+      // Horizontal slide transform (left to right)
+      slideTrack.style.transform = `translateX(-${currentSlide * 100}vw)`;
+
+      // Update Navigation Tabs
+      const navTabs = document.querySelectorAll('.nav-tab');
+      navTabs.forEach((tab) => {
+        const idx = parseInt(tab.getAttribute('data-slide'));
+        if (idx === currentSlide) {
+          tab.className = "nav-tab px-3 py-1 text-ink font-bold border-b-2 border-ink";
+        } else {
+          tab.className = "nav-tab px-3 py-1 text-subtle hover:text-ink border-b-2 border-transparent";
+        }
+      });
+
+      // Update Slide Counter & Progress Line
+      document.getElementById('slideCounter').innerText = `0${currentSlide + 1} / 0${totalSlides}`;
+      document.getElementById('progressBar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+    }
+
+    function goToSlide(index) {
+      if (index >= 0 && index < totalSlides) {
+        currentSlide = index;
+        updateSlider();
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+      } else {
+        currentSlide = 0;
+      }
+      updateSlider();
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlider();
+      }
+    }
+
+    // Keyboard Navigation (Left / Right Arrow Keys)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    // Touch Swipe Support (Left to Right)
+    let touchStartX = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      const diffX = touchStartX - touchEndX;
+
+      if (diffX > 50) {
+        nextSlide();
+      } else if (diffX < -50) {
+        prevSlide();
+      }
+    }, { passive: true });
+
+    // Honors Modal Toggle
+    function toggleHonorsModal(show) {
+      const modal = document.getElementById('honorsModal');
+      if (show) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+      } else {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+  </script>
+</body>
+</html>
