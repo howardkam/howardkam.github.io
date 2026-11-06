@@ -47,6 +47,8 @@
       padding: 1.5rem 2.5rem;
       border-bottom: 1px solid var(--border-color);
       flex-shrink: 0;
+      background: var(--bg-color);
+      z-index: 10;
     }
 
     .brand-title {
@@ -85,6 +87,43 @@
       flex-direction: column;
       justify-content: center;
       padding: 3rem 10vw;
+      transition: background-color 0.4s ease;
+    }
+
+    /* Slide Themes: Eye-catching Title Colors & Harmonious Muted Backgrounds */
+    .slide:nth-child(1) {
+      background-color: #F0F4F8; /* Soft Slate Blue */
+    }
+    .slide:nth-child(1) .class-title {
+      color: #1D4ED8; /* Vibrant Cobalt Blue */
+    }
+
+    .slide:nth-child(2) {
+      background-color: #ECFDF5; /* Soft Mint Green */
+    }
+    .slide:nth-child(2) .class-title {
+      color: #047857; /* Deep Emerald Green */
+    }
+
+    .slide:nth-child(3) {
+      background-color: #FFF7ED; /* Soft Warm Apricot */
+    }
+    .slide:nth-child(3) .class-title {
+      color: #C2410C; /* Vivid Terracotta Orange */
+    }
+
+    .slide:nth-child(4) {
+      background-color: #F5F3FF; /* Soft Lavender */
+    }
+    .slide:nth-child(4) .class-title {
+      color: #6D28D9; /* Electric Violet */
+    }
+
+    .slide:nth-child(5) {
+      background-color: #FFF1F2; /* Soft Blush Rose */
+    }
+    .slide:nth-child(5) .class-title {
+      color: #BE123C; /* Vibrant Berry Crimson */
     }
 
     .slide-content {
@@ -104,7 +143,7 @@
 
     .class-title {
       font-size: clamp(2rem, 4.5vw, 3.5rem);
-      font-weight: 700;
+      font-weight: 800;
       line-height: 1.1;
       letter-spacing: -0.02em;
       margin-bottom: 0.75rem;
@@ -131,8 +170,9 @@
       font-family: var(--font-mono);
       font-size: 0.8rem;
       padding: 0.4rem 0.8rem;
-      border: 1px solid var(--border-color);
-      background-color: var(--accent-bg);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -154,9 +194,10 @@
     }
 
     .overview-card {
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(0, 0, 0, 0.08);
       padding: 1.25rem;
-      background: var(--accent-bg);
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(8px);
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
@@ -188,6 +229,8 @@
       padding: 1.5rem 2.5rem;
       border-top: 1px solid var(--border-color);
       flex-shrink: 0;
+      background: var(--bg-color);
+      z-index: 10;
     }
 
     .keyboard-hint {
